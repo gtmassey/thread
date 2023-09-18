@@ -1,16 +1,16 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "gtmassey/twine",
+    "description": "A framework-agnostic helper library for easily manipulating Strings in PHP.",
     "keywords": [
-        ":vendor_name",
-        ":package_slug"
+        "gtmassey",
+        "twine"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/gtmassey/twine",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Garrett Massey",
+            "email": "contact@garrettmassey.net",
             "role": "Developer"
         }
     ],
@@ -18,28 +18,28 @@
         "php": "^8.1"
     },
     "require-dev": {
-        :require_dev_testing,
-        :require_dev_codestyle,
+        "phpunit/phpunit": "^10.3.2",
+        "laravel/pint": "^1.0",
         "spatie/ray": "^1.28"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
+            "Gtmassey\\Twine\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Gtmassey\\Twine\\Tests\\": "tests"
         }
     },
     "scripts": {
-        :scripts_testing,
-        :scripts_codestyle
+        "test": "./vendor/bin/phpunit",
+        "format": "./vendor/bin/pint"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            :plugins_testing,
+
             "phpstan/extension-installer": true
         }
     },
