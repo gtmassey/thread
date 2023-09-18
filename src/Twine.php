@@ -8,14 +8,14 @@ class Twine
 
     protected string $string = '';
 
-    public function __construct(?string $string = null)
+    public function __construct(string $string = null)
     {
         $this->string = $string ?? '';
     }
 
-    public function contains(?string $needle = null): bool
+    public function contains(string $needle = null): bool
     {
-        if (!isset($needle)) {
+        if (! isset($needle)) {
             return false;
         } else {
             return str_contains($this->string, $needle);
@@ -29,6 +29,7 @@ class Twine
                 return false;
             }
         }
+
         return true;
     }
 
@@ -39,6 +40,7 @@ class Twine
                 return true;
             }
         }
+
         return false;
     }
 
@@ -49,6 +51,7 @@ class Twine
                 return false;
             }
         }
+
         return true;
     }
 
