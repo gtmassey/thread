@@ -30,22 +30,20 @@ class Twine
 
     private static function build(string|array $string): Twine
     {
-        if(is_array($string)) {
+        if (is_array($string)) {
             $string = implode(' ', $string);
         }
+
         return new self($string);
     }
 
     /**
      * returns true if the string contains the given substring
      * ex: 'Hello' > contains('ll') = true
-     *
-     * @param string|null $needle
-     * @return bool
      */
     public function contains(string $needle = null): bool
     {
-        if (!isset($needle)) {
+        if (! isset($needle)) {
             return false;
         } else {
             return str_contains($this->string, $needle);
@@ -57,14 +55,11 @@ class Twine
      * ALL the needles
      * ex: 'Hello' > containsAll(['ll', 'He']) = true
      * ex: 'Hello' > containsAll(['ll', 'He', 'World']) = false
-     *
-     * @param array $needles
-     * @return bool
      */
     public function containsAll(array $needles): bool
     {
         foreach ($needles as $needle) {
-            if (!$this->contains($needle)) {
+            if (! $this->contains($needle)) {
                 return false;
             }
         }
@@ -77,9 +72,6 @@ class Twine
      * at least one of the needles
      * ex: 'Hello' > containsAny(['ll', 'He']) = true
      * ex: 'Hello' > containsAny(['ll', 'World']) = true
-     *
-     * @param array $needles
-     * @return bool
      */
     public function containsAny(array $needles): bool
     {
@@ -98,9 +90,6 @@ class Twine
      * ex: 'Hello' > containsNone(['ll', 'He']) = false
      * ex: 'Hello' > containsNone(['ll', 'World']) = false
      * ex: 'Hello' > containsNone(['World']) = true
-     *
-     * @param array $needles
-     * @return boolean
      */
     public function containsNone(array $needles): bool
     {
@@ -116,8 +105,6 @@ class Twine
     /**
      * Returns the length of the string
      * ex: 'Hello' > length() = 5
-     *
-     * @return int
      */
     public function length(): int
     {
@@ -126,8 +113,6 @@ class Twine
 
     /**
      * Returns the string property of the Twine object.
-     *
-     * @return string
      */
     public function toString(): string
     {
@@ -140,8 +125,6 @@ class Twine
      * whitespace in the array.
      *
      * ex: 'Hello World' => ['Hello', 'World']
-     *
-     * @return array
      */
     public function splitWords(): array
     {
@@ -153,8 +136,6 @@ class Twine
      * ex: 'HelloWorld' => ['Hello', 'World']
      * ex: 'Helloworld' => ['Helloworld']
      * ex: 'Hello World Again' => ['Hello ', 'World ', 'Again']
-     *
-     * @return array
      */
     public function splitUppercase(): array
     {

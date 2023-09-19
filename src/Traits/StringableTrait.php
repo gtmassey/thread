@@ -6,7 +6,6 @@ use Gtmassey\Twine\Twine;
 
 trait StringableTrait
 {
-
     /**
      * Some notes and vocabulary:
      *  - trim: in the context of this package
@@ -23,7 +22,7 @@ trait StringableTrait
     /**
      * The english T9 dictionary
      *
-     * @var array|string[] $T9
+     * @var array|string[]
      */
     public static array $T9 = [
         'a' => '2', 'b' => '22',
@@ -162,8 +161,6 @@ trait StringableTrait
      * set number of times
      * ex: 'abcde' > padEnd('+=', 3) => 'abcde+=+=+='
      *
-     * @param string $pad
-     * @param int $length
      * @return Twine|StringableTrait
      */
     public function padEnd(string $pad, int $length = 0): self
@@ -178,8 +175,7 @@ trait StringableTrait
      * set number of times
      *
      * ex: 'abcde' > padEnds('+=', 3) => '+=+=+=abcde+=+=+='
-     * @param string $pad
-     * @param int $length
+     *
      * @return Twine|StringableTrait
      */
     public function padEnds(string $pad, int $length = 0): self
@@ -194,8 +190,6 @@ trait StringableTrait
      * set number of times
      * ex: 'abcde' > padStart('+=', 3) => '+=+=+=abcde'
      *
-     * @param string $pad
-     * @param int $length
      * @return Twine|StringableTrait
      */
     public function padStart(string $pad, int $length = 0): self
@@ -207,7 +201,7 @@ trait StringableTrait
 
     public function prepend(string $string): self
     {
-        $this->string = $string . $this->string;
+        $this->string = $string.$this->string;
 
         return $this;
     }
@@ -217,8 +211,6 @@ trait StringableTrait
      * ex: 'a' > repeat(3) => 'aaa'
      * ex: 'a' > repeat(3, '-') => 'a-a-a'
      *
-     * @param int $times
-     * @param string $separator
      * @return Twine|StringableTrait
      */
     public function repeat(int $times, string $separator = ''): self
@@ -234,8 +226,6 @@ trait StringableTrait
      * ex: 'Hello World' > replace('World', 'Universe') => 'Hello Universe'
      * ex: 'Hello World' > replace('l', '1') => 'He11o Wor1d'
      *
-     * @param string $search
-     * @param string $replace
      * @return Twine|StringableTrait
      */
     public function replace(string $search, string $replace): self
@@ -308,7 +298,7 @@ trait StringableTrait
      */
     public function stripEnd(string $needle): self
     {
-        $this->string = preg_replace('/' . $needle . '$/', '', $this->string);
+        $this->string = preg_replace('/'.$needle.'$/', '', $this->string);
 
         return $this;
     }
@@ -329,7 +319,7 @@ trait StringableTrait
      */
     public function stripStart(string $needle): self
     {
-        $this->string = preg_replace('/^' . $needle . '/', '', $this->string);
+        $this->string = preg_replace('/^'.$needle.'/', '', $this->string);
 
         return $this;
     }
@@ -416,6 +406,7 @@ trait StringableTrait
         $this->toLowerCase();
         //then replace spaces with dashes
         $this->string = preg_replace('/(?<!^)[A-Z]/', '-$0', $this->string);
+
         //return
         return $this;
     }
@@ -450,6 +441,7 @@ trait StringableTrait
         $this->toLowerCase();
         //then replace spaces with underscores
         $this->string = str_replace(' ', '_', $this->string);
+
         //return
         return $this;
     }
@@ -481,6 +473,7 @@ trait StringableTrait
         $this->toUpperCase();
         //then replace spaces with underscores
         $this->string = preg_replace('/(?<!^)[A-Z]/', '_$0', $this->string);
+
         //return
         return $this;
     }
@@ -605,7 +598,6 @@ trait StringableTrait
      * ex: 'Hello World' > trimSubstrFromEnd(' World') => 'Hello'
      * ex: 'Hello World' > trimSubstrFromEnd(' Universe') => 'Hello World'
      *
-     * @param string|null $needle
      * @return Twine|StringableTrait
      */
     public function trimSubstrFromEnd(string $needle = null): self
@@ -623,7 +615,6 @@ trait StringableTrait
      * ex: 'abcdefga' > trimSubstrFromEnds('a') => 'bcdefg'
      * ex: 'abcdefga' > trimSubstrFromEnds('howdy') => 'abcdefga'
      *
-     * @param string|null $needle
      * @return Twine|StringableTrait
      */
     public function trimSubstrFromEnds(string $needle = null): self
@@ -641,7 +632,6 @@ trait StringableTrait
      * ex: 'Hello World' > trimSubstrFromStart('Hello ') => 'World'
      * ex: 'Hello World' > trimSubstrFromStart('Goodbye ') => 'Hello World'
      *
-     * @param string|null $needle
      * @return Twine|StringableTrait
      */
     public function trimSubstrFromStart(string $needle = null): self
