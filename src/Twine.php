@@ -17,8 +17,6 @@ class Twine
     /**
      * Constructor. accepts a string or null value.
      * If null, defaults to an empty string: ""
-     *
-     * @param string|null $string
      */
     public function __construct(string $string = null)
     {
@@ -29,9 +27,6 @@ class Twine
      * Static constructor alias. Accepts a string or an array of strings.
      * ex: Twine::from('Hello') = new Twine('Hello')
      * ex: Twine::from(['Hello', 'World']) = new Twine('Hello World')
-     *
-     * @param string|array $string
-     * @return Twine
      */
     public static function from(string|array $string): Twine
     {
@@ -42,9 +37,6 @@ class Twine
      * Static constructor alias. Accepts a string or an array of strings.
      * ex: Twine::make('Hello') = new Twine('Hello')
      * ex: Twine::make(['Hello', 'World']) = new Twine('Hello World')
-     *
-     * @param string|array $string
-     * @return Twine
      */
     public static function make(string|array $string): Twine
     {
@@ -55,9 +47,6 @@ class Twine
      * Static constructor alias. Accepts a string or an array of strings.
      * ex: Twine::of('Hello') = new Twine('Hello')
      * ex: Twine::of(['Hello', 'World']) = new Twine('Hello World')
-     *
-     * @param string|array $string
-     * @return Twine
      */
     public static function of(string|array $string): Twine
     {
@@ -68,9 +57,6 @@ class Twine
      * Private static constructor helper, implodes an array of strings
      * with a space, or uses the existing string to pass to the
      * default Twine constructor. Returns new Twine instance.
-     *
-     * @param string|array $string
-     * @return Twine
      */
     private static function build(string|array $string): Twine
     {
@@ -91,6 +77,7 @@ class Twine
     {
         //return a random string of length n
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
         return substr(str_shuffle($characters), 0, $n);
     }
 
@@ -98,6 +85,7 @@ class Twine
     {
         //return a random string of length n
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
         return substr(str_shuffle($characters), 0, $n);
     }
 
@@ -105,7 +93,6 @@ class Twine
     {
         return '';
     }
-
 
     public static function randomHex(?int $n = 1): string
     {
