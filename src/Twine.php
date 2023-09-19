@@ -77,6 +77,7 @@ class Twine
         if (is_array($string)) {
             $string = implode(' ', $string);
         }
+
         return new self($string);
     }
 
@@ -102,64 +103,55 @@ class Twine
 
     public static function randomNumeric(?int $n = 1): string
     {
-        //return a random string of length n
-        $characters = '0123456789';
-        return substr(str_shuffle($characters), 0, $n);
+        return '';
     }
 
-    public static function randomAlphaNumeric(?int $n = 1): string
-    {
-        //return a random string of length n
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        return substr(str_shuffle($characters), 0, $n);
-    }
 
     public static function randomHex(?int $n = 1): string
     {
-        //return a random string of length n
-        $characters = '0123456789abcdef';
-        return substr(str_shuffle($characters), 0, $n);
+        return '';
     }
 
     public static function randomBinary(?int $n = 1): string
     {
-        //return a random string of length n
-        $characters = '01';
-        return substr(str_shuffle($characters), 0, $n);
+        return '';
     }
 
     public static function randomBase64(?int $n = 1): string
     {
-        //return a random string of length n
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/';
-        return substr(str_shuffle($characters), 0, $n);
+        return '';
     }
 
     public static function randomOctal(?int $n = 1): string
     {
-        //return a random string of length n
-        $characters = '01234567';
-        return substr(str_shuffle($characters), 0, $n);
+        return '';
     }
 
     public static function uuid(): string
     {
         //TODO: generate a UUID
-        return 'uuid';
+        return '';
     }
 
     /*
      |--------------------------------------------------------------------------
      | PUBLIC FUNCTIONS
      |--------------------------------------------------------------------------
-     */
 
+    /**
+     * Returns the string property of the Twine object.
+     */
     public function toString(): string
     {
         return '';
     }
 
-    public function toArray(bool $onWords = false)
+    public function toArray(bool $onWords = false): array
+    {
+        return [];
+    }
+
+    public function splitWords(): array
     {
         return true;
     }
