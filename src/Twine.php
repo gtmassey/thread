@@ -13,6 +13,29 @@ class Twine
         $this->string = $string ?? '';
     }
 
+    public static function from(string|array $string): Twine
+    {
+        return Twine::build($string);
+    }
+
+    public static function make(string|array $string): Twine
+    {
+        return Twine::build($string);
+    }
+
+    public static function of(string|array $string): Twine
+    {
+        return Twine::build($string);
+    }
+
+    private static function build(string|array $string): Twine
+    {
+        if(is_array($string)) {
+            $string = implode(' ', $string);
+        }
+        return new self($string);
+    }
+
     /**
      * returns true if the string contains the given substring
      * ex: 'Hello' > contains('ll') = true

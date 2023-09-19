@@ -1,18 +1,10 @@
-# A framework-agnostic helper library for easily manipulating Strings in PHP.
+# Twine.php
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
 [![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/twine/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/twine/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
 
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/twine.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/twine)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+A framework-agnostic helper library for easily manipulating Strings in PHP. Never slog through the php string function docs again!
 
 ## Installation
 
@@ -24,9 +16,73 @@ composer require gtmassey/twine
 
 ## Usage
 
+### Getting started
+
+You can use the `new` keyword to create a new Twine object, the constructor accepts a string or null as an argument. If null, the default is an empty string `""`. 
+
 ```php
-$skeleton = new Gtmassey\Twine();
-echo $skeleton->echoPhrase('Hello, Gtmassey!');
+$string = new Twine('Hello world!');
+echo($string->toString());
+// "Hello world!"
+
+$emptyString = new Twine();
+echo($emptyString->toString());
+// ""
+```
+
+You can also use the static `make()`, `of()`, and `from()` methods to create a new Twine object from either a string or an array. 
+
+If you use an array as the argument for the static construction methods, the array will be imploded with a space as the separator.
+
+```php
+$string = Twine::make('Hello world!');
+echo($string->toString());
+// "Hello world!"
+
+$string = Twine::make(['Hello', 'world!']);
+echo($string->toString());
+// "Hello world!"
+
+$string = Twine::of(['a', 'b', 'c']);
+echo($string->toString());
+// "a b c"
+
+$string = Twine::from(['a', 'b', 'c']);
+echo($string->toString());
+// "a b c"
+```
+
+### Manipulating strings
+
+Twine comes with several methods for manipulating strings. Methods that live in the `StringableTrait` trait are chainable. Methods that live in the Twine.php class are not chainable, but instead return a specific value, like a string or an array.
+
+[Available Stringable Methods](docs/stringable-methods.md)
+
+Example of chaining methods to manipulate a string:
+```php
+$string = Twine::from('Foo bar');
+//"Foo bar"
+$string->toPascalCase();
+//"FooBar"
+$string->append(' baz');
+//"FooBar baz"
+$string->toTitleCase()->stripChar('a')->lcFirst()
+//"fooBr Bz
+$string->stripWhitespace()->stripChar('o');
+//fBrBz
+```
+
+```php
+//example: manipulating phone number string:
+$phoneNumber = Twine::from('+1 (123) 456-7890 x123');
+$phone = $phoneNumber->splitOn('x')[0];
+//"+1 (123) 456-7890"
+$extension = $phoneNumber->splitOn('x')[1];
+//"123"
+$phone->stripNonNumeric()->stripWhitespace()->toString();
+//"11234567890"
+$phone->getIntegerValue();
+//11234567890
 ```
 
 ## Testing
