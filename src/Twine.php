@@ -8,156 +8,389 @@ class Twine
 
     protected string $string = '';
 
+    /*
+     |--------------------------------------------------------------------------
+     | CONSTRUCTORS
+     |--------------------------------------------------------------------------
+     */
+
+    /**
+     * Constructor. accepts a string or null value.
+     * If null, defaults to an empty string: ""
+     *
+     * @param string|null $string
+     */
     public function __construct(string $string = null)
     {
         $this->string = $string ?? '';
     }
 
+    /**
+     * Static constructor alias. Accepts a string or an array of strings.
+     * ex: Twine::from('Hello') = new Twine('Hello')
+     * ex: Twine::from(['Hello', 'World']) = new Twine('Hello World')
+     *
+     * @param string|array $string
+     * @return Twine
+     */
     public static function from(string|array $string): Twine
     {
         return Twine::build($string);
     }
 
+    /**
+     * Static constructor alias. Accepts a string or an array of strings.
+     * ex: Twine::make('Hello') = new Twine('Hello')
+     * ex: Twine::make(['Hello', 'World']) = new Twine('Hello World')
+     *
+     * @param string|array $string
+     * @return Twine
+     */
     public static function make(string|array $string): Twine
     {
         return Twine::build($string);
     }
 
+    /**
+     * Static constructor alias. Accepts a string or an array of strings.
+     * ex: Twine::of('Hello') = new Twine('Hello')
+     * ex: Twine::of(['Hello', 'World']) = new Twine('Hello World')
+     *
+     * @param string|array $string
+     * @return Twine
+     */
     public static function of(string|array $string): Twine
     {
         return Twine::build($string);
     }
 
+    /**
+     * Private static constructor helper, implodes an array of strings
+     * with a space, or uses the existing string to pass to the
+     * default Twine constructor. Returns new Twine instance.
+     *
+     * @param string|array $string
+     * @return Twine
+     */
     private static function build(string|array $string): Twine
     {
-        if(is_array($string)) {
+        if (is_array($string)) {
             $string = implode(' ', $string);
         }
         return new self($string);
     }
 
-    /**
-     * returns true if the string contains the given substring
-     * ex: 'Hello' > contains('ll') = true
-     *
-     * @param string|null $needle
-     * @return bool
+    /*
+     |--------------------------------------------------------------------------
+     | STATIC FUNCTIONS
+     |--------------------------------------------------------------------------
      */
-    public function contains(string $needle = null): bool
+
+    public static function random(?int $n = 1): string
     {
-        if (!isset($needle)) {
-            return false;
-        } else {
-            return str_contains($this->string, $needle);
-        }
+        //return a random string of length n
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle($characters), 0, $n);
     }
 
-    /**
-     * returns true ONLY if the string contains
-     * ALL the needles
-     * ex: 'Hello' > containsAll(['ll', 'He']) = true
-     * ex: 'Hello' > containsAll(['ll', 'He', 'World']) = false
-     *
-     * @param array $needles
-     * @return bool
-     */
-    public function containsAll(array $needles): bool
+    public static function randomAlpha(?int $n = 1): string
     {
-        foreach ($needles as $needle) {
-            if (!$this->contains($needle)) {
-                return false;
-            }
-        }
-
-        return true;
+        //return a random string of length n
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle($characters), 0, $n);
     }
 
-    /**
-     * Returns true if the string contains
-     * at least one of the needles
-     * ex: 'Hello' > containsAny(['ll', 'He']) = true
-     * ex: 'Hello' > containsAny(['ll', 'World']) = true
-     *
-     * @param array $needles
-     * @return bool
-     */
-    public function containsAny(array $needles): bool
+    public static function randomNumeric(?int $n = 1): string
     {
-        foreach ($needles as $needle) {
-            if ($this->contains($needle)) {
-                return true;
-            }
-        }
-
-        return false;
+        //return a random string of length n
+        $characters = '0123456789';
+        return substr(str_shuffle($characters), 0, $n);
     }
 
-    /**
-     * Returns true if the string does not
-     * contain any of the needles
-     * ex: 'Hello' > containsNone(['ll', 'He']) = false
-     * ex: 'Hello' > containsNone(['ll', 'World']) = false
-     * ex: 'Hello' > containsNone(['World']) = true
-     *
-     * @param array $needles
-     * @return boolean
-     */
-    public function containsNone(array $needles): bool
+    public static function randomAlphaNumeric(?int $n = 1): string
     {
-        foreach ($needles as $needle) {
-            if ($this->contains($needle)) {
-                return false;
-            }
-        }
-
-        return true;
+        //return a random string of length n
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle($characters), 0, $n);
     }
 
-    /**
-     * Returns the length of the string
-     * ex: 'Hello' > length() = 5
-     *
-     * @return int
-     */
-    public function length(): int
+    public static function randomHex(?int $n = 1): string
     {
-        return strlen($this->string);
+        //return a random string of length n
+        $characters = '0123456789abcdef';
+        return substr(str_shuffle($characters), 0, $n);
     }
 
-    /**
-     * Returns the string property of the Twine object.
-     *
-     * @return string
+    public static function randomBinary(?int $n = 1): string
+    {
+        //return a random string of length n
+        $characters = '01';
+        return substr(str_shuffle($characters), 0, $n);
+    }
+
+    public static function randomBase64(?int $n = 1): string
+    {
+        //return a random string of length n
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/';
+        return substr(str_shuffle($characters), 0, $n);
+    }
+
+    public static function randomOctal(?int $n = 1): string
+    {
+        //return a random string of length n
+        $characters = '01234567';
+        return substr(str_shuffle($characters), 0, $n);
+    }
+
+    public static function uuid(): string
+    {
+        //TODO: generate a UUID
+        return 'uuid';
+    }
+
+    /*
+     |--------------------------------------------------------------------------
+     | PUBLIC FUNCTIONS
+     |--------------------------------------------------------------------------
      */
+
     public function toString(): string
     {
-        return $this->string;
+        return '';
     }
 
-    /**
-     * Splits a string into an array of words
-     * based on the space character. Does not include
-     * whitespace in the array.
-     *
-     * ex: 'Hello World' => ['Hello', 'World']
-     *
-     * @return array
-     */
-    public function splitWords(): array
+    public function toArray(bool $onWords = false)
     {
-        return explode(' ', $this->string);
+        return true;
     }
 
-    /**
-     * Splits a string by it's uppercase characters:
-     * ex: 'HelloWorld' => ['Hello', 'World']
-     * ex: 'Helloworld' => ['Helloworld']
-     * ex: 'Hello World Again' => ['Hello ', 'World ', 'Again']
-     *
-     * @return array
-     */
-    public function splitUppercase(): array
+    public function contains(string $substring): bool
     {
-        return preg_split('/(?=[A-Z])/', $this->string, -1, PREG_SPLIT_NO_EMPTY);
+        return true;
+    }
+
+    public function containsAll(string $substring): bool
+    {
+        return true;
+    }
+
+    public function containsAny(array $substrings): bool
+    {
+        return true;
+    }
+
+    public function containsNone(array $substrings): bool
+    {
+        return true;
+    }
+
+    public function count(string $substring): int
+    {
+        return true;
+    }
+
+    public function countAll(array $substrings): int
+    {
+        return 0;
+    }
+
+    public function countAny(array $substrings): int
+    {
+        return 0;
+    }
+
+    public function length(): int
+    {
+        return 0;
+    }
+
+    public function wordCount(): int
+    {
+        return 0;
+    }
+
+    public function splitOnWords(): array
+    {
+        return [];
+    }
+
+    public function splitOnSubstring(string $substring): array
+    {
+        return [];
+    }
+
+    public function splitOnSubstr(string $substring): array
+    {
+        return [];
+    }
+
+    public function splitOnChar(string $substring): array
+    {
+        return [];
+    }
+
+    public function splitOnCharacter(string $substring): array
+    {
+        return [];
+    }
+
+    public function splitOnUppercase(): array
+    {
+        return [];
+    }
+
+    public function splitOnLowercase(): array
+    {
+        return [];
+    }
+
+    public function splitOnUC(): array
+    {
+        return [];
+    }
+
+    public function splitOnLC(): array
+    {
+        return [];
+    }
+
+    public function split(): array
+    {
+        return [];
+    }
+
+    public function splitOn(string $substring): array
+    {
+        return [];
+    }
+
+    public function splitOnEmpty(): array
+    {
+        return [];
+    }
+
+    public function countSubstring(string $substring): int
+    {
+        return 0;
+    }
+
+    public function countSubstrings(array $substrings): int
+    {
+        return 0;
+    }
+
+    public function countChar(string $substring): int
+    {
+        return 0;
+    }
+
+    public function countCharacter(string $substring): int
+    {
+        return 0;
+    }
+
+    public function countChars(array $substrings): int
+    {
+        return 0;
+    }
+
+    public function countCharacters(array $substrings): int
+    {
+        return 0;
+    }
+
+    public function countUppercase(): int
+    {
+        return 0;
+    }
+
+    public function countLowercase(): int
+    {
+        return 0;
+    }
+
+    public function countUC(): int
+    {
+        return 0;
+    }
+
+    public function countLC(): int
+    {
+        return 0;
+    }
+
+    public function countAlpha(): int
+    {
+        return 0;
+    }
+
+    public function countNumeric(): int
+    {
+        return 0;
+    }
+
+    public function countAlphaNumeric(): int
+    {
+        return 0;
+    }
+
+    public function countSpecial(): int
+    {
+        return 0;
+    }
+
+    public function countWhitespace(): int
+    {
+        return 0;
+    }
+
+    public function countHex(): int
+    {
+        return 0;
+    }
+
+    public function countBinary(): int
+    {
+        return 0;
+    }
+
+    public function countWords(): int
+    {
+        return 0;
+    }
+
+    public function countLines(): int
+    {
+        return 0;
+    }
+
+    public function countSentences(): int
+    {
+        return 0;
+    }
+
+    public function countParagraphs(): int
+    {
+        return 0;
+    }
+
+    public function mostFrequentCharacter(): string
+    {
+        return '';
+    }
+
+    public function mostFrequentCharacters(int $n = 1): array
+    {
+        return [];
+    }
+
+    public function mostFrequentWord(): string
+    {
+        return '';
+    }
+
+    public function mostFrequentWords(int $n = 1): array
+    {
+        return [];
     }
 }

@@ -301,6 +301,7 @@ trait StringableTrait
 
     /**
      * Removes all instances of the needle from the end of the string
+     * If the needle is null, then assume to strip whitespace.
      *
      * ex: 'Hello World 123' stripEnd(' 123') => 'Hello World'
      *
