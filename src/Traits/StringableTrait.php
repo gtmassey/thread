@@ -64,7 +64,7 @@ trait StringableTrait
      */
     public function compressEnd(): self
     {
-        $this->string = preg_replace('/\s+$/', '', $this->string);
+        $this->string = rtrim($this->string);
 
         return $this;
     }
@@ -79,7 +79,7 @@ trait StringableTrait
      */
     public function compressStart(): self
     {
-        $this->string = preg_replace('/^\s+/', '', $this->string);
+        $this->string = ltrim($this->string);
 
         return $this;
     }
@@ -161,7 +161,7 @@ trait StringableTrait
      */
     public function lcLast(): self
     {
-        $this->string = substr($this->string, 0, -1) . strtolower(substr($this->string, -1));
+        $this->string = substr($this->string, 0, -1).strtolower(substr($this->string, -1));
 
         return $this;
     }
@@ -172,8 +172,8 @@ trait StringableTrait
      *
      * example: 'Hi' > padBothEnds(10, '+=') > '+=+=Hi+=+='
      *
-     * @param int $n
-     * @param string $string
+     * @param  int  $n
+     * @param  string  $string
      * @return Twine|StringableTrait
      */
     public function padBothEnds(int $n, string $string): self
@@ -195,7 +195,7 @@ trait StringableTrait
      */
     public function padEnd(int $n, string $string): self
     {
-        $this->string = str_pad($this->string, $n, $string, STR_PAD_RIGHT);
+        $this->string = str_pad($this->string, $n, $string);
 
         return $this;
     }
@@ -227,7 +227,7 @@ trait StringableTrait
      */
     public function prepend(string $string): self
     {
-        $this->string = $string . $this->string;
+        $this->string = $string.$this->string;
 
         return $this;
     }
@@ -245,7 +245,7 @@ trait StringableTrait
      */
     public function repeat(int $n, ?string $separator = ''): self
     {
-        $this->string = str_repeat($this->string . $separator, $n);
+        $this->string = str_repeat($this->string.$separator, $n);
 
         return $this;
     }
@@ -285,7 +285,7 @@ trait StringableTrait
      *
      * example: 'abc123' > stripSubstrings(['a', '1']) > 'bc23'
      *
-     * @param string[] $substrings
+     * @param  string[]  $substrings
      * @return Twine|StringableTrait
      */
     public function stripSubstrings(array $substrings): self
@@ -669,6 +669,7 @@ trait StringableTrait
      * example: 'abc123abc123' > trimSubstring('abc') > '123abc123'
      * example: 'a ab ac ad ae af' > trimSubstring('a') > ' ab ac ad ae af'
      *
+     * @param string $substring
      * @return Twine|StringableTrait
      */
     public function trimSubstringFromStart(string $substring): self
@@ -682,6 +683,7 @@ trait StringableTrait
      * example: 'abc123abc123' > trimSubstringFromEnd('abc') > 'abc123123'
      * example: 'a ab ac ad ae af' > trimSubstringFromEnd('a') > 'a ab ac ad ae f'
      *
+     * @param string $substring
      * @return Twine|StringableTrait
      */
     public function trimSubstringFromEnd(string $substring): self
@@ -695,6 +697,7 @@ trait StringableTrait
      * example: 'abc123abc123' > trimSubstringFromBothEnds('abc') > '123123'
      * example: 'a ab ac ad ae af' > trimSubstringFromBothEnds('a') > ' ab ac ad ae f'
      *
+     * @param string $substring
      * @return Twine|StringableTrait
      */
     public function trimSubstringFromStartAndEnd(string $substring): self
@@ -734,6 +737,7 @@ trait StringableTrait
      *
      * example: 'hello world' > ucNth(3) > 'helLo world'
      *
+     * @param int $n
      * @return Twine|StringableTrait
      */
     public function ucNth(int $n): self
@@ -749,6 +753,7 @@ trait StringableTrait
      *
      * example: 'HELLO WORLD' > lcNth(3) > 'HELlO WORLD'
      *
+     * @param int $n
      * @return Twine|StringableTrait
      */
     public function lcNth(int $n): self
@@ -767,6 +772,7 @@ trait StringableTrait
      * example: 'Hello World' > toSlug('G') > 'helloGworld'
      * example: 'Hello World' > toSlug('_') > 'hello_world'
      *
+     * @param string $separator
      * @return Twine|StringableTrait
      */
     public function toSlug(string $separator): self
@@ -781,6 +787,7 @@ trait StringableTrait
      * example: 'Hello World' > swap(['Hello' => 'Goodbye']) > 'Goodbye World'
      * example: 'Hello World' > swap(['Hello' => 'Goodbye', 'World' => 'Universe']) > 'Goodbye Universe'
      *
+     * @param array $swaps
      * @return Twine|StringableTrait
      */
     public function swap(array $swaps): self
@@ -793,6 +800,7 @@ trait StringableTrait
      *
      * example: 'Hello World' > before('World') > 'Hello '
      *
+     * @param string $delimiter
      * @return Twine|StringableTrait
      */
     public function before(string $delimiter): self
@@ -805,6 +813,7 @@ trait StringableTrait
      *
      * example: 'Hello World' > after('Hello') > ' World'
      *
+     * @param string $delimiter
      * @return Twine|StringableTrait
      */
     public function after(string $delimiter): self
@@ -818,6 +827,8 @@ trait StringableTrait
      *
      * example: 'Hello World' > between('H', 'd') > 'ello Worl'
      *
+     * @param string $start
+     * @param string $end
      * @return Twine|StringableTrait
      */
     public function between(string $start, string $end): self
@@ -831,6 +842,8 @@ trait StringableTrait
      *
      * example: 'Hello World' > betweenLast('l', 'l') > 'o Wor'
      *
+     * @param string $start
+     * @param string $end
      * @return Twine|StringableTrait
      */
     public function betweenLast(string $start, string $end): self
@@ -843,6 +856,7 @@ trait StringableTrait
      *
      * example: 'Hello World' > beforeLast('l') > 'Hello Wor'
      *
+     * @param string $delimiter
      * @return Twine|StringableTrait
      */
     public function beforeLast(string $delimiter): self
@@ -859,6 +873,9 @@ trait StringableTrait
      * example: 'Hello World' > mask(1, 3) > 'H***o World'
      * example: 'Hello World' > mask(1, 3, 'x') > 'Hxxxo World'
      *
+     * @param int|null $start
+     * @param int|null $end
+     * @param string|null $maskChar
      * @return Twine|StringableTrait
      */
     public function mask(?int $start = 0, int $end = null, ?string $maskChar = '*'): self
@@ -872,6 +889,8 @@ trait StringableTrait
      *
      * example: 'email@website.com' > maskBefore('@') > "*****@website.com"
      *
+     * @param string $delimiter
+     * @param string|null $maskChar
      * @return Twine|StringableTrait
      */
     public function maskBefore(string $delimiter, ?string $maskChar = '*'): self
@@ -885,6 +904,8 @@ trait StringableTrait
      *
      * example: 'email@website.com' > maskAfter('.') > "email@website.***"
      *
+     * @param string $delimiter
+     * @param string|null $maskChar
      * @return Twine|StringableTrait
      */
     public function maskAfter(string $delimiter, ?string $maskChar = '*'): self
@@ -899,6 +920,8 @@ trait StringableTrait
      * example: 'Some long text' > limit(9) > 'Some long'
      * example: 'Some long text' > limit(9, '...') > 'Some long...'
      *
+     * @param int $limit
+     * @param string|null $end
      * @return Twine|StringableTrait
      */
     public function limit(int $limit, ?string $end = ''): self
