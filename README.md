@@ -24,6 +24,26 @@ composer require gtmassey/twine
 
 ### Getting started
 
+The package is a normal PHP package, so you can use it in any PHP project. Simply add it to your use statements, and you're ready to go.
+
+```php
+use Gtmassey\Twine\Twine;
+```
+
+If you are using Laravel, the `TwineServiceProvider` will automatically register the `Twine` facade for you. You can use the facade in your code like this:
+
+```php
+use Twine;
+```
+
+Now you can use the `Twine::make()` method to create a new Twine object from a string or an array.
+
+If you are using Symfony, you can use the `Twine` class directly, or you can use the `TwineFacade` class.
+
+If you aren't using any of these frameworks, don't worry. You can just include the Twine class in your code and use it directly without any issues.
+
+### Creating a Twine object
+
 You can use the `new` keyword to create a new Twine object, the constructor accepts a string or null as an argument. If null, the default is an empty string `""`. 
 
 ```php
@@ -36,23 +56,25 @@ echo($emptyString->toString());
 // ""
 ```
 
-You can also use the static `make()`, `of()`, and `from()` methods to create a new Twine object from either a string or an array. 
+You can also use the static `make()`, `of()`, and `from()` methods to create a new Twine object from either a string or an array. Each of the static construction methods accepts either a string OR an array as an argument.
 
-If you use an array as the argument for the static construction methods, the array will be imploded with a space as the separator.
+If you use an array as the argument for the static construction methods, the array will be imploded with a space as the separator always. You can use StringableTrait methods to then manipulate the string to your liking.
 
 ```php
-$string = Twine::make('Hello world!');
+$string = Twine::make('a b c');
+//OR
+$string = Twine::make(['a', 'b', 'c']);
 echo($string->toString());
 // "Hello world!"
 
-$string = Twine::make(['Hello', 'world!']);
-echo($string->toString());
-// "Hello world!"
-
+$string = Twine::of('a b c');
+//OR
 $string = Twine::of(['a', 'b', 'c']);
 echo($string->toString());
 // "a b c"
 
+$string = Twine::from('a b c');
+//OR
 $string = Twine::from(['a', 'b', 'c']);
 echo($string->toString());
 // "a b c"
@@ -92,6 +114,8 @@ $phone->getIntegerValue();
 ```
 
 ## Testing
+
+To run the testsuite, run the following command:
 
 ```bash
 composer test

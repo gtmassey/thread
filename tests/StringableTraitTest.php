@@ -105,4 +105,31 @@ class StringableTraitTest extends TestCase
 
         $this->assertEquals('Hello World', $string->prepend('Hello ')->toString());
     }
+
+    public function testRepeat()
+    {
+        $string = new Twine('Hello');
+
+        $this->assertEquals('HelloHelloHello', $string->repeat(3)->toString());
+
+        $string = new Twine('Hello');
+
+        $this->assertEquals('Hello! Hello! Hello! ', $string->repeat(3, '! ')->toString());
+    }
+
+    public function testReplace()
+    {
+        $string = new Twine('Hello World');
+
+        $this->assertEquals('Hello Universe', $string->replace('World', 'Universe')->toString());
+    }
+
+    public function testReverse()
+    {
+        $string = new Twine('Hello World');
+
+        $this->assertEquals('dlroW olleH', $string->reverse()->toString());
+    }
+
+
 }

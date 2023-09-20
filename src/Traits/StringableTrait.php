@@ -12,6 +12,7 @@ trait StringableTrait
      *
      * example: 'hello'->append(' world') = 'hello world'
      *
+     * @param string $string
      * @return Twine|StringableTrait
      */
     public function append(string $string): self
@@ -160,7 +161,7 @@ trait StringableTrait
      */
     public function lcLast(): self
     {
-        $this->string = substr($this->string, 0, -1).strtolower(substr($this->string, -1));
+        $this->string = substr($this->string, 0, -1) . strtolower(substr($this->string, -1));
 
         return $this;
     }
@@ -171,6 +172,8 @@ trait StringableTrait
      *
      * example: 'Hi' > padBothEnds(10, '+=') > '+=+=Hi+=+='
      *
+     * @param int $n
+     * @param string $string
      * @return Twine|StringableTrait
      */
     public function padBothEnds(int $n, string $string): self
@@ -186,6 +189,8 @@ trait StringableTrait
      *
      * example: 'Hi' > padEnd(10, '+=') > 'Hi+=+=+=+='
      *
+     * @param int $n
+     * @param string $string
      * @return Twine|StringableTrait
      */
     public function padEnd(int $n, string $string): self
@@ -201,6 +206,8 @@ trait StringableTrait
      *
      * example: 'Hi' > padStart(10, '+=') > '+=+=+=+=Hi'
      *
+     * @param int $n
+     * @param string $string
      * @return Twine|StringableTrait
      */
     public function padStart(int $n, string $string): self
@@ -215,11 +222,12 @@ trait StringableTrait
      *
      * example: 'world' > prepend('hello ') > 'hello world'
      *
+     * @param string $string
      * @return Twine|StringableTrait
      */
     public function prepend(string $string): self
     {
-        $this->string = $string.$this->string;
+        $this->string = $string . $this->string;
 
         return $this;
     }
@@ -231,11 +239,13 @@ trait StringableTrait
      * example: 'hello' > repeat(3, ' ') > 'hello hello hello'
      * example: 'hello' > repeat(3) > 'hellohellohello'
      *
+     * @param int $n
+     * @param string|null $separator
      * @return Twine|StringableTrait
      */
-    public function repeat(int $n, string $separator): self
+    public function repeat(int $n, ?string $separator = ''): self
     {
-        $this->string = str_repeat($this->string.$separator, $n);
+        $this->string = str_repeat($this->string . $separator, $n);
 
         return $this;
     }
@@ -245,6 +255,8 @@ trait StringableTrait
      *
      * example: 'hello world' > replace('world', 'universe') > 'hello universe'
      *
+     * @param string $needle
+     * @param string $replacement
      * @return Twine|StringableTrait
      */
     public function replace(string $needle, string $replacement): self
@@ -273,7 +285,7 @@ trait StringableTrait
      *
      * example: 'abc123' > stripSubstrings(['a', '1']) > 'bc23'
      *
-     * @param  string[]  $substrings
+     * @param string[] $substrings
      * @return Twine|StringableTrait
      */
     public function stripSubstrings(array $substrings): self
@@ -287,6 +299,7 @@ trait StringableTrait
      * example: 'abc123' > stripSubstring('a') > 'bc123'
      * example: 'abc123' > stripSubstring('d') > 'abc123'
      *
+     * @param string $substring
      * @return Twine|StringableTrait
      */
     public function stripSubstring(string $substring): self
@@ -302,6 +315,7 @@ trait StringableTrait
      * example: 'Hello World' > stripEnd('l') > 'Hello Word'
      * example: 'Hello World' > stripEnd('ll') > 'Hello World'
      *
+     * @param string $substring
      * @return Twine|StringableTrait
      */
     public function stripSubstringFromEnd(string $substring): self
@@ -341,6 +355,7 @@ trait StringableTrait
      * example: 'Hello World' > stripStart('ll') > 'Heo World'
      * example: 'Hello World' > stripStart('x') > 'Hello World'
      *
+     * @param string $substring
      * @return Twine|StringableTrait
      */
     public function stripSubstringFromStart(string $substring): self
