@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class TwineTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $twine = new Twine('Hello, world!');
         $this->assertEquals('Hello, world!', $twine->toString());

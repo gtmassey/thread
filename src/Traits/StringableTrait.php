@@ -12,10 +12,10 @@ trait StringableTrait
      *
      * example: 'hello'->append(' world') = 'hello world'
      *
-     * @param string $string
-     * @return Twine|StringableTrait
+     * @param  string  $string
+     * @return Twine
      */
-    public function append(string $string): self
+    public function append(string $string): Twine
     {
         $this->string .= $string;
 
@@ -29,11 +29,11 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > 'hello world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function compress(): self
+    public function compress(): Twine
     {
-        $this->string = preg_replace('/\s+/', ' ', $this->string);
+        $this->string = preg_replace('/\s+/', ' ', $this->string ?? '');
 
         return $this->trim();
     }
@@ -45,11 +45,11 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > '   hello world   '
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function compressBetween(): self
+    public function compressBetween(): Twine
     {
-        $this->string = preg_replace('/(?<=\S)\s+(?=\S)/', ' ', $this->string);
+        $this->string = preg_replace('/(?<=\S)\s+(?=\S)/', ' ', $this->string ?? '');
 
         return $this;
     }
@@ -60,11 +60,11 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > '   hello   world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function compressEnd(): self
+    public function compressEnd(): Twine
     {
-        $this->string = rtrim($this->string);
+        $this->string = rtrim($this->string ?? '');
 
         return $this;
     }
@@ -75,11 +75,11 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > 'hello   world   '
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function compressStart(): self
+    public function compressStart(): Twine
     {
-        $this->string = ltrim($this->string);
+        $this->string = ltrim($this->string ?? '');
 
         return $this;
     }
@@ -89,11 +89,11 @@ trait StringableTrait
      *
      * example: '&lt;h1&gt;Hello World&lt;/h1&gt;' > '<h1>Hello World</h1>'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function decodeHTML(): self
+    public function decodeHTML(): Twine
     {
-        $this->string = html_entity_decode($this->string);
+        $this->string = html_entity_decode($this->string ?? '');
 
         return $this;
     }
@@ -103,9 +103,9 @@ trait StringableTrait
      *
      * example: '{"name":"John","age":30}' > ['name' => 'John', 'age' => 30]
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function decodeJson(): self
+    public function decodeJson(): Twine
     {
         //TODO: handle array values in Twine object
         return $this;
@@ -116,11 +116,11 @@ trait StringableTrait
      *
      * example: '<h1>Hello World</h1>' > '&lt;h1&gt;Hello World&lt;/h1&gt;'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function encodeHTML(): self
+    public function encodeHTML(): Twine
     {
-        $this->string = htmlentities($this->string);
+        $this->string = htmlentities($this->string ?? '');
 
         return $this;
     }
@@ -130,9 +130,9 @@ trait StringableTrait
      *
      * example: ['name' => 'John', 'age' => 30] > '{"name":"John","age":30}'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function encodeJson(): self
+    public function encodeJson(): Twine
     {
         //TODO: Handle array entities in Twine object
         return $this;
@@ -143,11 +143,11 @@ trait StringableTrait
      *
      * example: 'HELLO WORLD' > 'hELLO WORLD'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function lcFirst(): self
+    public function lcFirst(): Twine
     {
-        $this->string = lcfirst($this->string);
+        $this->string = lcfirst($this->string ?? '');
 
         return $this;
     }
@@ -157,11 +157,11 @@ trait StringableTrait
      *
      * example: 'HELLO WORLD' > 'HELLO WORLd'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function lcLast(): self
+    public function lcLast(): Twine
     {
-        $this->string = substr($this->string, 0, -1).strtolower(substr($this->string, -1));
+        $this->string = substr($this->string ?? '', 0, -1).strtolower(substr($this->string ?? '', -1));
 
         return $this;
     }
@@ -174,11 +174,11 @@ trait StringableTrait
      *
      * @param  int  $n
      * @param  string  $string
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function padBothEnds(int $n, string $string): self
+    public function padBothEnds(int $n, string $string): Twine
     {
-        $this->string = str_pad($this->string, $n, $string, STR_PAD_BOTH);
+        $this->string = str_pad($this->string ?? '', $n, $string, STR_PAD_BOTH);
 
         return $this;
     }
@@ -189,13 +189,13 @@ trait StringableTrait
      *
      * example: 'Hi' > padEnd(10, '+=') > 'Hi+=+=+=+='
      *
-     * @param int $n
-     * @param string $string
-     * @return Twine|StringableTrait
+     * @param  int  $n
+     * @param  string  $string
+     * @return Twine
      */
-    public function padEnd(int $n, string $string): self
+    public function padEnd(int $n, string $string): Twine
     {
-        $this->string = str_pad($this->string, $n, $string);
+        $this->string = str_pad($this->string ?? '', $n, $string);
 
         return $this;
     }
@@ -206,13 +206,13 @@ trait StringableTrait
      *
      * example: 'Hi' > padStart(10, '+=') > '+=+=+=+=Hi'
      *
-     * @param int $n
-     * @param string $string
-     * @return Twine|StringableTrait
+     * @param  int  $n
+     * @param  string  $string
+     * @return Twine
      */
-    public function padStart(int $n, string $string): self
+    public function padStart(int $n, string $string): Twine
     {
-        $this->string = str_pad($this->string, $n, $string, STR_PAD_LEFT);
+        $this->string = str_pad($this->string ?? '', $n, $string, STR_PAD_LEFT);
 
         return $this;
     }
@@ -222,10 +222,10 @@ trait StringableTrait
      *
      * example: 'world' > prepend('hello ') > 'hello world'
      *
-     * @param string $string
-     * @return Twine|StringableTrait
+     * @param  string  $string
+     * @return Twine
      */
-    public function prepend(string $string): self
+    public function prepend(string $string): Twine
     {
         $this->string = $string.$this->string;
 
@@ -239,11 +239,11 @@ trait StringableTrait
      * example: 'hello' > repeat(3, ' ') > 'hello hello hello'
      * example: 'hello' > repeat(3) > 'hellohellohello'
      *
-     * @param int $n
-     * @param string|null $separator
-     * @return Twine|StringableTrait
+     * @param  int  $n
+     * @param  string|null  $separator
+     * @return Twine
      */
-    public function repeat(int $n, ?string $separator = ''): self
+    public function repeat(int $n, ?string $separator = ''): Twine
     {
         $this->string = str_repeat($this->string.$separator, $n);
 
@@ -255,13 +255,13 @@ trait StringableTrait
      *
      * example: 'hello world' > replace('world', 'universe') > 'hello universe'
      *
-     * @param string $needle
-     * @param string $replacement
-     * @return Twine|StringableTrait
+     * @param  string  $needle
+     * @param  string  $replacement
+     * @return Twine
      */
-    public function replace(string $needle, string $replacement): self
+    public function replace(string $needle, string $replacement): Twine
     {
-        $this->string = str_replace($needle, $replacement, $this->string);
+        $this->string = str_replace($needle, $replacement, $this->string ?? '');
 
         return $this;
     }
@@ -271,11 +271,11 @@ trait StringableTrait
      *
      * example: 'hello world' > reverse() > 'dlrow olleh'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function reverse(): self
+    public function reverse(): Twine
     {
-        $this->string = strrev($this->string);
+        $this->string = strrev($this->string ?? '');
 
         return $this;
     }
@@ -286,9 +286,9 @@ trait StringableTrait
      * example: 'abc123' > stripSubstrings(['a', '1']) > 'bc23'
      *
      * @param  string[]  $substrings
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripSubstrings(array $substrings): self
+    public function stripSubstrings(array $substrings): Twine
     {
         return $this;
     }
@@ -299,10 +299,10 @@ trait StringableTrait
      * example: 'abc123' > stripSubstring('a') > 'bc123'
      * example: 'abc123' > stripSubstring('d') > 'abc123'
      *
-     * @param string $substring
-     * @return Twine|StringableTrait
+     * @param  string  $substring
+     * @return Twine
      */
-    public function stripSubstring(string $substring): self
+    public function stripSubstring(string $substring): Twine
     {
         return $this;
     }
@@ -315,10 +315,10 @@ trait StringableTrait
      * example: 'Hello World' > stripEnd('l') > 'Hello Word'
      * example: 'Hello World' > stripEnd('ll') > 'Hello World'
      *
-     * @param string $substring
-     * @return Twine|StringableTrait
+     * @param  string  $substring
+     * @return Twine
      */
-    public function stripSubstringFromEnd(string $substring): self
+    public function stripSubstringFromEnd(string $substring): Twine
     {
         return $this;
     }
@@ -328,9 +328,9 @@ trait StringableTrait
      *
      * example: 'abc123!' > stripNonNumeric() > '123'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripNonNumeric(): self
+    public function stripNonNumeric(): Twine
     {
         return $this;
     }
@@ -340,9 +340,9 @@ trait StringableTrait
      *
      * example: 'abc123' > stripNumeric() > 'abc'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripNumeric(): self
+    public function stripNumeric(): Twine
     {
         return $this;
     }
@@ -355,10 +355,10 @@ trait StringableTrait
      * example: 'Hello World' > stripStart('ll') > 'Heo World'
      * example: 'Hello World' > stripStart('x') > 'Hello World'
      *
-     * @param string $substring
-     * @return Twine|StringableTrait
+     * @param  string  $substring
+     * @return Twine
      */
-    public function stripSubstringFromStart(string $substring): self
+    public function stripSubstringFromStart(string $substring): Twine
     {
         return $this;
     }
@@ -369,9 +369,9 @@ trait StringableTrait
      *
      * example: 'abc123!' > stripAlpha() > '123!'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripAlpha(): self
+    public function stripAlpha(): Twine
     {
         return $this;
     }
@@ -382,9 +382,9 @@ trait StringableTrait
      *
      * example: 'abc123!' > stripAlphaNumeric() > '!'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripAlphaNumeric(): self
+    public function stripAlphaNumeric(): Twine
     {
         return $this;
     }
@@ -395,9 +395,9 @@ trait StringableTrait
      *
      * example: 'abc123!' > stripSpecial() > 'abc123'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripSpecial(): self
+    public function stripSpecial(): Twine
     {
         return $this;
     }
@@ -408,9 +408,9 @@ trait StringableTrait
      *
      * example: 'abc 123' > stripWhitespace() > 'abc123'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function stripWhitespace(): self
+    public function stripWhitespace(): Twine
     {
         return $this;
     }
@@ -420,9 +420,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toCamelCase() > 'helloWorld'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toCamelCase(): self
+    public function toCamelCase(): Twine
     {
         return $this;
     }
@@ -432,9 +432,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toPascalCase() > 'HelloWorld'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toPascalCase(): self
+    public function toPascalCase(): Twine
     {
         return $this;
     }
@@ -444,9 +444,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toSnakeCase() > 'hello_world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toSnakeCase(): self
+    public function toSnakeCase(): Twine
     {
         return $this;
     }
@@ -456,9 +456,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toKebabCase() > 'hello-world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toKebabCase(): self
+    public function toKebabCase(): Twine
     {
         return $this;
     }
@@ -468,9 +468,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toTitleCase() > 'Hello World'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toTitleCase(): self
+    public function toTitleCase(): Twine
     {
         return $this;
     }
@@ -480,9 +480,9 @@ trait StringableTrait
      *
      * example: 'HELLO WORLD' > toLowerCase() > 'hello world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toLowerCase(): self
+    public function toLowerCase(): Twine
     {
         return $this;
     }
@@ -492,9 +492,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toUpperCase() > 'HELLO WORLD'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toUpperCase(): self
+    public function toUpperCase(): Twine
     {
         return $this;
     }
@@ -504,9 +504,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toSnakeCaseUC() > 'HELLO_WORLD'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toSnakeCaseUC(): self
+    public function toSnakeCaseUC(): Twine
     {
         return $this;
     }
@@ -516,9 +516,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toKebabCaseUC() > 'HELLO-WORLD'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toKebabCaseUC(): self
+    public function toKebabCaseUC(): Twine
     {
         return $this;
     }
@@ -528,9 +528,9 @@ trait StringableTrait
      *
      * example: 'hello world' > toMemeCase() > 'hElLo wOrLd'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toMemeCase(): self
+    public function toMemeCase(): Twine
     {
         return $this;
     }
@@ -545,9 +545,9 @@ trait StringableTrait
      *
      * example: 'Hello' > toE161() > '44|33|555|555|666'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function toE161(): self
+    public function toE161(): Twine
     {
         return $this;
     }
@@ -557,11 +557,11 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > trim() > 'hello   world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trim(): self
+    public function trim(): Twine
     {
-        $this->string = trim($this->string);
+        $this->string = trim($this->string ?? '');
 
         return $this;
     }
@@ -571,9 +571,9 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > trimEnd() > '   hello   world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimEnd(): self
+    public function trimEnd(): Twine
     {
         return $this;
     }
@@ -583,9 +583,9 @@ trait StringableTrait
      *
      * example: '   hello   world   ' > trimStart() > 'hello   world   '
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimStart(): self
+    public function trimStart(): Twine
     {
         return $this;
     }
@@ -595,9 +595,9 @@ trait StringableTrait
      *
      * example: 'Hello world and universe!' > trimFirstWord() > 'world and universe!'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimFirstWord(): self
+    public function trimFirstWord(): Twine
     {
         return $this;
     }
@@ -607,9 +607,9 @@ trait StringableTrait
      *
      * example: 'Hello world and universe!' > trimLastWord() > 'Hello world and'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimLastWord(): self
+    public function trimLastWord(): Twine
     {
         return $this;
     }
@@ -619,9 +619,9 @@ trait StringableTrait
      *
      * example: 'Hello world and universe!' > trimBothEndWords() > 'world and'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimFirstAndLastWords(): self
+    public function trimFirstAndLastWords(): Twine
     {
         return $this;
     }
@@ -631,9 +631,9 @@ trait StringableTrait
      *
      * example: 'Hello' > trimFirstChar() > 'ello'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimFirstChar(): self
+    public function trimFirstChar(): Twine
     {
         return $this;
     }
@@ -643,9 +643,9 @@ trait StringableTrait
      *
      * example: 'Hello' > trimLastChar() > 'Hell'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimLastChar(): self
+    public function trimLastChar(): Twine
     {
         return $this;
     }
@@ -655,9 +655,9 @@ trait StringableTrait
      *
      * example: 'Hello' > trimBothEndChars() > 'ell'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function trimFirstAndLastChar(): self
+    public function trimFirstAndLastChar(): Twine
     {
         return $this;
     }
@@ -669,10 +669,10 @@ trait StringableTrait
      * example: 'abc123abc123' > trimSubstring('abc') > '123abc123'
      * example: 'a ab ac ad ae af' > trimSubstring('a') > ' ab ac ad ae af'
      *
-     * @param string $substring
-     * @return Twine|StringableTrait
+     * @param  string  $substring
+     * @return Twine
      */
-    public function trimSubstringFromStart(string $substring): self
+    public function trimSubstringFromStart(string $substring): Twine
     {
         return $this;
     }
@@ -683,10 +683,10 @@ trait StringableTrait
      * example: 'abc123abc123' > trimSubstringFromEnd('abc') > 'abc123123'
      * example: 'a ab ac ad ae af' > trimSubstringFromEnd('a') > 'a ab ac ad ae f'
      *
-     * @param string $substring
-     * @return Twine|StringableTrait
+     * @param  string  $substring
+     * @return Twine
      */
-    public function trimSubstringFromEnd(string $substring): self
+    public function trimSubstringFromEnd(string $substring): Twine
     {
         return $this;
     }
@@ -697,10 +697,10 @@ trait StringableTrait
      * example: 'abc123abc123' > trimSubstringFromBothEnds('abc') > '123123'
      * example: 'a ab ac ad ae af' > trimSubstringFromBothEnds('a') > ' ab ac ad ae f'
      *
-     * @param string $substring
-     * @return Twine|StringableTrait
+     * @param  string  $substring
+     * @return Twine
      */
-    public function trimSubstringFromStartAndEnd(string $substring): self
+    public function trimSubstringFromStartAndEnd(string $substring): Twine
     {
         return $this;
     }
@@ -710,9 +710,9 @@ trait StringableTrait
      *
      * example: 'hello world' > ucFirst() > 'Hello world'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function ucFirst(): self
+    public function ucFirst(): Twine
     {
         return $this;
     }
@@ -722,9 +722,9 @@ trait StringableTrait
      *
      * example: 'hello world' > ucLast() > 'hello worlD'
      *
-     * @return Twine|StringableTrait
+     * @return Twine
      */
-    public function ucLast(): self
+    public function ucLast(): Twine
     {
         return $this;
     }
@@ -737,10 +737,10 @@ trait StringableTrait
      *
      * example: 'hello world' > ucNth(3) > 'helLo world'
      *
-     * @param int $n
-     * @return Twine|StringableTrait
+     * @param  int  $n
+     * @return Twine
      */
-    public function ucNth(int $n): self
+    public function ucNth(int $n): Twine
     {
         return $this;
     }
@@ -753,10 +753,10 @@ trait StringableTrait
      *
      * example: 'HELLO WORLD' > lcNth(3) > 'HELlO WORLD'
      *
-     * @param int $n
-     * @return Twine|StringableTrait
+     * @param  int  $n
+     * @return Twine
      */
-    public function lcNth(int $n): self
+    public function lcNth(int $n): Twine
     {
         return $this;
     }
@@ -772,10 +772,10 @@ trait StringableTrait
      * example: 'Hello World' > toSlug('G') > 'helloGworld'
      * example: 'Hello World' > toSlug('_') > 'hello_world'
      *
-     * @param string $separator
-     * @return Twine|StringableTrait
+     * @param  string  $separator
+     * @return Twine
      */
-    public function toSlug(string $separator): self
+    public function toSlug(string $separator): Twine
     {
         return $this;
     }
@@ -787,10 +787,10 @@ trait StringableTrait
      * example: 'Hello World' > swap(['Hello' => 'Goodbye']) > 'Goodbye World'
      * example: 'Hello World' > swap(['Hello' => 'Goodbye', 'World' => 'Universe']) > 'Goodbye Universe'
      *
-     * @param array $swaps
-     * @return Twine|StringableTrait
+     * @param  array<string>  $swaps
+     * @return Twine
      */
-    public function swap(array $swaps): self
+    public function swap(array $swaps): Twine
     {
         return $this;
     }
@@ -800,10 +800,10 @@ trait StringableTrait
      *
      * example: 'Hello World' > before('World') > 'Hello '
      *
-     * @param string $delimiter
-     * @return Twine|StringableTrait
+     * @param  string  $delimiter
+     * @return Twine
      */
-    public function before(string $delimiter): self
+    public function before(string $delimiter): Twine
     {
         return $this;
     }
@@ -813,10 +813,10 @@ trait StringableTrait
      *
      * example: 'Hello World' > after('Hello') > ' World'
      *
-     * @param string $delimiter
-     * @return Twine|StringableTrait
+     * @param  string  $delimiter
+     * @return Twine
      */
-    public function after(string $delimiter): self
+    public function after(string $delimiter): Twine
     {
         return $this;
     }
@@ -827,11 +827,11 @@ trait StringableTrait
      *
      * example: 'Hello World' > between('H', 'd') > 'ello Worl'
      *
-     * @param string $start
-     * @param string $end
-     * @return Twine|StringableTrait
+     * @param  string  $start
+     * @param  string  $end
+     * @return Twine
      */
-    public function between(string $start, string $end): self
+    public function between(string $start, string $end): Twine
     {
         return $this;
     }
@@ -842,11 +842,11 @@ trait StringableTrait
      *
      * example: 'Hello World' > betweenLast('l', 'l') > 'o Wor'
      *
-     * @param string $start
-     * @param string $end
-     * @return Twine|StringableTrait
+     * @param  string  $start
+     * @param  string  $end
+     * @return Twine
      */
-    public function betweenLast(string $start, string $end): self
+    public function betweenLast(string $start, string $end): Twine
     {
         return $this;
     }
@@ -856,10 +856,10 @@ trait StringableTrait
      *
      * example: 'Hello World' > beforeLast('l') > 'Hello Wor'
      *
-     * @param string $delimiter
-     * @return Twine|StringableTrait
+     * @param  string  $delimiter
+     * @return Twine
      */
-    public function beforeLast(string $delimiter): self
+    public function beforeLast(string $delimiter): Twine
     {
         return $this;
     }
@@ -873,12 +873,12 @@ trait StringableTrait
      * example: 'Hello World' > mask(1, 3) > 'H***o World'
      * example: 'Hello World' > mask(1, 3, 'x') > 'Hxxxo World'
      *
-     * @param int|null $start
-     * @param int|null $end
-     * @param string|null $maskChar
-     * @return Twine|StringableTrait
+     * @param  int|null  $start
+     * @param  int|null  $end
+     * @param  string|null  $maskChar
+     * @return Twine
      */
-    public function mask(?int $start = 0, int $end = null, ?string $maskChar = '*'): self
+    public function mask(?int $start = 0, int $end = null, ?string $maskChar = '*'): Twine
     {
         return $this;
     }
@@ -889,11 +889,11 @@ trait StringableTrait
      *
      * example: 'email@website.com' > maskBefore('@') > "*****@website.com"
      *
-     * @param string $delimiter
-     * @param string|null $maskChar
-     * @return Twine|StringableTrait
+     * @param  string  $delimiter
+     * @param  string|null  $maskChar
+     * @return Twine
      */
-    public function maskBefore(string $delimiter, ?string $maskChar = '*'): self
+    public function maskBefore(string $delimiter, ?string $maskChar = '*'): Twine
     {
         return $this;
     }
@@ -904,11 +904,11 @@ trait StringableTrait
      *
      * example: 'email@website.com' > maskAfter('.') > "email@website.***"
      *
-     * @param string $delimiter
-     * @param string|null $maskChar
-     * @return Twine|StringableTrait
+     * @param  string  $delimiter
+     * @param  string|null  $maskChar
+     * @return Twine
      */
-    public function maskAfter(string $delimiter, ?string $maskChar = '*'): self
+    public function maskAfter(string $delimiter, ?string $maskChar = '*'): Twine
     {
         return $this;
     }
@@ -920,11 +920,11 @@ trait StringableTrait
      * example: 'Some long text' > limit(9) > 'Some long'
      * example: 'Some long text' > limit(9, '...') > 'Some long...'
      *
-     * @param int $limit
-     * @param string|null $end
-     * @return Twine|StringableTrait
+     * @param  int  $limit
+     * @param  string|null  $end
+     * @return Twine
      */
-    public function limit(int $limit, ?string $end = ''): self
+    public function limit(int $limit, ?string $end = ''): Twine
     {
         return $this;
     }

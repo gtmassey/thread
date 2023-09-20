@@ -8,5 +8,7 @@ coverage
 phpunit.xml
 psalm.xml
 vendor
+.phpunit.cache
 .php-cs-fixer.cache
 
+.phpunit.cache/test-results

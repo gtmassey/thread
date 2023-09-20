@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class StringableTraitTest extends TestCase
 {
-    public function testAppend()
+    public function testAppend(): void
     {
         $string = new Twine('Hello World');
 
@@ -15,63 +15,63 @@ class StringableTraitTest extends TestCase
         $this->assertEquals('Hello World!', $string->append('!')->toString());
     }
 
-    public function testCompress()
+    public function testCompress(): void
     {
         $string = new Twine('    Hello    World    ');
 
         $this->assertEquals('Hello World', $string->compress()->toString());
     }
 
-    public function testCompressBetween()
+    public function testCompressBetween(): void
     {
         $string = new Twine('    Hello    World    ');
 
         $this->assertEquals('    Hello World    ', $string->compressBetween()->toString());
     }
 
-    public function testCompressEnd()
+    public function testCompressEnd(): void
     {
         $string = new Twine('    Hello    World    ');
 
         $this->assertEquals('    Hello    World', $string->compressEnd()->toString());
     }
 
-    public function testCompressStart()
+    public function testCompressStart(): void
     {
         $string = new Twine('    Hello    World    ');
 
         $this->assertEquals('Hello    World    ', $string->compressStart()->toString());
     }
 
-    public function testDecodeHTML()
+    public function testDecodeHTML(): void
     {
         $string = new Twine('&lt;h1&gt;Hello World&lt;/h1&gt;');
 
         $this->assertEquals('<h1>Hello World</h1>', $string->decodeHTML()->toString());
     }
 
-    public function testEncodeHTML()
+    public function testEncodeHTML(): void
     {
         $string = new Twine('<h1>Hello World</h1>');
 
         $this->assertEquals('&lt;h1&gt;Hello World&lt;/h1&gt;', $string->encodeHTML()->toString());
     }
 
-    public function testLcFirst()
+    public function testLcFirst(): void
     {
         $string = new Twine('HELLO');
 
         $this->assertEquals('hELLO', $string->lcFirst()->toString());
     }
 
-    public function testLcLast()
+    public function testLcLast(): void
     {
         $string = new Twine('HELLO');
 
         $this->assertEquals('HELLo', $string->lcLast()->toString());
     }
 
-    public function testPadBothEnds()
+    public function testPadBothEnds(): void
     {
         $string = new Twine('AA');
 
@@ -81,7 +81,7 @@ class StringableTraitTest extends TestCase
         $this->assertEquals('BAB', $string->padBothEnds(3, 'B')->toString());
     }
 
-    public function testPadEnd()
+    public function testPadEnd(): void
     {
         $string = new Twine('AA');
         $this->assertEquals('AAB', $string->padEnd(3, 'B')->toString());
@@ -90,7 +90,7 @@ class StringableTraitTest extends TestCase
         $this->assertEquals('AABB', $string->padEnd(4, 'B')->toString());
     }
 
-    public function testPadStart()
+    public function testPadStart(): void
     {
         $string = new Twine('AA');
         $this->assertEquals('BAA', $string->padStart(3, 'B')->toString());
@@ -99,14 +99,14 @@ class StringableTraitTest extends TestCase
         $this->assertEquals('BBAA', $string->padStart(4, 'B')->toString());
     }
 
-    public function testPrepend()
+    public function testPrepend(): void
     {
         $string = new Twine('World');
 
         $this->assertEquals('Hello World', $string->prepend('Hello ')->toString());
     }
 
-    public function testRepeat()
+    public function testRepeat(): void
     {
         $string = new Twine('Hello');
 
@@ -117,14 +117,14 @@ class StringableTraitTest extends TestCase
         $this->assertEquals('Hello! Hello! Hello! ', $string->repeat(3, '! ')->toString());
     }
 
-    public function testReplace()
+    public function testReplace(): void
     {
         $string = new Twine('Hello World');
 
         $this->assertEquals('Hello Universe', $string->replace('World', 'Universe')->toString());
     }
 
-    public function testReverse()
+    public function testReverse(): void
     {
         $string = new Twine('Hello World');
 
