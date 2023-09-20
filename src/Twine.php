@@ -18,7 +18,7 @@ class Twine
      * Constructor. accepts a string or null value.
      * If null, defaults to an empty string: ""
      */
-    public function __construct(?string $string = null)
+    public function __construct(string $string = null)
     {
         $this->string = $string ?? '';
     }

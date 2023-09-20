@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class StringableTraitTest extends TestCase
 {
-
     public function testAppend()
     {
         $string = new Twine('Hello World');
@@ -107,4 +106,3 @@ class StringableTraitTest extends TestCase
         $this->assertEquals('Hello World', $string->prepend('Hello ')->toString());
     }
 }
-
