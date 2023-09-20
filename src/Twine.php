@@ -18,7 +18,7 @@ class Twine
      * Constructor. accepts a string or null value.
      * If null, defaults to an empty string: ""
      */
-    public function __construct(string $string = null)
+    public function __construct(?string $string = null)
     {
         $this->string = $string ?? '';
     }
@@ -64,7 +64,7 @@ class Twine
             $string = implode(' ', $string);
         }
 
-        return new self($string);
+        return new self();
     }
 
     /*
@@ -130,7 +130,7 @@ class Twine
      */
     public function toString(): string
     {
-        return '';
+        return $this->string;
     }
 
     public function toArray(bool $onWords = false): array

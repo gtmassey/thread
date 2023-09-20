@@ -6,665 +6,907 @@ use Gtmassey\Twine\Twine;
 
 trait StringableTrait
 {
-    /**
-     * Some notes and vocabulary:
-     *  - trim: in the context of this package
-     *      the act of removing from the beginning
-     *      and end of a string
-     *  - strip:
-     *      strip removes all instances of a
-     *      character from a string based on the
-     *      parameters and the needle passed in
-     *  - to: converts the string from format a
-     *      to format b, overwriting the original
-     */
 
     /**
-     * The english T9 dictionary
+     * append a string to the end of
+     * the string.
      *
-     * @var array|string[]
+     * example: 'hello'->append(' world') = 'hello world'
+     *
+     * @param string $string
+     * @return Twine|StringableTrait
      */
-    public static array $T9 = [
-        'a' => '2', 'b' => '22',
-        'c' => '222', 'd' => '3',
-        'e' => '33', 'f' => '333',
-        'g' => '4', 'h' => '44',
-        'i' => '444', 'j' => '5',
-        'k' => '55', 'l' => '555',
-        'm' => '6', 'n' => '66',
-        'o' => '666', 'p' => '7',
-        'q' => '77', 'r' => '777',
-        's' => '7777', 't' => '8',
-        'u' => '88', 'v' => '888',
-        'w' => '9', 'x' => '99',
-        'y' => '999', 'z' => '9999',
-    ];
-
     public function append(string $string): self
     {
         $this->string .= $string;
-
         return $this;
     }
 
     /**
-     * Removes excess whitespace from the string.
-     * ex: '  hello   world  ' => 'hello world'
+     * Removes excess whitespace from string
+     * Leaves only one space character between words
+     * Trims whitespace from ends of string.
+     *
+     * example: '   hello   world   ' > 'hello world'
      *
      * @return Twine|StringableTrait
      */
     public function compress(): self
     {
         $this->string = preg_replace('/\s+/', ' ', $this->string);
-
-        return $this;
+        return $this->trim();
     }
 
     /**
-     * Removes excess whitespace between words, leaving
-     * only a single space between the words. Leaves
-     * the start and end of the string alone.
+     * remove excess whitespace between words
+     * leaves whitespace at start and end of
+     * string alone.
      *
-     * ex: '  hello   world  ' => '  hello world  '
+     * example: '   hello   world   ' > '   hello world   '
+     * @return Twine|StringableTrait
      */
     public function compressBetween(): self
     {
-        $this->string = preg_replace('/\s+/', ' ', $this->string);
-
+        $this->string = preg_replace('/(?<=\S)\s+(?=\S)/', ' ', $this->string);
         return $this;
     }
 
     /**
-     * Removes excess whitespace from the end of the string.
-     * Leaves a single space at the end.
-     * Leaves the start and between words alone
+     * remove excess whitespace at end of string
+     * leaves all other whitespaces alone
      *
-     * ex: '  hello   world  ' => '  hello   world '
+     * example: '   hello   world   ' > '   hello   world'
+     *
+     * @return Twine|StringableTrait
      */
     public function compressEnd(): self
     {
-        $this->string = preg_replace('/\s+$/', ' ', $this->string);
-
+        $this->string = preg_replace('/\s+$/', '', $this->string);
         return $this;
     }
 
     /**
-     * Removes excess whitespace from the start of the string.
-     * Leaves a single space at the start
-     * Leaves the end of the string and between words alone
+     * remove excess whitespace at start of string
+     * leaves all other whitespaces alone
      *
-     * ex: '    hello   world  ' => ' hello   world  '
+     * example: '   hello   world   ' > 'hello   world   '
+     *
+     * @return Twine|StringableTrait
      */
     public function compressStart(): self
     {
-        $this->string = preg_replace('/^\s+/', ' ', $this->string);
-
-        return $this;
-    }
-
-    public function decodeHTML(): self
-    {
-        $this->string = htmlspecialchars($this->string);
-
-        return $this;
-    }
-
-    public function decodeJson(): self
-    {
-        $this->string = json_decode($this->string);
-
-        return $this;
-    }
-
-    public function encodeHTML(): self
-    {
-        $this->string = htmlspecialchars_decode($this->string);
-
-        return $this;
-    }
-
-    public function encodeJson(): self
-    {
-        $this->string = json_encode($this->string);
-
+        $this->string = preg_replace('/^\s+/', '', $this->string);
         return $this;
     }
 
     /**
-     * Lowercases the first character of the string
-     * ex: 'Hello world' => 'hello world'
+     * convert HTML entities to HTML
+     *
+     * example: '&lt;h1&gt;Hello World&lt;/h1&gt;' > '<h1>Hello World</h1>'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function decodeHTML(): self
+    {
+        $this->string = html_entity_decode($this->string);
+        return $this;
+    }
+
+    /**
+     * convert JSON string to array
+     *
+     * example: '{"name":"John","age":30}' > ['name' => 'John', 'age' => 30]
+     *
+     * @return Twine|StringableTrait
+     */
+    public function decodeJson(): self
+    {
+        //TODO: handle array values in Twine object
+        return $this;
+    }
+
+    /**
+     * convert characters to HTML entities
+     *
+     * example: '<h1>Hello World</h1>' > '&lt;h1&gt;Hello World&lt;/h1&gt;'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function encodeHTML(): self
+    {
+        $this->string = htmlentities($this->string);
+        return $this;
+    }
+
+    /**
+     * convert array to JSON string
+     *
+     * example: ['name' => 'John', 'age' => 30] > '{"name":"John","age":30}'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function encodeJson(): self
+    {
+        //TODO: Handle array entities in Twine object
+        return $this;
+    }
+
+    /**
+     * convert first character to lowercase
+     *
+     * example: 'HELLO WORLD' > 'hELLO WORLD'
      *
      * @return Twine|StringableTrait
      */
     public function lcFirst(): self
     {
         $this->string = lcfirst($this->string);
-
         return $this;
     }
 
     /**
-     * Lowercases the last character of the string
-     * ex: 'HELLO WORLD' => 'HELLO WORLd'
+     * convert last character to lowercase
+     *
+     * example: 'HELLO WORLD' > 'HELLO WORLd'
      *
      * @return Twine|StringableTrait
      */
     public function lcLast(): self
     {
-        $this->string = lcfirst(strrev($this->string));
-
+        $this->string = substr($this->string, 0, -1) . strtolower(substr($this->string, -1));
         return $this;
     }
 
     /**
-     * Pads the end of a string with a given substring a
-     * set number of times
-     * ex: 'abcde' > padEnd('+=', 3) => 'abcde+=+=+='
+     * Append and prepend given fill string
+     * to string until n length is reached
      *
+     * example: 'Hi' > padBothEnds(10, '+=') > '+=+=Hi+=+='
+     *
+     * @param int $n
+     * @param string $string
      * @return Twine|StringableTrait
      */
-    public function padEnd(string $pad, int $length = 0): self
+    public function padBothEnds(int $n, string $string): self
     {
-        $this->string = str_pad($this->string, $length, $pad, STR_PAD_RIGHT);
-
+        $this->string = str_pad($this->string, $n, $string, STR_PAD_BOTH);
         return $this;
     }
 
     /**
-     * Pads both ends of a string with a given substring a
-     * set number of times
+     * append fill string to string until
+     * n length is reached
      *
-     * ex: 'abcde' > padEnds('+=', 3) => '+=+=+=abcde+=+=+='
+     * example: 'Hi' > padEnd(10, '+=') > 'Hi+=+=+=+='
      *
+     * @param int $n
+     * @param string $string
      * @return Twine|StringableTrait
      */
-    public function padEnds(string $pad, int $length = 0): self
+    public function padEnd(int $n, string $string): self
     {
-        $this->string = str_pad($this->string, $length, $pad, STR_PAD_BOTH);
-
+        $this->string = str_pad($this->string, $n, $string, STR_PAD_RIGHT);
         return $this;
     }
 
     /**
-     * Pads the start of a string with a given substring a
-     * set number of times
-     * ex: 'abcde' > padStart('+=', 3) => '+=+=+=abcde'
+     * prepend fill string to string until
+     * n length is reached
      *
+     * example: 'Hi' > padStart(10, '+=') > '+=+=+=+=Hi'
+     *
+     * @param int $n
+     * @param string $string
      * @return Twine|StringableTrait
      */
-    public function padStart(string $pad, int $length = 0): self
+    public function padStart(int $n, string $string): self
     {
-        $this->string = str_pad($this->string, $length, $pad, STR_PAD_LEFT);
-
+        $this->string = str_pad($this->string, $n, $string, STR_PAD_LEFT);
         return $this;
     }
 
+    /**
+     * add string to start of string
+     *
+     * example: 'world' > prepend('hello ') > 'hello world'
+     *
+     * @param string $string
+     * @return Twine|StringableTrait
+     */
     public function prepend(string $string): self
     {
-        $this->string = $string.$this->string;
-
+        $this->string = $string . $this->string;
         return $this;
     }
 
     /**
-     * Repeats a string n times, appending it to the end of itself
-     * ex: 'a' > repeat(3) => 'aaa'
-     * ex: 'a' > repeat(3, '-') => 'a-a-a'
+     * repeat string N times with separator
+     * (default is no separator)
      *
+     * example: 'hello' > repeat(3, ' ') > 'hello hello hello'
+     * example: 'hello' > repeat(3) > 'hellohellohello'
+     *
+     * @param int $n
+     * @param string $separator
      * @return Twine|StringableTrait
      */
-    public function repeat(int $times, string $separator = ''): self
+    public function repeat(int $n, string $separator): self
     {
-        $this->string = implode($separator, array_fill(0, $times, $this->string));
-
+        $this->string = str_repeat($this->string . $separator, $n);
         return $this;
     }
 
     /**
-     * Replaces all occurences of a substring with
-     * a new substring.
-     * ex: 'Hello World' > replace('World', 'Universe') => 'Hello Universe'
-     * ex: 'Hello World' > replace('l', '1') => 'He11o Wor1d'
+     * replace all occurrences of substring with replacement
      *
+     * example: 'hello world' > replace('world', 'universe') > 'hello universe'
+     *
+     * @param string $needle
+     * @param string $replacement
      * @return Twine|StringableTrait
      */
-    public function replace(string $search, string $replace): self
+    public function replace(string $needle, string $replacement): self
     {
-        $this->string = str_replace($search, $replace, $this->string);
-
+        $this->string = str_replace($needle, $replacement, $this->string);
         return $this;
     }
 
     /**
-     * Reverses a string
-     * ex: 'Hello World' => 'dlroW olleH'
+     * reverse string
+     *
+     * example: 'hello world' > reverse() > 'dlrow olleh'
      *
      * @return Twine|StringableTrait
      */
     public function reverse(): self
     {
         $this->string = strrev($this->string);
-
         return $this;
     }
 
     /**
-     * Recursively strips a string of all substrings that match the
-     * needles. Each needle is stripped from the string in order.
+     * strip the string of all substrings in array
      *
-     * ex: 'Hello World 123' stripChars(['123', 'll', 'o']) => 'He Wrd'
+     * example: 'abc123' > stripSubstrings(['a', '1']) > 'bc23'
      *
-     * @return StringableTrait
+     * @param string[] $substrings
+     * @return Twine|StringableTrait
      */
-    public function stripChars(array $chars): self
+    public function stripSubstrings(array $substrings): self
     {
-        foreach ($chars as $char) {
-            $this->stripChar($char);
-        }
-
         return $this;
     }
 
     /**
-     * Strips a string of all substrings that match the needle
+     * strip the string all occurrences of substring
      *
-     * ex: 'Hello World 123' strip('123') => 'Hello World '
-     * ex: 'Hello World 123' strip('ll') => 'Heo Word 123'
-     * ex: 'Hello World 123' strip('lo') => 'He Wrd 123'
+     * example: 'abc123' > stripSubstring('a') > 'bc123'
+     * example: 'abc123' > stripSubstring('d') > 'abc123'
      *
-     * @return StringableTrait
+     * @param string $substring
+     * @return Twine|StringableTrait
      */
-    public function stripChar(string $char): self
+    public function stripSubstring(string $substring): self
     {
-        //first, convert the string to an array of single characters
-        $this->string = str_split($this->string);
-        //filter out the needle
-        $this->string = array_filter($this->string, function ($c) use ($char) {
-            return $c !== $char;
-        });
-        //convert back to a string
-        $this->string = implode('', $this->string);
-
-        //return
         return $this;
     }
 
     /**
-     * Removes all instances of the needle from the end of the string
-     * If the needle is null, then assume to strip whitespace.
+     * strip the last "word" of the string
+     * of all occurrences of substring
      *
-     * ex: 'Hello World 123' stripEnd(' 123') => 'Hello World'
+     * example: 'abc123' > stripLastSubstring('3') > 'abc12'
+     * example: 'Hello World' > stripEnd('l') > 'Hello Word'
+     * example: 'Hello World' > stripEnd('ll') > 'Hello World'
      *
-     * @return StringableTrait
+     * @param string $substring
+     * @return Twine|StringableTrait
      */
-    public function stripEnd(string $needle): self
+    public function stripSubstringFromEnd(string $substring): self
     {
-        $this->string = preg_replace('/'.$needle.'$/', '', $this->string);
-
         return $this;
     }
 
+    /**
+     * strip the string of all non-numeric characters
+     *
+     * example: 'abc123!' > stripNonNumeric() > '123'
+     *
+     * @return Twine|StringableTrait
+     */
     public function stripNonNumeric(): self
     {
-        $this->string = preg_replace('/[^0-9]/', '', $this->string);
-
         return $this;
     }
 
     /**
-     * Removes all instances of the needle from the start of the string
+     * strip the string of all numeric characters
      *
-     * ex: 'Hello World 123' stripStart('Hello ') => 'World 123'
+     * example: 'abc123' > stripNumeric() > 'abc'
      *
-     * @return StringableTrait
+     * @return Twine|StringableTrait
      */
-    public function stripStart(string $needle): self
+    public function stripNumeric(): self
     {
-        $this->string = preg_replace('/^'.$needle.'/', '', $this->string);
-
         return $this;
     }
 
     /**
-     * Unlike stripChar, stripSubstr removes all instances of the
-     * substring from the string instead of the character from the
-     * string.
+     * strip the first "word" of the string
+     * of all occurrences of substring
      *
-     * ex: 'Hello World 123' stripSubstr('ll') => 'Heo World 123'
-     * Notice how the 'l' in 'World' is not removed because 'l' != 'll'
+     * example: 'abc123' > stripFirstSubstring('a') > 'bc123'
+     * example: 'Hello World' > stripStart('ll') > 'Heo World'
+     * example: 'Hello World' > stripStart('x') > 'Hello World'
      *
-     * @return StringableTrait
+     * @param string $substring
+     * @return Twine|StringableTrait
      */
-    public function stripSubstring(string $needle): self
+    public function stripSubstringFromStart(string $substring): self
     {
-        $this->string = str_replace($needle, '', $this->string);
-
         return $this;
     }
 
     /**
-     * Given an array of needles, stripSubstrs removes all instances
-     * of each needle from the string in order. Preserves whitespace
+     * strip the string of all alphabetic characters
+     * keeps special characters in the string
      *
-     * ex: 'aa bb cc dd ab ac' stripSubstrs(['aa', 'cc']) => ' bb  dd ab ac'
+     * example: 'abc123!' > stripAlpha() > '123!'
      *
-     * @return StringableTrait
+     * @return Twine|StringableTrait
      */
-    public function stripSubstrings(array $needles): self
+    public function stripAlpha(): self
     {
-        foreach ($needles as $needle) {
-            $this->stripSubstr($needle);
-        }
-
         return $this;
     }
 
+    /**
+     * strip the string of all alphabetic
+     * and numeric characters
+     *
+     * example: 'abc123!' > stripAlphaNumeric() > '!'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function stripAlphaNumeric(): self
+    {
+        return $this;
+    }
+
+    /**
+     * strip the string of all special characters
+     * (non alpha-numeric)
+     *
+     * example: 'abc123!' > stripSpecial() > 'abc123'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function stripSpecial(): self
+    {
+        return $this;
+    }
+
+    /**
+     * strip the string of all whitespace characters
+     * (space, tab, newline, carriage return, vertical tab, form feed)
+     *
+     * example: 'abc 123' > stripWhitespace() > 'abc123'
+     *
+     * @return Twine|StringableTrait
+     */
     public function stripWhitespace(): self
     {
-        $this->string = preg_replace('/\s+/', '', $this->string);
-
         return $this;
     }
 
     /**
-     * Converts a string to camelCase
+     * convert string to camelCase
      *
-     * ex: 'hello world' => 'helloWorld'
+     * example: 'hello world' > toCamelCase() > 'helloWorld'
      *
      * @return Twine|StringableTrait
      */
     public function toCamelCase(): self
     {
-        $this->string = lcfirst($this->toPascalCase()->toString());
-
         return $this;
     }
 
     /**
-     * Converts a string to PascalCase
+     * convert string to PascalCase
      *
-     * ex: 'hello world' => 'HelloWorld'
+     * example: 'hello world' > toPascalCase() > 'HelloWorld'
      *
      * @return Twine|StringableTrait
      */
     public function toPascalCase(): self
     {
-        $this->string = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string)));
-
         return $this;
     }
 
     /**
-     * Converts a string to kebab-case
+     * convert string to snake_case
      *
-     * ex: 'Hello World' => 'hello-world'
-     *
-     * @return Twine|StringableTrait
-     */
-    public function toKebabCase(): self
-    {
-        //first convert to lower case
-        $this->toLowerCase();
-        //then replace spaces with dashes
-        $this->string = preg_replace('/(?<!^)[A-Z]/', '-$0', $this->string);
-
-        //return
-        return $this;
-    }
-
-    /**
-     * Randomly switches characters from upper to lower
-     * and lower to upper. Oft used in memes. No real use.
-     *
-     * ex: 'Programming is fun' => 'pRoGrAMmiNG iS FuN'
-     *
-     * @return StringableTrait
-     */
-    public function toMemeCase(): self
-    {
-        $this->string = implode('', array_map(function ($c) {
-            return rand(0, 1) ? strtoupper($c) : strtolower($c);
-        }, str_split($this->string)));
-
-        return $this;
-    }
-
-    /**
-     * Converts a string to snake_case
-     *
-     * ex: 'Hello World' => 'hello_world'
+     * example: 'hello world' > toSnakeCase() > 'hello_world'
      *
      * @return Twine|StringableTrait
      */
     public function toSnakeCase(): self
     {
-        //first convert to lower case
-        $this->toLowerCase();
-        //then replace spaces with underscores
-        $this->string = str_replace(' ', '_', $this->string);
-
-        //return
         return $this;
     }
 
     /**
-     * Converts all uppercase characters to lowercase
-     * in the string, regardless of position
+     * convert string to kebab-case
      *
-     * ex: 'Hello World' => 'hello world'
+     * example: 'hello world' > toKebabCase() > 'hello-world'
      *
      * @return Twine|StringableTrait
      */
-    public function toLowerCase(): self
+    public function toKebabCase(): self
     {
-        $this->string = strtolower($this->string);
-
         return $this;
     }
 
     /**
-     * Converts a string to UPPERCASE_SNAKE_CASE
-     * ex: 'Hello World' => 'HELLO_WORLD'
+     * convert string to Title Case
      *
-     * @return Twine|StringableTrait
-     */
-    public function toSnakeCaseUC(): self
-    {
-        //first, convert to uppercase
-        $this->toUpperCase();
-        //then replace spaces with underscores
-        $this->string = preg_replace('/(?<!^)[A-Z]/', '_$0', $this->string);
-
-        //return
-        return $this;
-    }
-
-    /**
-     * converts all lowercase characters to uppercase
-     * in the string, regardless of position
-     *
-     * ex: 'Hello World' => 'HELLO WORLD'
-     *
-     * @return Twine|StringableTrait
-     */
-    public function toUpperCase(): self
-    {
-        $this->string = strtoupper($this->string);
-
-        return $this;
-    }
-
-    /**
-     * Converts a string to the english T9 text equivalent
-     * with spaces between each word.
-     * ex: 'Hello World' => '4433555 96753'
-     *
-     * @return Twine|StringableTrait
-     */
-    public function toT9(): self
-    {
-        $this->string = implode(' ', array_map(function ($word) {
-            return implode('', array_map(function ($char) {
-                return array_search($char, self::$T9);
-            }, str_split($word)));
-        }, explode(' ', $this->string)));
-
-        return $this;
-    }
-
-    /**
-     * Converts a string's format to Title Case:
-     *
-     * ex: 'hello world' => 'Hello World'
+     * example: 'hello world' > toTitleCase() > 'Hello World'
      *
      * @return Twine|StringableTrait
      */
     public function toTitleCase(): self
     {
-        $this->string = ucwords($this->string);
-
         return $this;
     }
 
     /**
-     * Removes the first character from the string
+     * convert string to lowercase
      *
-     * ex: 'Hello World' => 'ello World'
+     * example: 'HELLO WORLD' > toLowerCase() > 'hello world'
      *
      * @return Twine|StringableTrait
      */
-    public function trimFirstChar(): self
+    public function toLowerCase(): self
     {
-        $this->string = substr($this->string, 1);
-
         return $this;
     }
 
     /**
-     * Removes the first word from the string.
+     * convert string to UPPERCASE
      *
-     * ex: 'Hello World' => 'World'
+     * example: 'hello world' > toUpperCase() > 'HELLO WORLD'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function toUpperCase(): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert string to SNAKE_CASE
+     *
+     * example: 'hello world' > toSnakeCaseUC() > 'HELLO_WORLD'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function toSnakeCaseUC(): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert string to KEBAB-CASE
+     *
+     * example: 'hello world' > toKebabCaseUC() > 'HELLO-WORLD'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function toKebabCaseUC(): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert string to mEmE cAsE
+     *
+     * example: 'hello world' > toMemeCase() > 'hElLo wOrLd'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function toMemeCase(): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert string to e161 with a pipe char
+     * as a delimiter, since the string 'aa' = 22
+     * but the string 'b' is also 22.
+     *
+     * You can pass in a string argument to use
+     * as a custom delimiter
+     *
+     * example: 'Hello' > toE161() > '44|33|555|555|666'
+     * @return Twine|StringableTrait
+     */
+    public function toE161(): self
+    {
+        return $this;
+    }
+
+    /**
+     * remove whitespace from beginning and end of string
+     *
+     * example: '   hello   world   ' > trim() > 'hello   world'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function trim(): self
+    {
+        $this->string = trim($this->string);
+        return $this;
+    }
+
+    /**
+     * remove whitespace from end of string
+     *
+     * example: '   hello   world   ' > trimEnd() > '   hello   world'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function trimEnd(): self
+    {
+        return $this;
+    }
+
+    /**
+     * remove whitespace from beginning of string
+     *
+     * example: '   hello   world   ' > trimStart() > 'hello   world   '
+     *
+     * @return Twine|StringableTrait
+     */
+    public function trimStart(): self
+    {
+        return $this;
+    }
+
+    /**
+     * remove first word from string
+     *
+     * example: 'Hello world and universe!' > trimFirstWord() > 'world and universe!'
      *
      * @return Twine|StringableTrait
      */
     public function trimFirstWord(): self
     {
-        //split string into words
-        $words = $this->splitWords();
-        //remove first element
-        array_shift($words);
-        $this->string = implode(' ', $words);
-
         return $this;
     }
 
     /**
-     * Removes the last character from the string
+     * remove last word from string
      *
-     * ex: 'Hello World' => 'Hello Worl'
-     *
-     * @return Twine|StringableTrait
-     */
-    public function trimLastChar(): self
-    {
-        $this->string = substr($this->string, 0, -1);
-
-        return $this;
-    }
-
-    /**
-     * Removes the last word from the string.
-     * Trims whitespace when concatenating the
-     * remaining words back together.
-     *
-     * ex: 'Hello World' => 'Hello'
+     * example: 'Hello world and universe!' > trimLastWord() > 'Hello world and'
      *
      * @return Twine|StringableTrait
      */
     public function trimLastWord(): self
     {
-        //split string into words
-        $words = $this->splitWords();
-        //remove last element
-        array_pop($words);
-        $this->string = implode(' ', $words);
-
         return $this;
     }
 
     /**
-     * Trims a given substring from the end of the string. If the
-     * substring does not exist, the string is left unchanged
+     * remove first and last word from string
      *
-     * ex: 'Hello World' > trimSubstrFromEnd(' World') => 'Hello'
-     * ex: 'Hello World' > trimSubstrFromEnd(' Universe') => 'Hello World'
+     * example: 'Hello world and universe!' > trimBothEndWords() > 'world and'
      *
      * @return Twine|StringableTrait
      */
-    public function trimSubstrFromEnd(string $needle = null): self
+    public function trimFirstAndLastWords(): self
     {
-        $this->string = rtrim($this->string, $needle);
-
         return $this;
     }
 
     /**
-     * Trims a given substring from the start and end of the string.
-     * If the substring does not exist at those positions,
-     * the string is left unchanged
+     * remove first character from string
      *
-     * ex: 'abcdefga' > trimSubstrFromEnds('a') => 'bcdefg'
-     * ex: 'abcdefga' > trimSubstrFromEnds('howdy') => 'abcdefga'
+     * example: 'Hello' > trimFirstChar() > 'ello'
      *
      * @return Twine|StringableTrait
      */
-    public function trimSubstrFromEnds(string $needle = null): self
+    public function trimFirstChar(): self
     {
-        $this->string = trim($this->string, $needle);
-
         return $this;
     }
 
     /**
-     * Removes the given substring from the start of the string if
-     * it exists. If the substring does not exist, the string is
-     * left unchanged
+     * remove last character from string
      *
-     * ex: 'Hello World' > trimSubstrFromStart('Hello ') => 'World'
-     * ex: 'Hello World' > trimSubstrFromStart('Goodbye ') => 'Hello World'
+     * example: 'Hello' > trimLastChar() > 'Hell'
      *
      * @return Twine|StringableTrait
      */
-    public function trimSubstrFromStart(string $needle = null): self
+    public function trimLastChar(): self
     {
-        $this->string = ltrim($this->string, $needle);
-
         return $this;
     }
 
     /**
-     * Capitalizes the first character of the string
-     * ex: 'hello world' => 'Hello world'
+     * remove first and last character from string
+     *
+     * example: 'Hello' > trimBothEndChars() > 'ell'
+     *
+     * @return Twine|StringableTrait
+     */
+    public function trimFirstAndLastChar(): self
+    {
+        return $this;
+    }
+
+    /**
+     * remove the substring from the first occurrence of the string
+     * but leave all other occurrences of the substring alone
+     *
+     * example: 'abc123abc123' > trimSubstring('abc') > '123abc123'
+     * example: 'a ab ac ad ae af' > trimSubstring('a') > ' ab ac ad ae af'
+     *
+     * @param string $substring
+     * @return Twine|StringableTrait
+     */
+    public function trimSubstringFromStart(string $substring): self
+    {
+        return $this;
+    }
+
+    /**
+     * remove the substring from the last occurrence of the string
+     *
+     * example: 'abc123abc123' > trimSubstringFromEnd('abc') > 'abc123123'
+     * example: 'a ab ac ad ae af' > trimSubstringFromEnd('a') > 'a ab ac ad ae f'
+     *
+     * @param string $substring
+     * @return Twine|StringableTrait
+     */
+    public function trimSubstringFromEnd(string $substring): self
+    {
+        return $this;
+    }
+
+    /**
+     * remove the substring from the first and last occurrence of the string
+     *
+     * example: 'abc123abc123' > trimSubstringFromBothEnds('abc') > '123123'
+     * example: 'a ab ac ad ae af' > trimSubstringFromBothEnds('a') > ' ab ac ad ae f'
+     *
+     * @param string $substring
+     * @return Twine|StringableTrait
+     */
+    public function trimSubstringFromStartAndEnd(string $substring): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert first character to uppercase
+     *
+     * example: 'hello world' > ucFirst() > 'Hello world'
      *
      * @return Twine|StringableTrait
      */
     public function ucFirst(): self
     {
-        $this->string = ucfirst($this->string);
-
         return $this;
     }
 
     /**
-     * Capitalizes the last character of the string
-     * ex: 'hello world' => 'hello worlD'
+     * convert last character to uppercase
+     *
+     * example: 'hello world' > ucLast() > 'hello worlD'
      *
      * @return Twine|StringableTrait
      */
     public function ucLast(): self
     {
-        $this->string = ucfirst(strrev($this->string));
+        return $this;
+    }
 
+    /**
+     * convert Nth character to uppercase
+     * If the nth character is out of the string's
+     * bounds, nothing happens and the string is
+     * returned as is.
+     *
+     * example: 'hello world' > ucNth(3) > 'helLo world'
+     *
+     * @param int $n
+     * @return Twine|StringableTrait
+     */
+    public function ucNth(int $n): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert Nth character to lowercase
+     * If the nth character is out of the string's
+     * bounds, nothing happens and the string is
+     * returned as is.
+     *
+     * example: 'HELLO WORLD' > lcNth(3) > 'HELlO WORLD'
+     *
+     * @param int $n
+     * @return Twine|StringableTrait
+     */
+    public function lcNth(int $n): self
+    {
+        return $this;
+    }
+
+    /**
+     * convert the string to a URL friendly slug.
+     * Most often uses the '-' as a separator
+     * Optional argument to use a different separator.
+     * If the separator is not url-safe (i.e. it's not a letter, number, underscore, or dash)
+     * then the separator is replaced with a dash.
+     *
+     * example: 'Hello World' > toSlug() > 'hello-world'
+     * example: 'Hello World' > toSlug('G') > 'helloGworld'
+     * example: 'Hello World' > toSlug('_') > 'hello_world'
+     *
+     * @param string $separator
+     * @return Twine|StringableTrait
+     */
+    public function toSlug(string $separator): self
+    {
+        return $this;
+    }
+
+    /**
+     * swap a substring for a substring in a string using strstr.
+     * Accepts an array of substrings to swap and their values
+     *
+     * example: 'Hello World' > swap(['Hello' => 'Goodbye']) > 'Goodbye World'
+     * example: 'Hello World' > swap(['Hello' => 'Goodbye', 'World' => 'Universe']) > 'Goodbye Universe'
+     *
+     * @param array $swaps
+     * @return Twine|StringableTrait
+     */
+    public function swap(array $swaps): self
+    {
+        return $this;
+    }
+
+    /**
+     * return the substring before the first occurrence of the string
+     *
+     * example: 'Hello World' > before('World') > 'Hello '
+     *
+     * @param string $delimiter
+     * @return Twine|StringableTrait
+     */
+    public function before(string $delimiter): self
+    {
+        return $this;
+    }
+
+    /**
+     * return the substring after the first occurrence of the string
+     *
+     * example: 'Hello World' > after('Hello') > ' World'
+     *
+     * @param string $delimiter
+     * @return Twine|StringableTrait
+     */
+    public function after(string $delimiter): self
+    {
+        return $this;
+    }
+
+    /**
+     * return the substring between the first occurrence of the first string
+     * and the first occurrence of the second string
+     *
+     * example: 'Hello World' > between('H', 'd') > 'ello Worl'
+     *
+     * @param string $start
+     * @param string $end
+     * @return Twine|StringableTrait
+     */
+    public function between(string $start, string $end): self
+    {
+        return $this;
+    }
+
+    /**
+     * return the substring between the last occurrence of the
+     * first string and the last occurrence of the second string
+     *
+     * example: 'Hello World' > betweenLast('l', 'l') > 'o Wor'
+     *
+     * @param string $start
+     * @param string $end
+     * @return Twine|StringableTrait
+     */
+    public function betweenLast(string $start, string $end): self
+    {
+        return $this;
+    }
+
+    /**
+     * return the substring before the last occurrence of the string
+     *
+     * example: 'Hello World' > beforeLast('l') > 'Hello Wor'
+     *
+     * @param string $delimiter
+     * @return Twine|StringableTrait
+     */
+    public function beforeLast(string $delimiter): self
+    {
+        return $this;
+    }
+
+    /**
+     * mask the string with a character or substring.
+     * Accepts an optional start and end position to mask
+     * Also accepts a second optional making character
+     *
+     * example: 'Hello World' > mask() > '***********'
+     * example: 'Hello World' > mask(1, 3) > 'H***o World'
+     * example: 'Hello World' > mask(1, 3, 'x') > 'Hxxxo World'
+     *
+     * @param int|null $start
+     * @param int|null $end
+     * @param string $maskChar
+     * @return Twine|StringableTrait
+     */
+    public function mask(?int $start = 0, ?int $end = null, ?string $maskChar = '*'): self
+    {
+        return $this;
+    }
+
+    /**
+     * Mask the string before a given substring
+     * Accepts an optional making character
+     *
+     * example: 'email@website.com' > maskBefore('@') > "*****@website.com"
+     *
+     * @param string $delimiter
+     * @param string|null $maskChar
+     * @return Twine|StringableTrait
+     */
+    public function maskBefore(string $delimiter, ?string $maskChar = '*'): self
+    {
+        return $this;
+    }
+
+    /**
+     * Mask the string after a given substring
+     * Accepts an optional making character
+     *
+     * example: 'email@website.com' > maskAfter('.') > "email@website.***"
+     * @param string $delimiter
+     * @param string|null $maskChar
+     * @return Twine|StringableTrait
+     */
+    public function maskAfter(string $delimiter, ?string $maskChar = '*'): self
+    {
+        return $this;
+    }
+
+    /**
+     * limit the string to a certain number of characters.
+     * Accepts an optional ending character or substring
+     *
+     * example: 'Some long text' > limit(9) > 'Some long'
+     * example: 'Some long text' > limit(9, '...') > 'Some long...'
+     *
+     * @param int $limit
+     * @param string|null $end
+     * @return Twine|StringableTrait
+     */
+    public function limit(int $limit, ?string $end = ''): self
+    {
         return $this;
     }
 }
