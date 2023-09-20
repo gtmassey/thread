@@ -364,6 +364,4 @@ class StringableTraitTest extends TestCase
         $string = new Twine('Good Morning America!');
         $this->assertEquals('Morning', $string->trimFirstAndLastWords()->toString());
     }
-
-
 }
