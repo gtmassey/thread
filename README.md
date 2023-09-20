@@ -4,7 +4,13 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/twine/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/twine/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
 
-A framework-agnostic helper library for easily manipulating Strings in PHP. Never slog through the php string function docs again!
+A framework-agnostic, OOP-centered approach for easily manipulating strings in PHP. 
+
+Never slog through the php string function docs again!
+
+PHP comes with a lot of built-in functions for manipulating strings, but they are not very intuitive to use, and the naming conventions are... bad.
+
+Inspired by the [Laravel String](https://laravel.com/docs/10.x/strings) helper class, Twine.php is a framework-agnostic, OOP-centered approach for easily manipulating strings in PHP. No more calling random functions with random arguments and hoping for the best. Instead, convert your strings to a Twine object and manipulate them by chaining functions in an elegant and fluent way.
 
 ## Installation
 
