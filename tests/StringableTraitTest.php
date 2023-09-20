@@ -169,6 +169,4 @@ class StringableTraitTest extends TestCase
         $string = new Twine('1111');
         $this->assertEquals('1111', $string->stripNonNumeric()->toString());
     }
-
-
 }
