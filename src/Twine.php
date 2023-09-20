@@ -11,6 +11,18 @@ class Twine
      */
     protected ?string $string = '';
 
+    //each character in the string is an element in the array
+    protected array $chars = [];
+
+    //splitting the string by whitespace
+    protected array $words = [];
+
+    //sequences are arrays of strings that are split
+    //from the original string based on a delimiter
+    //it could be a period and space ". " or a comma and space ", "
+    //or any other delimiter.
+    protected array $sequences = [];
+
     /*
      |--------------------------------------------------------------------------
      | CONSTRUCTORS

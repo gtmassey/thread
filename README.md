@@ -4,7 +4,7 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/twine/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/twine/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
 
-A framework-agnostic, OOP-centered approach for easily manipulating strings in PHP. 
+Object-Oriented string manipulation for PHP.
 
 Never slog through the php string function docs again!
 
@@ -104,7 +104,7 @@ $string->stripWhitespace()->stripChar('o');
 //example: manipulating phone number string:
 $phoneNumber = Twine::from('+1 (123) 456-7890 x123');
 $phone = $phoneNumber->splitOn('x')[0];
-//"+1 (123) 456-7890"
+//"+1 (123) 456-7890 "
 $extension = $phoneNumber->splitOn('x')[1];
 //"123"
 $phone->stripNonNumeric()->stripWhitespace()->toString();
@@ -128,10 +128,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
