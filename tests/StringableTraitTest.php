@@ -130,6 +130,4 @@ class StringableTraitTest extends TestCase
 
         $this->assertEquals('dlroW olleH', $string->reverse()->toString());
     }
-
-
 }
