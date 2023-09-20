@@ -130,4 +130,45 @@ class StringableTraitTest extends TestCase
 
         $this->assertEquals('dlroW olleH', $string->reverse()->toString());
     }
+
+    public function testStripSubstrings(): void
+    {
+        $string = new Twine('foo foobar foobaz foobar foobaz');
+
+        $this->assertEquals('foo foo foo foo foo', $string->stripSubstrings(['bar', 'baz'])->toString());
+
+        $string = new Twine('abc123');
+
+        $this->assertEquals('bc23', $string->stripSubstrings(['a', '1'])->toString());
+    }
+
+    public function testStripSubstring(): void
+    {
+        $string = new Twine('Hello World');
+
+        $this->assertEquals('Hello', $string->stripSubstring(' World')->toString());
+    }
+
+    public function testStripSubstringFromEnd(): void
+    {
+        $a = new Twine('abc123');
+        $b = new Twine('Hello World');
+        $c = new Twine('Hello World');
+
+        $this->assertEquals('abc12', $a->stripSubstringFromEnd('3')->toString());
+        $this->assertEquals('Hello Wrld', $b->stripSubstringFromEnd('o')->toString());
+        $this->assertEquals('Hello World', $c->stripSubstringFromEnd('ll')->toString());
+        $this->assertEquals('Hello World', $c->stripSubstringFromEnd('x')->toString());
+    }
+
+    public function testStripNonNumeric(): void
+    {
+        $string = new Twine('abc123!');
+        $this->assertEquals('123', $string->stripNonNumeric()->toString());
+
+        $string = new Twine('1111');
+        $this->assertEquals('1111', $string->stripNonNumeric()->toString());
+    }
+
+
 }
