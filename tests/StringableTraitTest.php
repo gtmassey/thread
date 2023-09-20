@@ -169,4 +169,201 @@ class StringableTraitTest extends TestCase
         $string = new Twine('1111');
         $this->assertEquals('1111', $string->stripNonNumeric()->toString());
     }
+
+    public function testStripNumeric(): void
+    {
+        $string = new Twine('abc123!');
+        $this->assertEquals('abc!', $string->stripNumeric()->toString());
+
+        $string = new Twine('1111');
+        $this->assertEquals('', $string->stripNumeric()->toString());
+    }
+
+    public function testStripSubstringFromStart(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals(' World', $string->stripSubstringFromStart('Hello')->toString());
+
+        $string = new Twine('Hello World');
+        $this->assertEquals('Hello World', $string->stripSubstringFromStart('Goodbye')->toString());
+    }
+
+    public function testStripAlpha(): void
+    {
+        $string = new Twine('abc123!');
+        $this->assertEquals('123!', $string->stripAlpha()->toString());
+
+        $string = new Twine('1111');
+        $this->assertEquals('1111', $string->stripAlpha()->toString());
+
+        $string = new Twine('abc');
+        $this->assertEquals('', $string->stripAlpha()->toString());
+    }
+
+    public function testStripAlphaNumeric(): void
+    {
+        $string = new Twine('abc123!');
+        $this->assertEquals('!', $string->stripAlphaNumeric()->toString());
+
+        $string = new Twine('1111');
+        $this->assertEquals('', $string->stripAlphaNumeric()->toString());
+
+        $string = new Twine('abc');
+        $this->assertEquals('', $string->stripAlphaNumeric()->toString());
+
+        $string = new Twine('!!!');
+        $this->assertEquals('!!!', $string->stripAlphaNumeric()->toString());
+    }
+
+    public function stripSpecial(): void
+    {
+        $string = new Twine('abc123!');
+        $this->assertEquals('abc123', $string->stripSpecial()->toString());
+
+        $string = new Twine('1111');
+        $this->assertEquals('1111', $string->stripSpecial()->toString());
+
+        $string = new Twine('abc');
+        $this->assertEquals('abc', $string->stripSpecial()->toString());
+
+        $string = new Twine('!!!');
+        $this->assertEquals('', $string->stripSpecial()->toString());
+    }
+
+    public function testStripWhitespace(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('HelloWorld', $string->stripWhitespace()->toString());
+
+        $string = new Twine("\nHello World");
+        $this->assertEquals('HelloWorld', $string->stripWhitespace()->toString());
+
+        $string = new Twine("\tHello World");
+        $this->assertEquals('HelloWorld', $string->stripWhitespace()->toString());
+
+        $string = new Twine("\rHello World");
+        $this->assertEquals('HelloWorld', $string->stripWhitespace()->toString());
+    }
+
+    public function testCamelCase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('helloWorld', $string->toCamelCase()->toString());
+
+        $string = new Twine('This is my Class Name');
+        $this->assertEquals('thisIsMyClassName', $string->toCamelCase()->toString());
+    }
+
+    public function testPascalCase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('HelloWorld', $string->toPascalCase()->toString());
+
+        $string = new Twine('This is my Class Name');
+        $this->assertEquals('ThisIsMyClassName', $string->toPascalCase()->toString());
+    }
+
+    public function testSnakeCase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('hello_world', $string->toSnakeCase()->toString());
+
+        $string = new Twine('This is my Class Name');
+        $this->assertEquals('this_is_my_class_name', $string->toSnakeCase()->toString());
+    }
+
+    public function testKebabCase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('hello-world', $string->toKebabCase()->toString());
+
+        $string = new Twine('This is my Class Name');
+        $this->assertEquals('this-is-my-class-name', $string->toKebabCase()->toString());
+    }
+
+    public function testTitleCase(): void
+    {
+        $string = new Twine('hello world');
+        $this->assertEquals('Hello World', $string->toTitleCase()->toString());
+
+        $string = new Twine('this is my class name');
+        $this->assertEquals('This Is My Class Name', $string->toTitleCase()->toString());
+    }
+
+    public function testToLowercase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('hello world', $string->toLowerCase()->toString());
+    }
+
+    public function testToUpperCase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('HELLO WORLD', $string->toUpperCase()->toString());
+    }
+
+    public function testToSnakeUC(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('HELLO_WORLD', $string->toSnakeCaseUC()->toString());
+    }
+
+    public function testToKebabUC(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('HELLO-WORLD', $string->toKebabCaseUC()->toString());
+    }
+
+    public function testMemeCase(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertNotEquals('Hello World', $string->toMemeCase()->toString());
+    }
+
+    public function testToE161(): void
+    {
+        $string = new Twine('Hello');
+        $this->assertEquals('44|33|555|555|666', $string->toE161()->toString());
+
+        $string = new Twine('Hello');
+        $this->assertEquals('44-33-555-555-666', $string->toE161('-')->toString());
+    }
+
+    public function testTrim(): void
+    {
+        $string = new Twine(' Hello World ');
+        $this->assertEquals('Hello World', $string->trim()->toString());
+    }
+
+    public function testTrimEnd(): void
+    {
+        $string = new Twine(' Hello World ');
+        $this->assertEquals(' Hello World', $string->trimEnd()->toString());
+    }
+
+    public function testTrimStart(): void
+    {
+        $string = new Twine(' Hello World ');
+        $this->assertEquals('Hello World ', $string->trimStart()->toString());
+    }
+
+    public function testTrimFirstWord(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('World', $string->trimFirstWord()->toString());
+    }
+
+    public function testTrimLastWord(): void
+    {
+        $string = new Twine('Hello World');
+        $this->assertEquals('Hello', $string->trimLastWord()->toString());
+    }
+
+    public function testTrimFirstAndLastWords(): void
+    {
+        $string = new Twine('Good Morning America!');
+        $this->assertEquals('Morning', $string->trimFirstAndLastWords()->toString());
+    }
+
+
 }
