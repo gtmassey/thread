@@ -6,34 +6,24 @@ use Gtmassey\Twine\Twine;
 
 trait StringableTrait
 {
+    /**
+     * @var array|string[]
+     */
     public static array $e161 = [
-        'a' => '2',
-        'b' => '22',
-        'c' => '222',
-        'd' => '3',
-        'e' => '33',
-        'f' => '333',
-        'g' => '4',
-        'h' => '44',
-        'i' => '444',
-        'j' => '5',
-        'k' => '55',
-        'l' => '555',
-        'm' => '6',
-        'n' => '66',
-        'o' => '666',
-        'p' => '7',
-        'q' => '77',
-        'r' => '777',
-        's' => '7777',
-        't' => '8',
-        'u' => '88',
-        'v' => '888',
-        'w' => '9',
-        'x' => '99',
-        'y' => '999',
-        'z' => '9999',
-        ' ' => '0',
+        'a' => '2',     'b' => '22',
+        'c' => '222',   'd' => '3',
+        'e' => '33',    'f' => '333',
+        'g' => '4',     'h' => '44',
+        'i' => '444',   'j' => '5',
+        'k' => '55',    'l' => '555',
+        'm' => '6',     'n' => '66',
+        'o' => '666',   'p' => '7',
+        'q' => '77',    'r' => '777',
+        's' => '7777',  't' => '8',
+        'u' => '88',    'v' => '888',
+        'w' => '9',     'x' => '99',
+        'y' => '999',   'z' => '9999',
+        ' ' => '0',     '.' => '00',
     ];
 
     /**
@@ -63,7 +53,7 @@ trait StringableTrait
      */
     public function compress(): Twine
     {
-        $this->string = preg_replace('/\s+/', ' ', $this->string ?? '');
+        $this->string = preg_replace('/\s+/', ' ', $this->string) ?? '';
 
         return $this->trim();
     }
@@ -79,7 +69,7 @@ trait StringableTrait
      */
     public function compressBetween(): Twine
     {
-        $this->string = preg_replace('/(?<=\S)\s+(?=\S)/', ' ', $this->string ?? '');
+        $this->string = preg_replace('/(?<=\S)\s+(?=\S)/', ' ', $this->string) ?? '';
 
         return $this;
     }
@@ -94,7 +84,7 @@ trait StringableTrait
      */
     public function compressEnd(): Twine
     {
-        $this->string = rtrim($this->string ?? '');
+        $this->string = rtrim($this->string);
 
         return $this;
     }
@@ -109,7 +99,7 @@ trait StringableTrait
      */
     public function compressStart(): Twine
     {
-        $this->string = ltrim($this->string ?? '');
+        $this->string = ltrim($this->string);
 
         return $this;
     }
@@ -123,7 +113,7 @@ trait StringableTrait
      */
     public function decodeHTML(): Twine
     {
-        $this->string = html_entity_decode($this->string ?? '');
+        $this->string = html_entity_decode($this->string);
 
         return $this;
     }
@@ -150,7 +140,7 @@ trait StringableTrait
      */
     public function encodeHTML(): Twine
     {
-        $this->string = htmlentities($this->string ?? '');
+        $this->string = htmlentities($this->string);
 
         return $this;
     }
@@ -177,7 +167,7 @@ trait StringableTrait
      */
     public function lcFirst(): Twine
     {
-        $this->string = lcfirst($this->string ?? '');
+        $this->string = lcfirst($this->string);
 
         return $this;
     }
@@ -191,7 +181,7 @@ trait StringableTrait
      */
     public function lcLast(): Twine
     {
-        $this->string = substr($this->string ?? '', 0, -1).strtolower(substr($this->string ?? '', -1));
+        $this->string = substr($this->string, 0, -1).strtolower(substr($this->string, -1));
 
         return $this;
     }
@@ -208,7 +198,7 @@ trait StringableTrait
      */
     public function padBothEnds(int $n, string $string): Twine
     {
-        $this->string = str_pad($this->string ?? '', $n, $string, STR_PAD_BOTH);
+        $this->string = str_pad($this->string, $n, $string, STR_PAD_BOTH);
 
         return $this;
     }
@@ -225,7 +215,7 @@ trait StringableTrait
      */
     public function padEnd(int $n, string $string): Twine
     {
-        $this->string = str_pad($this->string ?? '', $n, $string);
+        $this->string = str_pad($this->string, $n, $string);
 
         return $this;
     }
@@ -242,7 +232,7 @@ trait StringableTrait
      */
     public function padStart(int $n, string $string): Twine
     {
-        $this->string = str_pad($this->string ?? '', $n, $string, STR_PAD_LEFT);
+        $this->string = str_pad($this->string, $n, $string, STR_PAD_LEFT);
 
         return $this;
     }
@@ -291,7 +281,7 @@ trait StringableTrait
      */
     public function replace(string $needle, string $replacement): Twine
     {
-        $this->string = str_replace($needle, $replacement, $this->string ?? '');
+        $this->string = str_replace($needle, $replacement, $this->string);
 
         return $this;
     }
@@ -305,7 +295,7 @@ trait StringableTrait
      */
     public function reverse(): Twine
     {
-        $this->string = strrev($this->string ?? '');
+        $this->string = strrev($this->string);
 
         return $this;
     }
@@ -322,7 +312,7 @@ trait StringableTrait
     {
         //strip a string of the given substrings
         foreach ($substrings as $substring) {
-            $this->string = str_replace($substring, '', $this->string ?? '');
+            $this->string = str_replace($substring, '', $this->string);
         }
 
         return $this;
@@ -339,7 +329,7 @@ trait StringableTrait
      */
     public function stripSubstring(string $substring): Twine
     {
-        $this->string = str_replace($substring, '', $this->string ?? '');
+        $this->string = str_replace($substring, '', $this->string);
 
         return $this;
     }
@@ -376,7 +366,7 @@ trait StringableTrait
      */
     public function stripNonNumeric(): Twine
     {
-        $this->string = preg_replace('/[^0-9]/', '', $this->string ?? '');
+        $this->string = preg_replace('/[^0-9]/', '', $this->string) ?? '';
 
         return $this;
     }
@@ -390,7 +380,7 @@ trait StringableTrait
      */
     public function stripNumeric(): Twine
     {
-        $this->string = preg_replace('/[0-9]/', '', $this->string ?? '');
+        $this->string = preg_replace('/[0-9]/', '', $this->string) ?? '';
 
         return $this;
     }
@@ -430,7 +420,7 @@ trait StringableTrait
      */
     public function stripAlpha(): Twine
     {
-        $this->string = preg_replace('/[a-zA-Z]+/', '', $this->string ?? '');
+        $this->string = preg_replace('/[a-zA-Z]+/', '', $this->string) ?? '';
 
         return $this;
     }
@@ -445,7 +435,7 @@ trait StringableTrait
      */
     public function stripAlphaNumeric(): Twine
     {
-        $this->string = preg_replace('/[a-zA-Z0-9]+/', '', $this->string ?? '');
+        $this->string = preg_replace('/[a-zA-Z0-9]+/', '', $this->string) ?? '';
 
         return $this;
     }
@@ -460,7 +450,7 @@ trait StringableTrait
      */
     public function stripSpecial(): Twine
     {
-        $this->string = preg_replace('/[^A-Za-z0-9]/', '', $this->string ?? '');
+        $this->string = preg_replace('/[^A-Za-z0-9]/', '', $this->string) ?? '';
 
         return $this;
     }
@@ -475,7 +465,7 @@ trait StringableTrait
      */
     public function stripWhitespace(): Twine
     {
-        $this->string = preg_replace('/\s+/', '', $this->string ?? '');
+        $this->string = preg_replace('/\s+/', '', $this->string) ?? '';
 
         return $this;
     }
@@ -489,7 +479,7 @@ trait StringableTrait
      */
     public function toCamelCase(): Twine
     {
-        $this->string = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string ?? ''))));
+        $this->string = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string))));
 
         return $this;
     }
@@ -503,7 +493,7 @@ trait StringableTrait
      */
     public function toPascalCase(): Twine
     {
-        $this->string = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string ?? '')));
+        $this->string = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string)));
 
         return $this;
     }
@@ -518,10 +508,10 @@ trait StringableTrait
     public function toSnakeCase(): Twine
     {
         // Remove special characters and convert spaces to underscores
-        $snake_string = preg_replace('/[^a-zA-Z0-9]+/', '_', $this->string ?? '');
+        $snake_string = preg_replace('/[^a-zA-Z0-9]+/', '_', $this->string);
 
         // Convert to lowercase
-        $snake_string = strtolower($snake_string);
+        $snake_string = strtolower($snake_string ?? '');
 
         // Trim underscores from the beginning and end
         $this->string = trim($snake_string, '_');
@@ -539,9 +529,9 @@ trait StringableTrait
     public function toKebabCase(): Twine
     {
         //remove special chars and add dash delimiter
-        $kebab = preg_replace('/[^A-Za-z0-9]/', '-', $this->string ?? '');
+        $kebab = preg_replace('/[^A-Za-z0-9]/', '-', $this->string);
         //convert to lowercase
-        $kebab = strtolower($kebab);
+        $kebab = strtolower($kebab ?? '');
         //trim dash from ends
         $kebab = trim($kebab, '-');
         //set string
@@ -561,7 +551,7 @@ trait StringableTrait
      */
     public function toTitleCase(): Twine
     {
-        $this->string = ucwords($this->string ?? '');
+        $this->string = ucwords($this->string);
 
         return $this;
     }
@@ -575,7 +565,7 @@ trait StringableTrait
      */
     public function toLowerCase(): Twine
     {
-        $this->string = strtolower($this->string ?? '');
+        $this->string = strtolower($this->string);
 
         return $this;
     }
@@ -589,7 +579,7 @@ trait StringableTrait
      */
     public function toUpperCase(): Twine
     {
-        $this->string = strtoupper($this->string ?? '');
+        $this->string = strtoupper($this->string);
 
         return $this;
     }
@@ -633,7 +623,7 @@ trait StringableTrait
      */
     public function toMemeCase(): Twine
     {
-        $arr = str_split($this->string ?? '');
+        $arr = str_split($this->string);
         foreach ($arr as $key => $char) {
             if (rand(0, 1) == 1) {
                 $arr[$key] = strtoupper($char);
@@ -661,11 +651,11 @@ trait StringableTrait
     public function toE161(?string $delimiter = '|'): Twine
     {
         $this->toLowerCase();
-        $arr = str_split($this->string ?? '');
+        $arr = str_split($this->string);
         foreach ($arr as $key => $char) {
             $arr[$key] = self::$e161[$char];
         }
-        $this->string = implode($delimiter, $arr);
+        $this->string = implode($delimiter ?? '', $arr);
 
         return $this;
     }
@@ -679,7 +669,7 @@ trait StringableTrait
      */
     public function trim(): Twine
     {
-        $this->string = trim($this->string ?? '');
+        $this->string = trim($this->string);
 
         return $this;
     }
@@ -693,7 +683,7 @@ trait StringableTrait
      */
     public function trimEnd(): Twine
     {
-        $this->string = rtrim($this->string ?? '');
+        $this->string = rtrim($this->string);
 
         return $this;
     }
@@ -707,7 +697,7 @@ trait StringableTrait
      */
     public function trimStart(): Twine
     {
-        $this->string = ltrim($this->string ?? '');
+        $this->string = ltrim($this->string);
 
         return $this;
     }
@@ -721,7 +711,7 @@ trait StringableTrait
      */
     public function trimFirstWord(): Twine
     {
-        $arr = explode(' ', $this->string ?? '');
+        $arr = explode(' ', $this->string);
         array_shift($arr);
         $this->string = implode(' ', $arr);
 
@@ -737,7 +727,7 @@ trait StringableTrait
      */
     public function trimLastWord(): Twine
     {
-        $arr = explode(' ', $this->string ?? '');
+        $arr = explode(' ', $this->string);
         array_pop($arr);
         $this->string = implode(' ', $arr);
 
@@ -753,7 +743,7 @@ trait StringableTrait
      */
     public function trimFirstAndLastWords(): Twine
     {
-        $arr = explode(' ', $this->string ?? '');
+        $arr = explode(' ', $this->string);
         array_shift($arr);
         array_pop($arr);
         $this->string = implode(' ', $arr);
