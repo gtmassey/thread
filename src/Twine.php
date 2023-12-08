@@ -4,8 +4,60 @@ namespace Gtmassey\Twine;
 
 class Twine
 {
-    use Traits\StringableTrait;
 
+    /*
+     |--------------------------------------------------------------------------
+     | TRAITS
+     |--------------------------------------------------------------------------
+     */
+    use Traits\Analyzer;
+    use Traits\Caser;
+    use Traits\Counter;
+    use Traits\Decoder;
+    use Traits\Encoder;
+    use Traits\Mutator;
+    use Traits\Searcher;
+    use Traits\Spacer;
+    use Traits\Splitter;
+    use Traits\Threader;
+    use Traits\Trimmer;
+
+
+    /*
+     |--------------------------------------------------------------------------
+     | CONSTANTS
+     |--------------------------------------------------------------------------
+     */
+    const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+    const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const DIGITS = '0123456789';
+    const HEX_LOWER = '0123456789abcdef';
+    const HEX_UPPER = '0123456789ABCDEF';
+    const BINARY = '01';
+    const BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    const OCTAL = '01234567';
+    const E161 = [
+        'a' => '2', 'b' => '22',
+        'c' => '222', 'd' => '3',
+        'e' => '33', 'f' => '333',
+        'g' => '4', 'h' => '44',
+        'i' => '444', 'j' => '5',
+        'k' => '55', 'l' => '555',
+        'm' => '6', 'n' => '66',
+        'o' => '666', 'p' => '7',
+        'q' => '77', 'r' => '777',
+        's' => '7777', 't' => '8',
+        'u' => '88', 'v' => '888',
+        'w' => '9', 'x' => '99',
+        'y' => '999', 'z' => '9999',
+        ' ' => '0', '.' => '00',
+    ];
+
+    /*
+     |--------------------------------------------------------------------------
+     | PROPERTIES
+     |--------------------------------------------------------------------------
+     */
     /**
      * The string value
      *
@@ -14,28 +66,18 @@ class Twine
     protected string $string = '';
 
     /**
-     * The characters of the string as an array
+     * The encoded string value
      *
-     * @var string[]
+     * @var string
      */
-    protected array $chars = [];
+    protected string $encodedString = '';
 
-    /**
-     * The words of the string as an array
-     *
-     * @var string[]
+
+    /*
+     |--------------------------------------------------------------------------
+     | METHODS
+     |--------------------------------------------------------------------------
      */
-    protected array $words = [];
-
-    /**
-     * Specific sequences of the string as an array
-     * with a key of the sequence's delimiter
-     * and a value of an array of the sequence's
-     *
-     * @var array<string, array<string>>
-     */
-    protected array $sequences = [];
-
     /**
      * Constructor. accepts a string or null value.
      * If null, defaults to an empty string: ""
@@ -46,517 +88,13 @@ class Twine
     }
 
     /**
-     * Returns true if the string contains the
-     * substring. Case-sensitive.
-     *
-     * example: 'Hello, world!' > contains('Hello') = true
-     * example: 'Hello, world!' > contains('Universe') = false
-     * example: 'Hello, world!' > contains('hello') = false
-     *
-     * @param  string  $substring
-     * @return bool
-     */
-    public function contains(string $substring): bool
-    {
-        return str_contains($this->string, $substring);
-    }
-
-    /**
-     * Returns true if the string contains all
-     * the given substrings in any order and any number
-     * Case-sensitive.
-     *
-     * example: 'Hello, world!' > containsAll(['Hello', 'world']) = true
-     * example: 'Hello, world!' > containsAll(['Hello', 'Universe']) = false
-     * example: 'Hello, world!' > containsAll(['hello', 'world']) = false
-     *
-     * @param  string[]  $substrings
-     * @return bool
-     */
-    public function containsAll(array $substrings): bool
-    {
-        foreach ($substrings as $string) {
-            if (! str_contains($this->string, $string)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * returns true if the string contains at least
-     * one of the substrings. Case-sensitive.
-     *
-     * example: 'Hello, world!' > containsAny(['Hello', 'world']) = true
-     * example: 'Hello, world!' > containsAny(['Hello', 'Universe']) = true
-     * example: 'Hello, world!' > containsAny(['hello', 'world']) = true
-     * example: 'Hello, world!' > containsAny(['hello', 'universe']) = false
-     *
-     * @param  array<string>  $substrings
-     * @return bool
-     */
-    public function containsAny(array $substrings): bool
-    {
-        foreach ($substrings as $string) {
-            if (str_contains($this->string, $string)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns true if the string does NOT
-     * contain ANY of the given substrings
-     * Case-sensitive.
-     *
-     * example: 'Hello, world!' > containsNone(['Hello', 'world']) = false
-     * example: 'Hello, world!' > containsNone(['Hello', 'Universe']) = false
-     * example: 'Hello, world!' > containsNone(['hello', 'Universe']) = true
-     *
-     * @param  array<string>  $substrings
-     * @return bool
-     */
-    public function containsNone(array $substrings): bool
-    {
-        foreach ($substrings as $string) {
-            if (str_contains($this->string, $string)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * return the number of alphabetical characters in the string
-     *
-     * example: 'abc123' > countAlpha() = 3
-     * example: 'abc123!' > countAlpha() = 3
-     * example: '!@#$%^&*()' > countAlpha() = 0
-     * example: '123' > countAlpha() = 0
-     *
-     * @return int
-     */
-    public function countAlpha(): int
-    {
-        $count = preg_match_all('/[A-Za-z]/', $this->string);
-        if (! $count) {
-            return 0;
-        }
-
-        return $count;
-    }
-
-    /**
-     * Returns the number of alphanumeric characters in the string
-     *
-     * example: 'abc123' > countAlphaNumeric() = 6
-     * example: 'abc123!' > countAlphaNumeric() = 6
-     * example: '!@#$%^&*()' > countAlphaNumeric() = 0
-     *
-     * @return int
-     */
-    public function countAlphaNumeric(): int
-    {
-        $count = preg_match_all('/[A-Za-z0-9]/', $this->string);
-        if (! $count) {
-            return 0;
-        }
-
-        return $count;
-    }
-
-    /**
-     * Alias of $this->countInstancesOf($substrings)
-     *
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countAny(array $substrings): int
-    {
-        return $this->countInstancesOf($substrings);
-    }
-
-    /**
-     * returns the total count of the instances of the given
-     * array of substrings. In any order, and any number of times
-     * Case-sensitive.
-     *
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countInstancesOf(array $substrings): int
-    {
-        $count = 0;
-        foreach ($substrings as $string) {
-            $count += substr_count($this->string, $string);
-        }
-
-        return $count;
-    }
-
-    /**
-     * @return int
-     */
-    public function countBinary(): int
-    {
-        return 0;
-    }
-
-    /**
-     * Alias of $this->countInstanceOf($substring)
-     *
-     * @param  string  $substring
-     * @return int
-     */
-    public function countChar(string $substring): int
-    {
-        return $this->countInstanceOf($substring);
-    }
-
-    /**
-     * Returns the integer count of the number of instances
-     * of the given substring. Case-sensitive.
-     *
-     * @param  string  $substring
-     * @return int
-     */
-    public function countInstanceOf(string $substring): int
-    {
-        return substr_count($this->string, $substring);
-    }
-
-    /**
-     * Alias of $this->countInstanceOf($substring)
-     *
-     * @param  string  $substring
-     * @return int
-     */
-    public function countCharacter(string $substring): int
-    {
-        return $this->countInstanceOf($substring);
-    }
-
-    /**
-     * Returns the string property of the Twine object.
-     */
-
-    /**
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countCharacters(array $substrings): int
-    {
-        return 0;
-    }
-
-    /**
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countChars(array $substrings): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countHex(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countLC(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countLines(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countLowercase(): int
-    {
-        return 0;
-    }
-
-    /**
-     * Returns the count of numeric characters in the string
-     *
-     * example: 'abc123' > countNumeric() = 3
-     * example: 'abc123!' > countNumeric() = 3
-     * example: '!@#$%^&*()' > countNumeric() = 0
-     * example: 'abc' > countNumeric() = 0
-     *
-     * @return int
-     */
-    public function countNumeric(): int
-    {
-        $count = preg_match_all('/[0-9]/', $this->string);
-        if (! $count) {
-            return 0;
-        }
-
-        return $count;
-    }
-
-    /**
-     * @return int
-     */
-    public function countParagraphs(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countSentences(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countSpecial(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @param  string  $substring
-     * @return int
-     */
-    public function countSubstring(string $substring): int
-    {
-        return $this->countInstanceOf($substring);
-    }
-
-    /**
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countSubstrings(array $substrings): int
-    {
-        return $this->countInstancesOf($substrings);
-    }
-
-    /**
-     * @return int
-     */
-    public function countUC(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countUppercase(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countWhitespace(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function countWords(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function length(): int
-    {
-        return 0;
-    }
-
-    /**
-     * @return string
-     */
-    public function mostFrequentCharacter(): string
-    {
-        return '';
-    }
-
-    /**
-     * @param  int  $n
-     * @return array<string, int>
-     */
-    public function mostFrequentCharacters(int $n = 1): array
-    {
-        return [];
-    }
-
-    /**
-     * @return string
-     */
-    public function mostFrequentWord(): string
-    {
-        return '';
-    }
-
-    /**
-     * @param  int  $n
-     * @return array<string, int>
-     */
-    public function mostFrequentWords(int $n = 1): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function split(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param  string  $substring
-     * @return array<string>
-     */
-    public function splitOn(string $substring): array
-    {
-        return [];
-    }
-
-    /**
-     * @param  string  $substring
-     * @return array<string>
-     */
-    public function splitOnChar(string $substring): array
-    {
-        return [];
-    }
-
-    /**
-     * @param  string  $substring
-     * @return array<string>
-     */
-    public function splitOnCharacter(string $substring): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function splitOnEmpty(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function splitOnLC(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function splitOnLowercase(): array
-    {
-        return [];
-    }
-
-    /**
-     * @param  string  $substring
-     * @return array<string>
-     */
-    public function splitOnSubstr(string $substring): array
-    {
-        return [];
-    }
-
-    /**
-     * @param  string  $substring
-     * @return array<string>
-     */
-    public function splitOnSubstring(string $substring): array
-    {
-        return [];
-    }
-
-    /**
-     * Returns an array of substrings where the string
-     * is split on uppercase characters.
-     * This is a destructive split, as the uppercase
-     * character is no longer present in the resulting array,
-     * which means the array cannot be joined back together
-     * to form the original string.
-     *
+     * Returns the string property of the
+     * Twine object as an array of characters
      * @return string[]
      */
-    public function splitOnUC(): array
+    public function __toArray(): array
     {
-        $arr = preg_split('/(?=[A-Z])/', $this->string, -1, PREG_SPLIT_NO_EMPTY);
-        if (! $arr) {
-            return [];
-        }
-
-        return $arr;
-    }
-
-    /**
-     * Alias of splitOnUC()
-     *
-     * @return array<string>
-     */
-    public function splitOnUppercase(): array
-    {
-        return $this->splitOnUppercase();
-    }
-
-    /**
-     * Alias of splitOnWords()
-     *
-     * @return string[]
-     */
-    public function splitWords(): array
-    {
-        return $this->splitOnWords();
-    }
-
-    /**
-     * Returns an array of words in the string
-     * Assumes a standard space character (' ')
-     * as the word delimiter.
-     *
-     * @return string[]
-     */
-    public function splitOnWords(): array
-    {
-        return explode(' ', $this->string);
+        return $this->toArray();
     }
 
     /**
@@ -577,27 +115,30 @@ class Twine
     }
 
     /**
+     * returns the string property
+     * of the Twine object
+     *
      * @return string
      */
     public function toString(): string
     {
-        return $this->string ?? '';
+        return $this->__toString();
     }
 
     /**
-     * Returns the number of words in a string, assumes
-     * a standard space character (' ') as the word delimiter.
+     * toString magic method. Returns the string property
+     * of the Twine object.
      *
-     * @return int
+     * @return string
      */
-    public function wordCount(): int
+    public function __toString(): string
     {
-        return count($this->splitOnWords());
+        return $this->string ?? '';
     }
 
     /*
      |--------------------------------------------------------------------------
-     | STATIC FUNCTIONS
+     | STATIC CONSTRUCTOR FUNCTIONS
      |--------------------------------------------------------------------------
      */
 
@@ -664,7 +205,7 @@ class Twine
     public static function random(?int $n = 1): string
     {
         //return a random string of length n
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = self::ALPHA_LOWER.self::ALPHA_UPPER.self::DIGITS;
         $randomString = '';
         for ($i = 0; $i < $n; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
@@ -680,10 +221,10 @@ class Twine
     public static function randomAlpha(?int $n = 1): string
     {
         //return a random string of length n
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $alphabet = self::ALPHA_LOWER.self::ALPHA_UPPER;
         $randomString = '';
         for ($i = 0; $i < $n; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            $randomString .= $alphabet[rand(0, strlen($alphabet) - 1)];
         }
 
         return $randomString;
@@ -696,10 +237,9 @@ class Twine
     public static function randomNumeric(?int $n = 1): string
     {
         //return a random numeric string of length n
-        $characters = '0123456789';
         $randomString = '';
         for ($i = 0; $i < $n; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            $randomString .= self::DIGITS[rand(0, strlen(self::DIGITS) - 1)];
         }
 
         return $randomString;
@@ -709,9 +249,19 @@ class Twine
      * @param  int|null  $n
      * @return string
      */
-    public static function randomHex(?int $n = 1): string
+    public static function randomHex(?int $n = 1, bool $uppercase = false): string
     {
-        return '';
+        $randomString = '';
+        if ($uppercase) {
+            for ($i = 0; $i < $n; $i++) {
+                $randomString .= self::HEX_UPPER[rand(0, strlen(self::HEX_UPPER) - 1)];
+            }
+        } else {
+            for ($i = 0; $i < $n; $i++) {
+                $randomString .= self::HEX_LOWER[rand(0, strlen(self::HEX_LOWER) - 1)];
+            }
+        }
+        return $randomString;
     }
 
     /**
@@ -720,10 +270,9 @@ class Twine
      */
     public static function randomBinary(?int $n = 1): string
     {
-        $characters = '01';
         $randomString = '';
         for ($i = 0; $i < $n; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            $randomString .= self::BINARY[rand(0, strlen(self::BINARY) - 1)];
         }
 
         return $randomString;
@@ -735,7 +284,12 @@ class Twine
      */
     public static function randomBase64(?int $n = 1): string
     {
-        return '';
+        $randomString = '';
+        for ($i = 0; $i < $n; $i++) {
+            $randomString .= self::BASE64[rand(0, strlen(self::BASE64) - 1)];
+        }
+
+        return $randomString;
     }
 
     /**
@@ -744,15 +298,23 @@ class Twine
      */
     public static function randomOctal(?int $n = 1): string
     {
-        return '';
+        $randomString = '';
+        for ($i = 0; $i < $n; $i++) {
+            $randomString .= self::OCTAL[rand(0, strlen(self::OCTAL) - 1)];
+        }
+
+        return $randomString;
     }
 
     /**
      * @return string
+     * @throws \Exception
      */
     public static function uuid(): string
     {
-        //TODO: generate a UUID
-        return '';
+        $data = random_bytes(16);
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }
