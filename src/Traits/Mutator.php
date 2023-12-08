@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine\Traits;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
 trait Mutator
 {
@@ -12,9 +12,9 @@ trait Mutator
      * example: 'Hello World' > after('Hello') > ' World'
      *
      * @param  string  $delimiter
-     * @return Twine
+     * @return Thread
      */
-    public function after(string $delimiter): Twine
+    public function after(string $delimiter): Thread
     {
         return $this;
     }
@@ -25,9 +25,9 @@ trait Mutator
      * example: 'Hello World' > before('World') > 'Hello '
      *
      * @param  string  $delimiter
-     * @return Twine
+     * @return Thread
      */
-    public function before(string $delimiter): Twine
+    public function before(string $delimiter): Thread
     {
         return $this;
     }
@@ -38,9 +38,9 @@ trait Mutator
      * example: 'Hello World' > beforeLast('l') > 'Hello Wor'
      *
      * @param  string  $delimiter
-     * @return Twine
+     * @return Thread
      */
-    public function beforeLast(string $delimiter): Twine
+    public function beforeLast(string $delimiter): Thread
     {
         return $this;
     }
@@ -53,9 +53,9 @@ trait Mutator
      *
      * @param  string  $start
      * @param  string  $end
-     * @return Twine
+     * @return Thread
      */
-    public function between(string $start, string $end): Twine
+    public function between(string $start, string $end): Thread
     {
         return $this;
     }
@@ -68,9 +68,9 @@ trait Mutator
      *
      * @param  string  $start
      * @param  string  $end
-     * @return Twine
+     * @return Thread
      */
-    public function betweenLast(string $start, string $end): Twine
+    public function betweenLast(string $start, string $end): Thread
     {
         return $this;
     }
@@ -84,9 +84,9 @@ trait Mutator
      *
      * @param  int  $limit
      * @param  string|null  $end
-     * @return Twine
+     * @return Thread
      */
-    public function limit(int $limit, ?string $end = ''): Twine
+    public function limit(int $limit, ?string $end = ''): Thread
     {
         return $this;
     }
@@ -103,9 +103,9 @@ trait Mutator
      * @param  int|null  $start
      * @param  int|null  $end
      * @param  string|null  $maskChar
-     * @return Twine
+     * @return Thread
      */
-    public function mask(?int $start = 0, int $end = null, ?string $maskChar = '*'): Twine
+    public function mask(?int $start = 0, int $end = null, ?string $maskChar = '*'): Thread
     {
         return $this;
     }
@@ -118,9 +118,9 @@ trait Mutator
      *
      * @param  string  $delimiter
      * @param  string|null  $maskChar
-     * @return Twine
+     * @return Thread
      */
-    public function maskAfter(string $delimiter, ?string $maskChar = '*'): Twine
+    public function maskAfter(string $delimiter, ?string $maskChar = '*'): Thread
     {
         return $this;
     }
@@ -133,9 +133,9 @@ trait Mutator
      *
      * @param  string  $delimiter
      * @param  string|null  $maskChar
-     * @return Twine
+     * @return Thread
      */
-    public function maskBefore(string $delimiter, ?string $maskChar = '*'): Twine
+    public function maskBefore(string $delimiter, ?string $maskChar = '*'): Thread
     {
         return $this;
     }
@@ -149,9 +149,9 @@ trait Mutator
      *
      * @param  int  $n
      * @param  string|null  $separator
-     * @return Twine
+     * @return Thread
      */
-    public function repeat(int $n, ?string $separator = ''): Twine
+    public function repeat(int $n, ?string $separator = ''): Thread
     {
         $this->string = str_repeat($this->string.$separator, $n);
 
@@ -165,9 +165,9 @@ trait Mutator
      *
      * @param  string  $needle
      * @param  string  $replacement
-     * @return Twine
+     * @return Thread
      */
-    public function replace(string $needle, string $replacement): Twine
+    public function replace(string $needle, string $replacement): Thread
     {
         $this->string = str_replace($needle, $replacement, $this->string);
 
@@ -179,9 +179,9 @@ trait Mutator
      *
      * example: 'hello world' > reverse() > 'dlrow olleh'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function reverse(): Twine
+    public function reverse(): Thread
     {
         $this->string = strrev($this->string);
 
@@ -196,9 +196,9 @@ trait Mutator
      * example: 'Hello World' > swap(['Hello' => 'Goodbye', 'World' => 'Universe']) > 'Goodbye Universe'
      *
      * @param  array<string>  $swaps
-     * @return Twine
+     * @return Thread
      */
-    public function swap(array $swaps): Twine
+    public function swap(array $swaps): Thread
     {
         return $this;
     }
@@ -214,14 +214,14 @@ trait Mutator
      * example: 'Hello' > toE161() > '44|33|555|555|666'
      *
      * @param  string|null  $delimiter
-     * @return Twine
+     * @return Thread
      */
-    public function toE161(?string $delimiter = '|'): Twine
+    public function toE161(?string $delimiter = '|'): Thread
     {
         $this->toLowerCase();
         $arr = str_split($this->string);
         foreach ($arr as $key => $char) {
-            $arr[$key] = Twine::E161[$char];
+            $arr[$key] = Thread::E161[$char];
         }
         $this->string = implode($delimiter ?? '', $arr);
 
@@ -240,9 +240,9 @@ trait Mutator
      * example: 'Hello World' > toSlug('_') > 'hello_world'
      *
      * @param  string  $separator
-     * @return Twine
+     * @return Thread
      */
-    public function toSlug(string $separator): Twine
+    public function toSlug(string $separator): Thread
     {
         return $this;
     }

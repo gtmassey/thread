@@ -1,10 +1,10 @@
 <?php
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
-if(!function_exists('twine')) {
-    function twine($string): Twine
+if(!function_exists('thread')) {
+    function thread($string): Thread
     {
-        return new Twine($string);
+        return new Thread($string);
     }
 }

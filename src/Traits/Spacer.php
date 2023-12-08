@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine\Traits;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
 trait Spacer
 {
@@ -14,9 +14,9 @@ trait Spacer
      * example: 'hello'->append(' world') = 'hello world'
      *
      * @param  string  $string
-     * @return Twine
+     * @return Thread
      */
-    public function append(string $string): Twine
+    public function append(string $string): Thread
     {
         $this->string .= $string;
 
@@ -30,9 +30,9 @@ trait Spacer
      *
      * example: '   hello   world   ' > 'hello world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function compress(): Twine
+    public function compress(): Thread
     {
         $this->string = preg_replace('/\s+/', ' ', $this->string) ?? '';
 
@@ -46,9 +46,9 @@ trait Spacer
      *
      * example: '   hello   world   ' > '   hello world   '
      *
-     * @return Twine
+     * @return Thread
      */
-    public function compressBetween(): Twine
+    public function compressBetween(): Thread
     {
         $this->string = preg_replace('/(?<=\S)\s+(?=\S)/', ' ', $this->string) ?? '';
 
@@ -61,9 +61,9 @@ trait Spacer
      *
      * example: '   hello   world   ' > '   hello   world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function compressEnd(): Twine
+    public function compressEnd(): Thread
     {
         $this->string = rtrim($this->string);
 
@@ -76,9 +76,9 @@ trait Spacer
      *
      * example: '   hello   world   ' > 'hello   world   '
      *
-     * @return Twine
+     * @return Thread
      */
-    public function compressStart(): Twine
+    public function compressStart(): Thread
     {
         $this->string = ltrim($this->string);
 
@@ -94,9 +94,9 @@ trait Spacer
      *
      * @param  int  $n
      * @param  string  $string
-     * @return Twine
+     * @return Thread
      */
-    public function padBothEnds(int $n, string $string): Twine
+    public function padBothEnds(int $n, string $string): Thread
     {
         $this->string = str_pad($this->string, $n, $string, STR_PAD_BOTH);
 
@@ -111,9 +111,9 @@ trait Spacer
      *
      * @param  int  $n
      * @param  string  $string
-     * @return Twine
+     * @return Thread
      */
-    public function padEnd(int $n, string $string): Twine
+    public function padEnd(int $n, string $string): Thread
     {
         $this->string = str_pad($this->string, $n, $string);
 
@@ -128,9 +128,9 @@ trait Spacer
      *
      * @param  int  $n
      * @param  string  $string
-     * @return Twine
+     * @return Thread
      */
-    public function padStart(int $n, string $string): Twine
+    public function padStart(int $n, string $string): Thread
     {
         $this->string = str_pad($this->string, $n, $string, STR_PAD_LEFT);
 
@@ -143,9 +143,9 @@ trait Spacer
      * example: 'world' > prepend('hello ') > 'hello world'
      *
      * @param  string  $string
-     * @return Twine
+     * @return Thread
      */
-    public function prepend(string $string): Twine
+    public function prepend(string $string): Thread
     {
         $this->string = $string.$this->string;
 

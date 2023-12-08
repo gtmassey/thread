@@ -1,8 +1,8 @@
-# Twine.php
+# Thread.php
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
-[![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/twine/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/twine/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/gtmassey/Thread.svg?style=flat-square)](https://packagist.org/packages/gtmassey/Thread)
+[![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/Thread/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/Thread/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/Thread.svg?style=flat-square)](https://packagist.org/packages/gtmassey/Thread)
 
 Wrapper class for string manipulation in PHP.
 
@@ -20,13 +20,15 @@ I've worked with PHP for... a little over 10 years now, and I've always hated th
 
 Laravel's String helper classes are a gigantic leap in the right direction (IMO), but it's wrapped in the Laravel framework, and while you can use it outside of Laravel, I'd rather see a dedicated third party library that is framework-agnostic. 
 
-Twine is a framework-agnostic, static-method focused wrapper class for easily manipulating strings in PHP. No more calling random functions with random arguments and hoping for the best. Instead, create a new Twine object, and manipulate the underlying string by chaining methods together in an elegant and fluent way.
+Thread is a framework-agnostic, static-method focused wrapper class for easily manipulating strings in PHP. No more calling random functions with random arguments and hoping for the best. Instead, create a new Thread object, and manipulate the underlying string by chaining methods together in an elegant and fluent way.
 
-## Why Twine?
+## Why Thread?
 
-I grew up on a farm, we used bailing twine for almost everything. It's strong, it's flexible, it's versatile, and it's cheap. Here, Twine.php is flexible, versatile, and free! 
+Originally, I wanted to call this package "Thread", but while working on an alpha version, I stumbled across the [PHLAK/Thread](https://github.com/PHLAK/Thread) package, which accomplishes the exact same thing I was trying to do, and does it well. 
 
-"Twine" also a synonym for "string", and that fact just tickles me. Instead of creating a "string", you create a Twine object. Does it roll off the tongue the way string does? No, but it's close enough, and it's a fun play on words.
+So, instead of a play on words from my farming origins (Thread being a synonym for string, and a tool we used for everything on the farm), I decided to go with a play on words from my mother's hobby of sewing and quilting. So, "string" from computer science, meet "thread" from fiber arts. 
+
+Not to be confused with "thread" as in the singular process that runs on a CPU... that's a different thing entirely.
 
 Plus, 'string' is a reserved word in PHP, so I couldn't use that anyway.
 
@@ -35,7 +37,7 @@ Plus, 'string' is a reserved word in PHP, so I couldn't use that anyway.
 You can install the package via composer:
 
 ```bash
-composer require gtmassey/twine
+composer require gtmassey/thread
 ```
 
 ## Usage
@@ -45,68 +47,68 @@ composer require gtmassey/twine
 The package is a simple PHP package, so you can use it in any PHP project. Simply add it to your use statements, and you're ready to go.
 
 ```php
-use Gtmassey\Twine\Twine;
+use Gtmassey\Thread\Thread;
 ```
 
-If you are using Laravel, the `TwineServiceProvider` will automatically register the `Twine` facade for you. You can use the facade in your code like this:
+If you are using Laravel, the `ThreadServiceProvider` will automatically register the `Thread` facade for you. You can use the facade in your code like this:
 
 ```php
-use Twine;
+use Thread;
 ```
 
-Now you can use the `Twine::make()` method to create a new Twine object from a string or an array.
+Now you can use the `Thread::make()` method to create a new Thread object from a string or an array.
 
-If you are using Symfony, you can use the `Twine` class directly, or you can use the `TwineFacade` class.
+If you are using Symfony, you can use the `Thread` class directly, or you can use the `ThreadFacade` class.
 
-If you aren't using any of these frameworks, don't worry. You can just include the Twine class in your code and use it directly without any issues.
+If you aren't using any of these frameworks, don't worry. You can just include the Thread class in your code and use it directly without any issues.
 
-### Creating a Twine object
+### Creating a Thread object
 
-You can use the `new` keyword to create a new Twine object, the constructor accepts a string or null as an argument. If null, the default is an empty string `""`. 
+You can use the `new` keyword to create a new Thread object, the constructor accepts a string or null as an argument. If null, the default is an empty string `""`. 
 
 ```php
-$string = new Twine('Hello world!');
+$string = new Thread('Hello world!');
 echo($string->toString());
 // "Hello world!"
 
-$emptyString = new Twine();
+$emptyString = new Thread();
 echo($emptyString->toString());
 // ""
 ```
 
-You can also use the static `make()`, `of()`, and `from()` methods to create a new Twine object from either a string or an array. Each of the static construction methods accepts either a string OR an array as an argument.
+You can also use the static `make()`, `of()`, and `from()` methods to create a new Thread object from either a string or an array. Each of the static construction methods accepts either a string OR an array as an argument.
 
 If you use an array as the argument for the static construction methods, the array will be imploded with a space as the separator always. You can use StringableTrait methods to then manipulate the string to your liking.
 
 ```php
-$string = Twine::make('a b c');
+$string = Thread::make('a b c');
 //OR
-$string = Twine::make(['a', 'b', 'c']);
+$string = Thread::make(['a', 'b', 'c']);
 echo($string->toString());
 // "Hello world!"
 
-$string = Twine::of('a b c');
+$string = Thread::of('a b c');
 //OR
-$string = Twine::of(['a', 'b', 'c']);
+$string = Thread::of(['a', 'b', 'c']);
 echo($string->toString());
 // "a b c"
 
-$string = Twine::from('a b c');
+$string = Thread::from('a b c');
 //OR
-$string = Twine::from(['a', 'b', 'c']);
+$string = Thread::from(['a', 'b', 'c']);
 echo($string->toString());
 // "a b c"
 ```
 
 ### Manipulating strings
 
-Twine comes with several methods for manipulating strings. Methods that live in the `StringableTrait` trait are chainable. Methods that live in the Twine.php class are not chainable, but instead return a specific value, like a string or an array.
+Thread comes with several methods for manipulating strings. Methods that live in the `StringableTrait` trait are chainable. Methods that live in the Thread.php class are not chainable, but instead return a specific value, like a string or an array.
 
 [Available Stringable Methods](docs/stringable-methods.md)
 
 Example of chaining methods to manipulate a string:
 ```php
-$string = Twine::from('Foo bar');
+$string = Thread::from('Foo bar');
 //"Foo bar"
 $string->toPascalCase();
 //"FooBar"
@@ -120,7 +122,7 @@ $string->stripWhitespace()->stripChar('o');
 
 ```php
 //example: manipulating phone number string:
-$phoneNumber = Twine::from('+1 (123) 456-7890 x123');
+$phoneNumber = Thread::from('+1 (123) 456-7890 x123');
 $phone = $phoneNumber->splitOn('x')[0];
 //"+1 (123) 456-7890 "
 $extension = $phoneNumber->splitOn('x')[1];

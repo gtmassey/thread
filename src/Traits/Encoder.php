@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine\Traits;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
 trait Encoder
 {
@@ -11,9 +11,9 @@ trait Encoder
      *
      * example: '<h1>Hello World</h1>' > '&lt;h1&gt;Hello World&lt;/h1&gt;'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function encodeHTML(): Twine
+    public function encodeHTML(): Thread
     {
         $this->string = htmlentities($this->string);
 
@@ -25,9 +25,9 @@ trait Encoder
      *
      * example: ['name' => 'John', 'age' => 30] > '{"name":"John","age":30}'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function encodeJson(): Twine
+    public function encodeJson(): Thread
     {
         //TODO: Handle array entities in Twine object
         return $this;

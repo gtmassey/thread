@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine;
 
-class Twine
+class Thread
 {
 
     /*
@@ -148,11 +148,11 @@ class Twine
      * ex: Twine::from(['Hello', 'World']) = new Twine('Hello World')
      *
      * @param  string|array<string>  $string
-     * @return Twine
+     * @return Thread
      */
-    public static function from(string|array $string): Twine
+    public static function from(string|array $string): Thread
     {
-        return Twine::build($string);
+        return Thread::build($string);
     }
 
     /**
@@ -161,9 +161,9 @@ class Twine
      * default Twine constructor. Returns new Twine instance.
      *
      * @param  string|array<string>  $string
-     * @return Twine
+     * @return Thread
      */
-    private static function build(string|array $string): Twine
+    private static function build(string|array $string): Thread
     {
         if (is_array($string)) {
             $string = implode(' ', $string);
@@ -178,11 +178,11 @@ class Twine
      * ex: Twine::make(['Hello', 'World']) = new Twine('Hello World')
      *
      * @param  string|array<string>  $string
-     * @return Twine
+     * @return Thread
      */
-    public static function make(string|array $string): Twine
+    public static function make(string|array $string): Thread
     {
-        return Twine::build($string);
+        return Thread::build($string);
     }
 
     /**
@@ -191,11 +191,11 @@ class Twine
      * ex: Twine::of(['Hello', 'World']) = new Twine('Hello World')
      *
      * @param  string|array<string>  $string
-     * @return Twine
+     * @return Thread
      */
-    public static function of(string|array $string): Twine
+    public static function of(string|array $string): Thread
     {
-        return Twine::build($string);
+        return Thread::build($string);
     }
 
     /**

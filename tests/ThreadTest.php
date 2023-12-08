@@ -1,24 +1,24 @@
 <?php
 
-namespace Gtmassey\Twine\Tests;
+namespace Gtmassey\Thread\Tests;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 use PHPUnit\Framework\TestCase;
 
-class TwineTest extends TestCase
+class ThreadTest extends TestCase
 {
     public function testConstructor(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertEquals('Hello, world!', $twine->toString());
 
-        $twine = new Twine();
+        $twine = new Thread();
         $this->assertEquals('', $twine->toString());
     }
 
     public function testContains(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertTrue($twine->contains('Hello'));
 
         $this->assertFalse($twine->contains('Universe'));
@@ -28,7 +28,7 @@ class TwineTest extends TestCase
 
     public function testContainsAll(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertTrue($twine->containsAll(['Hello', 'world']));
 
         $this->assertFalse($twine->containsAll(['Hello', 'Universe']));
@@ -38,7 +38,7 @@ class TwineTest extends TestCase
 
     public function testContainsAny(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertTrue($twine->containsAny(['Hello', 'Universe']));
 
         $this->assertFalse($twine->containsAny(['hello', 'universe']));
@@ -50,7 +50,7 @@ class TwineTest extends TestCase
 
     public function testContainsNone(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertTrue($twine->containsNone(['foo', 'bar']));
 
         $this->assertFalse($twine->containsNone(['Hello', 'Universe']));
@@ -62,30 +62,30 @@ class TwineTest extends TestCase
 
     public function testCountAlpha(): void
     {
-        $twine = new Twine('abc');
+        $twine = new Thread('abc');
         $this->assertEquals(3, $twine->countAlpha());
-        $twine = new Twine('123');
+        $twine = new Thread('123');
         $this->assertEquals(0, $twine->countAlpha());
     }
 
     public function testCountAlphaNumeric(): void
     {
-        $twine = new Twine('abc123');
+        $twine = new Thread('abc123');
         $this->assertEquals(6, $twine->countAlphaNumeric());
-        $twine = new Twine('!@#$%^&*()');
+        $twine = new Thread('!@#$%^&*()');
         $this->assertEquals(0, $twine->countAlphaNumeric());
     }
 
     public function testCountInstancesOf(): void
     {
-        $twine = new Twine('a b c a b c a b c');
+        $twine = new Thread('a b c a b c a b c');
         $this->assertEquals(9, $twine->countInstancesOf(['a', 'b', 'c']));
         $this->assertEquals(0, $twine->countInstancesOf(['d', 'e', 'f']));
     }
 
     public function testCountSubstring(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertEquals(1, $twine->countSubstring('Hello'));
 
         $this->assertEquals(0, $twine->countSubstring('Universe'));
@@ -95,14 +95,14 @@ class TwineTest extends TestCase
 
     public function testToArray(): void
     {
-        $twine = new Twine('abc 123');
+        $twine = new Thread('abc 123');
         $this->assertEquals(['a', 'b', 'c', ' ', '1', '2', '3'], $twine->toArray());
         $this->assertEquals(['abc', '123'], $twine->toArray(splitOnWords: true));
     }
 
     public function testToString(): void
     {
-        $twine = new Twine('Hello, world!');
+        $twine = new Thread('Hello, world!');
         $this->assertEquals('Hello, world!', $twine->toString());
     }
 }

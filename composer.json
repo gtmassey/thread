@@ -1,11 +1,16 @@
 {
-    "name": "gtmassey/twine",
+    "name": "gtmassey/thread",
     "description": "A framework-agnostic helper library for easily manipulating Strings in PHP.",
     "keywords": [
         "gtmassey",
-        "twine"
+        "thread",
+        "strings",
+        "string manipulation",
+        "string helpers",
+        "php",
+        "library"
     ],
-    "homepage": "https://github.com/gtmassey/twine",
+    "homepage": "https://github.com/gtmassey/thread",
     "license": "MIT",
     "authors": [
         {
@@ -25,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Gtmassey\\Twine\\": "src"
+            "Gtmassey\\Thread\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Gtmassey\\Twine\\Tests\\": "tests"
+            "Gtmassey\\Thread\\Tests\\": "tests"
         }
     },
     "scripts": {

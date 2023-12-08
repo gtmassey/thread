@@ -36,8 +36,8 @@
 Returns the substring after the first occurrence of the provided substring.
 
 ```php
-$twine = Twine::make('abcdefg');
-$twine->after('cd');
+$thread = Thread::make('abcdefg');
+$thread->after('cd');
 // "efg"
 ```
 
@@ -46,8 +46,8 @@ $twine->after('cd');
 Appends the provided string to the end of the current string.
 
 ```php
-$twine = Twine::make('Good morning');
-$twine->append(', America!');
+$thread = Thread::make('Good morning');
+$thread->append(', America!');
 // "Good morning, America!"
 ```
 
@@ -56,8 +56,8 @@ $twine->append(', America!');
 Returns the substring before the first occurrence of the provided substring.
 
 ```php
-$twine = Twine::make('abcdefg');
-$twine->before('cd');
+$thread = Thread::make('abcdefg');
+$thread->before('cd');
 // "ab"
 ```
 
@@ -66,12 +66,12 @@ $twine->before('cd');
 Returns the substring before the *last* occurrence of the provided substring.
 
 ```php
-$twine = Twine::make('aa bb cc dd cc bb aa');
-$twine->beforeLast('cc');
+$thread = Thread::make('aa bb cc dd cc bb aa');
+$thread->beforeLast('cc');
 // "aa bb cc dd "
 
-$twine = Twine::make('the quick brown fox jumps over the lazy dog');
-$twine->beforeLast('the');
+$thread = Thread::make('the quick brown fox jumps over the lazy dog');
+$thread->beforeLast('the');
 // "the quick brown fox jumps over "
 ```
 
@@ -80,8 +80,8 @@ $twine->beforeLast('the');
 Returns the substring between the first occurrence of the provided start string and the first occurrence of the provided end string.
 
 ```php
-$twine = Twine::make('abcdefg');
-$twine->between('b', 'f');
+$thread = Thread::make('abcdefg');
+$thread->between('b', 'f');
 // "cde"
 ```
 

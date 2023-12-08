@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine\Traits;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
 trait Decoder
 {
@@ -11,9 +11,9 @@ trait Decoder
      *
      * example: '&lt;h1&gt;Hello World&lt;/h1&gt;' > '<h1>Hello World</h1>'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function decodeHTML(): Twine
+    public function decodeHTML(): Thread
     {
         $this->string = html_entity_decode($this->string);
 
@@ -25,9 +25,9 @@ trait Decoder
      *
      * example: '{"name":"John","age":30}' > ['name' => 'John', 'age' => 30]
      *
-     * @return Twine
+     * @return Thread
      */
-    public function decodeJson(): Twine
+    public function decodeJson(): Thread
     {
         //TODO: handle array values in Twine object
         return $this;

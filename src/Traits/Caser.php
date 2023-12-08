@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine\Traits;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
 trait Caser
 {
@@ -12,9 +12,9 @@ trait Caser
      *
      * example: 'HELLO WORLD' > 'hELLO WORLD'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function lcFirst(): Twine
+    public function lcFirst(): Thread
     {
         $this->string = lcfirst($this->string);
 
@@ -26,9 +26,9 @@ trait Caser
      *
      * example: 'HELLO WORLD' > 'HELLO WORLd'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function lcLast(): Twine
+    public function lcLast(): Thread
     {
         $this->string = substr($this->string, 0, -1).strtolower(substr($this->string, -1));
 
@@ -44,9 +44,9 @@ trait Caser
      * example: 'HELLO WORLD' > lcNth(3) > 'HELlO WORLD'
      *
      * @param  int  $n
-     * @return Twine
+     * @return Thread
      */
-    public function lcNth(int $n): Twine
+    public function lcNth(int $n): Thread
     {
         return $this;
     }
@@ -56,9 +56,9 @@ trait Caser
      *
      * example: 'hello world' > toCamelCase() > 'helloWorld'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toCamelCase(): Twine
+    public function toCamelCase(): Thread
     {
         $this->string = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string))));
 
@@ -70,9 +70,9 @@ trait Caser
      *
      * example: 'hello world' > toKebabCaseUC() > 'HELLO-WORLD'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toKebabCaseUC(): Twine
+    public function toKebabCaseUC(): Thread
     {
         $this->toKebabCase();
         $this->toUpperCase();
@@ -85,9 +85,9 @@ trait Caser
      *
      * example: 'hello world' > toKebabCase() > 'hello-world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toKebabCase(): Twine
+    public function toKebabCase(): Thread
     {
         //remove special chars and add dash delimiter
         $kebab = preg_replace('/[^A-Za-z0-9]/', '-', $this->string);
@@ -108,9 +108,9 @@ trait Caser
      *
      * example: 'hello world' > toUpperCase() > 'HELLO WORLD'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toUpperCase(): Twine
+    public function toUpperCase(): Thread
     {
         $this->string = strtoupper($this->string);
 
@@ -122,9 +122,9 @@ trait Caser
      *
      * example: 'HELLO WORLD' > toLowerCase() > 'hello world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toLowerCase(): Twine
+    public function toLowerCase(): Thread
     {
         $this->string = strtolower($this->string);
 
@@ -136,9 +136,9 @@ trait Caser
      *
      * example: 'hello world' > toMemeCase() > 'hElLo wOrLd'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toMemeCase(): Twine
+    public function toMemeCase(): Thread
     {
         $arr = str_split($this->string);
         foreach ($arr as $key => $char) {
@@ -158,9 +158,9 @@ trait Caser
      *
      * example: 'hello world' > toPascalCase() > 'HelloWorld'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toPascalCase(): Twine
+    public function toPascalCase(): Thread
     {
         $this->string = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->string)));
 
@@ -172,9 +172,9 @@ trait Caser
      *
      * example: 'hello world' > toSnakeCaseUC() > 'HELLO_WORLD'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toSnakeCaseUC(): Twine
+    public function toSnakeCaseUC(): Thread
     {
         $this->toSnakeCase();
         $this->toUpperCase();
@@ -187,9 +187,9 @@ trait Caser
      *
      * example: 'hello world' > toSnakeCase() > 'hello_world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toSnakeCase(): Twine
+    public function toSnakeCase(): Thread
     {
         // Remove special characters and convert spaces to underscores
         $snake_string = preg_replace('/[^a-zA-Z0-9]+/', '_', $this->string);
@@ -208,9 +208,9 @@ trait Caser
      *
      * example: 'hello world' > toTitleCase() > 'Hello World'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function toTitleCase(): Twine
+    public function toTitleCase(): Thread
     {
         $this->string = ucwords($this->string);
 
@@ -222,9 +222,9 @@ trait Caser
      *
      * example: 'hello world' > ucFirst() > 'Hello world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function ucFirst(): Twine
+    public function ucFirst(): Thread
     {
         return $this;
     }
@@ -234,9 +234,9 @@ trait Caser
      *
      * example: 'hello world' > ucLast() > 'hello worlD'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function ucLast(): Twine
+    public function ucLast(): Thread
     {
         return $this;
     }
@@ -250,9 +250,9 @@ trait Caser
      * example: 'hello world' > ucNth(3) > 'helLo world'
      *
      * @param  int  $n
-     * @return Twine
+     * @return Thread
      */
-    public function ucNth(int $n): Twine
+    public function ucNth(int $n): Thread
     {
         return $this;
     }

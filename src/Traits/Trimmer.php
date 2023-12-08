@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Twine\Traits;
 
-use Gtmassey\Twine\Twine;
+use Gtmassey\Twine\Thread;
 
 /**
  * Trait Trimable
@@ -22,9 +22,9 @@ trait Trimmer
      *
      * example: 'abc123!' > stripAlpha() > '123!'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function stripAlpha(): Twine
+    public function stripAlpha(): Thread
     {
         $this->string = preg_replace('/[a-zA-Z]+/', '', $this->string) ?? '';
 
@@ -37,9 +37,9 @@ trait Trimmer
      *
      * example: 'abc123!' > stripAlphaNumeric() > '!'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function stripAlphaNumeric(): Twine
+    public function stripAlphaNumeric(): Thread
     {
         $this->string = preg_replace('/[a-zA-Z0-9]+/', '', $this->string) ?? '';
 
@@ -51,9 +51,9 @@ trait Trimmer
      *
      * example: 'abc123!' > stripNonNumeric() > '123'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function stripNonNumeric(): Twine
+    public function stripNonNumeric(): Thread
     {
         $this->string = preg_replace('/[^0-9]/', '', $this->string) ?? '';
 
@@ -65,9 +65,9 @@ trait Trimmer
      *
      * example: 'abc123' > stripNumeric() > 'abc'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function stripNumeric(): Twine
+    public function stripNumeric(): Thread
     {
         $this->string = preg_replace('/[0-9]/', '', $this->string) ?? '';
 
@@ -80,9 +80,9 @@ trait Trimmer
      *
      * example: 'abc123!' > stripSpecial() > 'abc123'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function stripSpecial(): Twine
+    public function stripSpecial(): Thread
     {
         $this->string = preg_replace('/[^A-Za-z0-9]/', '', $this->string) ?? '';
 
@@ -96,9 +96,9 @@ trait Trimmer
      * example: 'abc123' > stripSubstring('d') > 'abc123'
      *
      * @param  string  $substring
-     * @return Twine
+     * @return Thread
      */
-    public function stripSubstring(string $substring): Twine
+    public function stripSubstring(string $substring): Thread
     {
         $this->string = str_replace($substring, '', $this->string);
 
@@ -114,9 +114,9 @@ trait Trimmer
      * example: 'Hello World' > stripEnd('ll') > 'Hello World'
      *
      * @param  string  $substring
-     * @return Twine
+     * @return Thread
      */
-    public function stripSubstringFromEnd(string $substring): Twine
+    public function stripSubstringFromEnd(string $substring): Thread
     {
         $string = $this->string;
         $words = explode(' ', $string);
@@ -137,9 +137,9 @@ trait Trimmer
      * example: 'Hello World' > stripStart('x') > 'Hello World'
      *
      * @param  string  $substring
-     * @return Twine
+     * @return Thread
      */
-    public function stripSubstringFromStart(string $substring): Twine
+    public function stripSubstringFromStart(string $substring): Thread
     {
         $string = $this->string;
         $words = explode(' ', $string);
@@ -159,9 +159,9 @@ trait Trimmer
      * example: 'abc123' > stripSubstrings(['a', '1']) > 'bc23'
      *
      * @param  string[]  $substrings
-     * @return Twine
+     * @return Thread
      */
-    public function stripSubstrings(array $substrings): Twine
+    public function stripSubstrings(array $substrings): Thread
     {
         //strip a string of the given substrings
         foreach ($substrings as $substring) {
@@ -177,9 +177,9 @@ trait Trimmer
      *
      * example: 'abc 123' > stripWhitespace() > 'abc123'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function stripWhitespace(): Twine
+    public function stripWhitespace(): Thread
     {
         $this->string = preg_replace('/\s+/', '', $this->string) ?? '';
 
@@ -191,9 +191,9 @@ trait Trimmer
      *
      * example: '   hello   world   ' > trim() > 'hello   world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trim(): Twine
+    public function trim(): Thread
     {
         $this->string = trim($this->string);
 
@@ -205,9 +205,9 @@ trait Trimmer
      *
      * example: '   hello   world   ' > trimEnd() > '   hello   world'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimEnd(): Twine
+    public function trimEnd(): Thread
     {
         $this->string = rtrim($this->string);
 
@@ -219,9 +219,9 @@ trait Trimmer
      *
      * example: 'Hello' > trimBothEndChars() > 'ell'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimFirstAndLastChar(): Twine
+    public function trimFirstAndLastChar(): Thread
     {
         return $this;
     }
@@ -231,9 +231,9 @@ trait Trimmer
      *
      * example: 'Hello world and universe!' > trimBothEndWords() > 'world and'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimFirstAndLastWords(): Twine
+    public function trimFirstAndLastWords(): Thread
     {
         $arr = explode(' ', $this->string);
         array_shift($arr);
@@ -248,9 +248,9 @@ trait Trimmer
      *
      * example: 'Hello' > trimFirstChar() > 'ello'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimFirstChar(): Twine
+    public function trimFirstChar(): Thread
     {
         return $this;
     }
@@ -260,9 +260,9 @@ trait Trimmer
      *
      * example: 'Hello world and universe!' > trimFirstWord() > 'world and universe!'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimFirstWord(): Twine
+    public function trimFirstWord(): Thread
     {
         $arr = explode(' ', $this->string);
         array_shift($arr);
@@ -276,9 +276,9 @@ trait Trimmer
      *
      * example: 'Hello' > trimLastChar() > 'Hell'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimLastChar(): Twine
+    public function trimLastChar(): Thread
     {
         return $this;
     }
@@ -288,9 +288,9 @@ trait Trimmer
      *
      * example: 'Hello world and universe!' > trimLastWord() > 'Hello world and'
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimLastWord(): Twine
+    public function trimLastWord(): Thread
     {
         $arr = explode(' ', $this->string);
         array_pop($arr);
@@ -304,9 +304,9 @@ trait Trimmer
      *
      * example: '   hello   world   ' > trimStart() > 'hello   world   '
      *
-     * @return Twine
+     * @return Thread
      */
-    public function trimStart(): Twine
+    public function trimStart(): Thread
     {
         $this->string = ltrim($this->string);
 
@@ -320,9 +320,9 @@ trait Trimmer
      * example: 'a ab ac ad ae af' > trimSubstringFromEnd('a') > 'a ab ac ad ae f'
      *
      * @param  string  $substring
-     * @return Twine
+     * @return Thread
      */
-    public function trimSubstringFromEnd(string $substring): Twine
+    public function trimSubstringFromEnd(string $substring): Thread
     {
         return $this;
     }
@@ -335,9 +335,9 @@ trait Trimmer
      * example: 'a ab ac ad ae af' > trimSubstring('a') > ' ab ac ad ae af'
      *
      * @param  string  $substring
-     * @return Twine
+     * @return Thread
      */
-    public function trimSubstringFromStart(string $substring): Twine
+    public function trimSubstringFromStart(string $substring): Thread
     {
         return $this;
     }
@@ -349,9 +349,9 @@ trait Trimmer
      * example: 'a ab ac ad ae af' > trimSubstringFromBothEnds('a') > ' ab ac ad ae f'
      *
      * @param  string  $substring
-     * @return Twine
+     * @return Thread
      */
-    public function trimSubstringFromStartAndEnd(string $substring): Twine
+    public function trimSubstringFromStartAndEnd(string $substring): Thread
     {
         return $this;
     }
