@@ -4,13 +4,31 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/twine/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/twine/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/twine.svg?style=flat-square)](https://packagist.org/packages/gtmassey/twine)
 
-Object-Oriented string manipulation for PHP.
+Wrapper class for string manipulation in PHP.
 
 Never slog through the php string function docs again!
 
-PHP comes with a lot of built-in functions for manipulating strings, but they are not very intuitive to use, and the naming conventions are... bad.
+> <p style="color: #f85c5c; font-weight: bold;">Note from the developer:</p> 
+> 
+> This package is still in *active* development, and is *NOT* fully tested or ready for production use. This release is an alpha release (at best) and you can expect some kind of breaking change before a full v1 release. If you have any suggestions for features, please feel free to open an issue or a pull request.
+> 
+> Thanks,
+> 
+> Garrett
 
-Inspired by the [Laravel String](https://laravel.com/docs/10.x/strings) helper class, Twine.php is a framework-agnostic, OOP-centered approach for easily manipulating strings in PHP. No more calling random functions with random arguments and hoping for the best. Instead, convert your strings to a Twine object and manipulate them by chaining functions in an elegant and fluent way.
+I've worked with PHP for... a little over 10 years now, and I've always hated the existing string functions. They are certainly plentiful, and if you know your regex, you can do a lot with them, but they are not very intuitive, and the naming conventions are... bad. 
+
+Laravel's String helper classes are a gigantic leap in the right direction (IMO), but it's wrapped in the Laravel framework, and while you can use it outside of Laravel, I'd rather see a dedicated third party library that is framework-agnostic. 
+
+Twine is a framework-agnostic, static-method focused wrapper class for easily manipulating strings in PHP. No more calling random functions with random arguments and hoping for the best. Instead, create a new Twine object, and manipulate the underlying string by chaining methods together in an elegant and fluent way.
+
+## Why Twine?
+
+I grew up on a farm, we used bailing twine for almost everything. It's strong, it's flexible, it's versatile, and it's cheap. Here, Twine.php is flexible, versatile, and free! 
+
+"Twine" also a synonym for "string", and that fact just tickles me. Instead of creating a "string", you create a Twine object. Does it roll off the tongue the way string does? No, but it's close enough, and it's a fun play on words.
+
+Plus, 'string' is a reserved word in PHP, so I couldn't use that anyway.
 
 ## Installation
 
@@ -24,7 +42,7 @@ composer require gtmassey/twine
 
 ### Getting started
 
-The package is a normal PHP package, so you can use it in any PHP project. Simply add it to your use statements, and you're ready to go.
+The package is a simple PHP package, so you can use it in any PHP project. Simply add it to your use statements, and you're ready to go.
 
 ```php
 use Gtmassey\Twine\Twine;
