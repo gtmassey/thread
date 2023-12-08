@@ -1,8 +1,8 @@
 # Thread.php
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/gtmassey/Thread.svg?style=flat-square)](https://packagist.org/packages/gtmassey/Thread)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/gtmassey/thread.svg?style=flat-square)](https://packagist.org/packages/gtmassey/thread)
 [![Tests](https://img.shields.io/github/actions/workflow/status/gtmassey/Thread/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/gtmassey/Thread/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/Thread.svg?style=flat-square)](https://packagist.org/packages/gtmassey/Thread)
+[![Total Downloads](https://img.shields.io/packagist/dt/gtmassey/thread.svg?style=flat-square)](https://packagist.org/packages/gtmassey/thread)
 
 Wrapper class for string manipulation in PHP.
 
