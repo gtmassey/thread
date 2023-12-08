@@ -1,8 +1,8 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
-use Gtmassey\Twine\Thread;
+use Gtmassey\Thread\Thread;
 
 /**
  * Trait Trimable
@@ -10,12 +10,9 @@ use Gtmassey\Twine\Thread;
  * This trait contains methods for trimming strings.
  * Any action that removes characters from the string is
  * considered a trim action in this package.
- *
- * @package Gtmassey\Twine\Traits
  */
 trait Trimmer
 {
-
     /**
      * strip the string of all alphabetic characters
      * keeps special characters in the string
@@ -355,6 +352,4 @@ trait Trimmer
     {
         return $this;
     }
-
-
 }

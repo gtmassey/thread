@@ -2,7 +2,7 @@
 
 namespace Gtmassey\Thread\Tests;
 
-use Gtmassey\Twine\Thread;
+use Gtmassey\Thread\Thread;
 use PHPUnit\Framework\TestCase;
 
 class ThreadTest extends TestCase

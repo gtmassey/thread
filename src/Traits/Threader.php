@@ -1,6 +1,6 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
 /**
  * Trait Tying
@@ -12,5 +12,4 @@ namespace Gtmassey\Twine\Traits;
  */
 trait Threader
 {
-
 }

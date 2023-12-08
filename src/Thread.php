@@ -1,10 +1,9 @@
 <?php
 
-namespace Gtmassey\Twine;
+namespace Gtmassey\Thread;
 
 class Thread
 {
-
     /*
      |--------------------------------------------------------------------------
      | TRAITS
@@ -22,20 +21,27 @@ class Thread
     use Traits\Threader;
     use Traits\Trimmer;
 
-
     /*
      |--------------------------------------------------------------------------
      | CONSTANTS
      |--------------------------------------------------------------------------
      */
     const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+
     const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     const DIGITS = '0123456789';
+
     const HEX_LOWER = '0123456789abcdef';
+
     const HEX_UPPER = '0123456789ABCDEF';
+
     const BINARY = '01';
+
     const BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
     const OCTAL = '01234567';
+
     const E161 = [
         'a' => '2', 'b' => '22',
         'c' => '222', 'd' => '3',
@@ -72,7 +78,6 @@ class Thread
      */
     protected string $encodedString = '';
 
-
     /*
      |--------------------------------------------------------------------------
      | METHODS
@@ -82,7 +87,7 @@ class Thread
      * Constructor. accepts a string or null value.
      * If null, defaults to an empty string: ""
      */
-    public function __construct(string $string = null)
+    public function __construct(?string $string = null)
     {
         $this->string = $string ?? '';
     }
@@ -90,6 +95,7 @@ class Thread
     /**
      * Returns the string property of the
      * Twine object as an array of characters
+     *
      * @return string[]
      */
     public function __toArray(): array
@@ -261,6 +267,7 @@ class Thread
                 $randomString .= self::HEX_LOWER[rand(0, strlen(self::HEX_LOWER) - 1)];
             }
         }
+
         return $randomString;
     }
 
@@ -308,13 +315,15 @@ class Thread
 
     /**
      * @return string
+     *
      * @throws \Exception
      */
     public static function uuid(): string
     {
         $data = random_bytes(16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+        $data[6] = chr(ord($data[6]) & 0x0F | 0x40); // set version to 0100
+        $data[8] = chr(ord($data[8]) & 0x3F | 0x80); // set bits 6-7 to 10
+
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }

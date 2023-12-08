@@ -1,6 +1,6 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
 trait Analyzer
 {
@@ -25,13 +25,14 @@ trait Analyzer
         $strLength = strlen($this->string);
         for ($i = 0; $i < $strLength; $i++) {
             $char = $this->string[$i];
-            if (!isset($frequency[$char])) {
+            if (! isset($frequency[$char])) {
                 $frequency[$char] = 0;
             }
             $frequency[$char]++;
         }
 
         $maxCount = max($frequency);
+
         return array_search($maxCount, $frequency);
 
     }

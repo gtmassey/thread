@@ -1,12 +1,11 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
-use Gtmassey\Twine\Thread;
+use Gtmassey\Thread\Thread;
 
 trait Spacer
 {
-
     /**
      * append a string to the end of
      * the string.
@@ -85,7 +84,6 @@ trait Spacer
         return $this;
     }
 
-
     /**
      * Append and prepend given fill string
      * to string until n length is reached
@@ -151,5 +149,4 @@ trait Spacer
 
         return $this;
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
-use Gtmassey\Twine\Thread;
+use Gtmassey\Thread\Thread;
 
 trait Mutator
 {
@@ -105,7 +105,7 @@ trait Mutator
      * @param  string|null  $maskChar
      * @return Thread
      */
-    public function mask(?int $start = 0, int $end = null, ?string $maskChar = '*'): Thread
+    public function mask(?int $start = 0, ?int $end = null, ?string $maskChar = '*'): Thread
     {
         return $this;
     }
@@ -246,5 +246,4 @@ trait Mutator
     {
         return $this;
     }
-
 }

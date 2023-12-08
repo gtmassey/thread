@@ -1,6 +1,6 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
 trait Counter
 {
@@ -17,7 +17,7 @@ trait Counter
     public function countAlpha(): int
     {
         $count = preg_match_all('/[A-Za-z]/', $this->string);
-        if (!$count) {
+        if (! $count) {
             return 0;
         }
 
@@ -36,7 +36,7 @@ trait Counter
     public function countAlphaNumeric(): int
     {
         $count = preg_match_all('/[A-Za-z0-9]/', $this->string);
-        if (!$count) {
+        if (! $count) {
             return 0;
         }
 
@@ -177,7 +177,7 @@ trait Counter
     public function countNumeric(): int
     {
         $count = preg_match_all('/[0-9]/', $this->string);
-        if (!$count) {
+        if (! $count) {
             return 0;
         }
 

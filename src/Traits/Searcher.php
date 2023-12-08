@@ -1,10 +1,9 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
 trait Searcher
 {
-
     /**
      * Returns true if the string contains the
      * substring. Case-sensitive.
@@ -21,7 +20,6 @@ trait Searcher
         return str_contains($this->string, $substring);
     }
 
-
     /**
      * Returns true if the string contains all
      * the given substrings in any order and any number
@@ -37,7 +35,7 @@ trait Searcher
     public function containsAll(array $substrings): bool
     {
         foreach ($substrings as $string) {
-            if (!str_contains($this->string, $string)) {
+            if (! str_contains($this->string, $string)) {
                 return false;
             }
         }
@@ -67,7 +65,6 @@ trait Searcher
 
         return false;
     }
-
 
     /**
      * Returns true if the string does NOT

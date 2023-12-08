@@ -1,8 +1,8 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
-use Gtmassey\Twine\Thread;
+use Gtmassey\Thread\Thread;
 
 trait Decoder
 {

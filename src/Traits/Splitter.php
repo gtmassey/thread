@@ -1,10 +1,9 @@
 <?php
 
-namespace Gtmassey\Twine\Traits;
+namespace Gtmassey\Thread\Traits;
 
 trait Splitter
 {
-
     /**
      * @return array<string>
      */
@@ -95,7 +94,7 @@ trait Splitter
     public function splitOnUC(): array
     {
         $arr = preg_split('/(?=[A-Z])/', $this->string, -1, PREG_SPLIT_NO_EMPTY);
-        if (!$arr) {
+        if (! $arr) {
             return [];
         }
 
