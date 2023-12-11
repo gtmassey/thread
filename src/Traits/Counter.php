@@ -4,6 +4,7 @@ namespace Gtmassey\Thread\Traits;
 
 trait Counter
 {
+
     /**
      * return the number of alphabetical characters in the string
      *
@@ -17,11 +18,7 @@ trait Counter
     public function countAlpha(): int
     {
         $count = preg_match_all('/[A-Za-z]/', $this->string);
-        if (! $count) {
-            return 0;
-        }
-
-        return $count;
+        return $count ?: 0;
     }
 
     /**
@@ -36,11 +33,7 @@ trait Counter
     public function countAlphaNumeric(): int
     {
         $count = preg_match_all('/[A-Za-z0-9]/', $this->string);
-        if (! $count) {
-            return 0;
-        }
-
-        return $count;
+        return $count ?: 0;
     }
 
     /**
@@ -68,7 +61,6 @@ trait Counter
         foreach ($substrings as $string) {
             $count += substr_count($this->string, $string);
         }
-
         return $count;
     }
 
@@ -77,7 +69,13 @@ trait Counter
      */
     public function countBinary(): int
     {
-        return 0;
+        $count = 0;
+        foreach (str_split($this->string) as $char) {
+            if (ord($char) > 127) {
+                $count++;
+            }
+        }
+        return $count;
     }
 
     /**
@@ -120,32 +118,49 @@ trait Counter
      */
     public function countCharacters(array $substrings): int
     {
-        return 0;
+        return $this->countInstancesOf($substrings);
     }
 
     /**
+     * returns the count of the instances of the given characters
+     * returns an array of key values where the key is the substring
+     * and the value is its count
+     *
      * @param  array<string>  $substrings
-     * @return int
+     * @return array<string, int>
      */
-    public function countChars(array $substrings): int
+    public function countChars(array $substrings): array
     {
-        return 0;
+        $substr = [];
+        for ($i = 0; $i < count($substrings); $i++) {
+            $substr[$substrings[$i]] = $this->countInstanceOf($substrings[$i]);
+        }
+        return $substr;
     }
 
     /**
+     * returns the count of the number of hexidecimal
+     * characters in a string. See https://en.wikipedia.org/wiki/Hexadecimal
+     * This function is not case sensitive.
+     *
      * @return int
      */
     public function countHex(): int
     {
-        return 0;
+        $count = preg_match_all('/[0-9A-Fa-f]/', $this->string);
+        return $count ?: 0;
     }
 
     /**
+     * returns a count of lowercase characters
+     * in the string
+     *
      * @return int
      */
     public function countLC(): int
     {
-        return 0;
+        $count = preg_match_all('/[a-z]/', $this->string);
+        return $count ?: 0;
     }
 
     /**
@@ -161,7 +176,7 @@ trait Counter
      */
     public function countLowercase(): int
     {
-        return 0;
+        return $this->countLC();
     }
 
     /**
@@ -177,11 +192,7 @@ trait Counter
     public function countNumeric(): int
     {
         $count = preg_match_all('/[0-9]/', $this->string);
-        if (! $count) {
-            return 0;
-        }
-
-        return $count;
+        return $count ?: 0;
     }
 
     /**
@@ -193,19 +204,28 @@ trait Counter
     }
 
     /**
+     * Returns the count of sentences in the string.
+     * Assumes that all sentences are separated by a single
+     * period '.' character. Does not account for abbreviations.
+     *
      * @return int
      */
     public function countSentences(): int
     {
-        return 0;
+        return count(explode('.', $this->string));
     }
 
     /**
+     * Returns a count of special characters in the
+     * string. Does NOT include alphanumeric characters
+     * or whitespace.
      * @return int
      */
     public function countSpecial(): int
     {
-        return 0;
+        $specialChars = preg_quote(implode('', self::SPECIAL_CHARS), '/');
+        $count = preg_match_all("/[$specialChars]/", $this->string);
+        return $count ?: 0;
     }
 
     /**
@@ -227,11 +247,15 @@ trait Counter
     }
 
     /**
+     * Returns a count of the number of
+     * uppercase characters in the string
+     *
      * @return int
      */
     public function countUC(): int
     {
-        return 0;
+        $count = preg_match_all('/[A-Z]/', $this->string);
+        return $count ?: 0;
     }
 
     /**
@@ -239,15 +263,19 @@ trait Counter
      */
     public function countUppercase(): int
     {
-        return 0;
+        return $this->countUC();
     }
 
     /**
+     * returns a count of all whitespace characters
+     * such as space " ", tab "\t", and newline "\n"
+     * and return characters "\r"
      * @return int
      */
     public function countWhitespace(): int
     {
-        return 0;
+        $count = preg_match_all('/\s/', $this->string);
+        return $count ?: 0;
     }
 
     /**

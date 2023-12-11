@@ -47,7 +47,12 @@ trait Caser
      */
     public function lcNth(int $n): Thread
     {
-        return $this;
+        //if n is out of bounds, do nothing, return string
+        if ($n <= strlen($this->string) && $n >= 0) {
+            $this->string = substr_replace($this->string, strtolower(substr($this->string, $n, 1)), $n, 1);
+        } else {
+            return $this;
+        }
     }
 
     /**
@@ -225,6 +230,7 @@ trait Caser
      */
     public function ucFirst(): Thread
     {
+        $this->string = ucfirst($this->string);
         return $this;
     }
 
@@ -237,6 +243,7 @@ trait Caser
      */
     public function ucLast(): Thread
     {
+        $this->string = substr($this->string, 0, -1).strtoupper(substr($this->string, -1));
         return $this;
     }
 
@@ -253,6 +260,11 @@ trait Caser
      */
     public function ucNth(int $n): Thread
     {
+        //convert the nth character to uppercase
+        //if n is out of bounds, nothing happens, return the string
+        if ($n <= strlen($this->string) && $n >= 0) {
+            $this->string = substr_replace($this->string, strtoupper(substr($this->string, $n, 1)), $n, 1);
+        }
         return $this;
     }
 }

@@ -16,6 +16,7 @@ trait Mutator
      */
     public function after(string $delimiter): Thread
     {
+        $this->string = substr($this->string, strpos($this->string, $delimiter) + strlen($delimiter));
         return $this;
     }
 
@@ -29,6 +30,7 @@ trait Mutator
      */
     public function before(string $delimiter): Thread
     {
+        $this->string = substr($this->string, 0, strpos($this->string, $delimiter));
         return $this;
     }
 
@@ -42,6 +44,7 @@ trait Mutator
      */
     public function beforeLast(string $delimiter): Thread
     {
+        $this->string = substr($this->string, 0, strrpos($this->string, $delimiter));
         return $this;
     }
 
