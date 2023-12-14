@@ -4,7 +4,6 @@ namespace Gtmassey\Thread\Traits;
 
 trait Counter
 {
-
     /**
      * return the number of alphabetical characters in the string
      *
@@ -18,6 +17,7 @@ trait Counter
     public function countAlpha(): int
     {
         $count = preg_match_all('/[A-Za-z]/', $this->string);
+
         return $count ?: 0;
     }
 
@@ -33,6 +33,7 @@ trait Counter
     public function countAlphaNumeric(): int
     {
         $count = preg_match_all('/[A-Za-z0-9]/', $this->string);
+
         return $count ?: 0;
     }
 
@@ -61,6 +62,7 @@ trait Counter
         foreach ($substrings as $string) {
             $count += substr_count($this->string, $string);
         }
+
         return $count;
     }
 
@@ -75,6 +77,7 @@ trait Counter
                 $count++;
             }
         }
+
         return $count;
     }
 
@@ -135,6 +138,7 @@ trait Counter
         for ($i = 0; $i < count($substrings); $i++) {
             $substr[$substrings[$i]] = $this->countInstanceOf($substrings[$i]);
         }
+
         return $substr;
     }
 
@@ -148,6 +152,7 @@ trait Counter
     public function countHex(): int
     {
         $count = preg_match_all('/[0-9A-Fa-f]/', $this->string);
+
         return $count ?: 0;
     }
 
@@ -160,6 +165,7 @@ trait Counter
     public function countLC(): int
     {
         $count = preg_match_all('/[a-z]/', $this->string);
+
         return $count ?: 0;
     }
 
@@ -192,6 +198,7 @@ trait Counter
     public function countNumeric(): int
     {
         $count = preg_match_all('/[0-9]/', $this->string);
+
         return $count ?: 0;
     }
 
@@ -219,12 +226,14 @@ trait Counter
      * Returns a count of special characters in the
      * string. Does NOT include alphanumeric characters
      * or whitespace.
+     *
      * @return int
      */
     public function countSpecial(): int
     {
         $specialChars = preg_quote(implode('', self::SPECIAL_CHARS), '/');
         $count = preg_match_all("/[$specialChars]/", $this->string);
+
         return $count ?: 0;
     }
 
@@ -255,6 +264,7 @@ trait Counter
     public function countUC(): int
     {
         $count = preg_match_all('/[A-Z]/', $this->string);
+
         return $count ?: 0;
     }
 
@@ -270,11 +280,13 @@ trait Counter
      * returns a count of all whitespace characters
      * such as space " ", tab "\t", and newline "\n"
      * and return characters "\r"
+     *
      * @return int
      */
     public function countWhitespace(): int
     {
         $count = preg_match_all('/\s/', $this->string);
+
         return $count ?: 0;
     }
 

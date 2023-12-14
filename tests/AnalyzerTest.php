@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class AnalyzerTest extends TestCase
 {
-
     public function testLength(): void
     {
         $twine = new Thread('One');
@@ -62,5 +61,4 @@ class AnalyzerTest extends TestCase
         //TODO: implement test
         $this->assert(true);
     }
-
 }
