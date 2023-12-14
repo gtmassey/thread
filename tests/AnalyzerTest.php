@@ -53,12 +53,12 @@ class AnalyzerTest extends TestCase
     public function mostFrequentWords(): void
     {
         //TODO: implement test
-        $this->assert(true);
+        $this->assertTrue(true);
     }
 
     public function testWordCount(): void
     {
         //TODO: implement test
-        $this->assert(true);
+        $this->assertTrue(true);
     }
 }
