@@ -51,8 +51,10 @@ trait Counter
             foreach ($substring as $sub) {
                 $frequency[$sub] = substr_count($this->string, $sub);
             }
+
             return $frequency;
         }
+
         return substr_count($this->string, $substring);
     }
 
@@ -119,6 +121,7 @@ trait Counter
                 $charFrequency[$char] = 1;
             }
         }
+
         return $charFrequency;
     }
 
@@ -230,6 +233,7 @@ trait Counter
 
     /**
      * Alias of countLines, Assumes a new line indicates a new paragraph.
+     *
      * @return int
      */
     public function countParagraphs(): int
@@ -248,7 +252,8 @@ trait Counter
     {
         $sentences = explode('.', $this->string);
         //if any of them are empty, remove them
-        $sentences = array_filter($sentences, fn ($sentence) => !empty($sentence));
+        $sentences = array_filter($sentences, fn ($sentence) => ! empty($sentence));
+
         //return the count
         return count($sentences);
     }
