@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class CaserTest extends TestCase
 {
-
     public function testLowercaseFirst(): void
     {
         $thread = new Thread('HELLO WORLD');
@@ -238,5 +237,4 @@ class CaserTest extends TestCase
         $thread = new Thread('hello world');
         $this->assertEquals('hello world', $thread->ucNth(-1));
     }
-
 }

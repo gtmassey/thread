@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class CounterTest extends TestCase
 {
-
     public function testCountAlpha(): void
     {
         $thread = new Thread('abc123');

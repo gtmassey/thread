@@ -83,7 +83,7 @@ trait Counter
      * @param  string  $substring
      * @return int
      */
-    public function countChar(string $substring): int
+    public function countSubstr(string $substring): int
     {
         return $this->countInstanceOf($substring);
     }

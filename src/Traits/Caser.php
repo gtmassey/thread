@@ -51,6 +51,7 @@ trait Caser
         if ($n <= strlen($this->string) && $n >= 0) {
             $this->string = substr_replace($this->string, strtolower(substr($this->string, $n, 1)), $n, 1);
         }
+
         return $this;
     }
 
@@ -101,6 +102,7 @@ trait Caser
         //set string
         //TODO: write a setter function
         $this->string = $kebab;
+
         //return
         return $this;
     }

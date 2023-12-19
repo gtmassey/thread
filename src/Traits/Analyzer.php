@@ -55,6 +55,7 @@ trait Analyzer
         //return the first element
         $keys = array_keys($frequency);
         $key = $keys[0];
+
         return [$key => $frequency[$key]];
     }
 
@@ -131,6 +132,7 @@ trait Analyzer
         $words = $this->splitOnWords();
         $frequency = array_count_values($words);
         arsort($frequency);
+
         return array_slice($frequency, 0, 1, true);
 
     }
@@ -169,6 +171,7 @@ trait Analyzer
         $words = $this->splitOnWords();
         $frequency = array_count_values($words);
         arsort($frequency);
+
         return array_slice($frequency, 0, $n, true);
     }
 
@@ -199,6 +202,7 @@ trait Analyzer
         //space character, and count the number
         //of elements in the resulting array
         $words = $this->splitOnWords();
+
         return count($words);
     }
 }
