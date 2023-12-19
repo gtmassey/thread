@@ -60,39 +60,6 @@ class ThreadTest extends TestCase
         $this->assertFalse($twine->containsNone(['foo', 'bar', 'Hello']));
     }
 
-    public function testCountAlpha(): void
-    {
-        $twine = new Thread('abc');
-        $this->assertEquals(3, $twine->countAlpha());
-        $twine = new Thread('123');
-        $this->assertEquals(0, $twine->countAlpha());
-    }
-
-    public function testCountAlphaNumeric(): void
-    {
-        $twine = new Thread('abc123');
-        $this->assertEquals(6, $twine->countAlphaNumeric());
-        $twine = new Thread('!@#$%^&*()');
-        $this->assertEquals(0, $twine->countAlphaNumeric());
-    }
-
-    public function testCountInstancesOf(): void
-    {
-        $twine = new Thread('a b c a b c a b c');
-        $this->assertEquals(9, $twine->countInstancesOf(['a', 'b', 'c']));
-        $this->assertEquals(0, $twine->countInstancesOf(['d', 'e', 'f']));
-    }
-
-    public function testCountSubstring(): void
-    {
-        $twine = new Thread('Hello, world!');
-        $this->assertEquals(1, $twine->countSubstring('Hello'));
-
-        $this->assertEquals(0, $twine->countSubstring('Universe'));
-
-        $this->assertEquals(0, $twine->countSubstring('hello'));
-    }
-
     public function testToArray(): void
     {
         $twine = new Thread('abc 123');

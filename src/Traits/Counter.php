@@ -38,118 +38,108 @@ trait Counter
     }
 
     /**
-     * Alias of $this->countInstancesOf($substrings)
-     *
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countAny(array $substrings): int
-    {
-        return $this->countInstancesOf($substrings);
-    }
-
-    /**
-     * returns the total count of the instances of the given
-     * array of substrings. In any order, and any number of times
-     * Case-sensitive.
-     *
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countInstancesOf(array $substrings): int
-    {
-        $count = 0;
-        foreach ($substrings as $string) {
-            $count += substr_count($this->string, $string);
-        }
-
-        return $count;
-    }
-
-    /**
-     * @return int
-     */
-    public function countBinary(): int
-    {
-        //TODO: implement. Not sure if it should count the number of 1's and 0's
-        //      or the actual binary values found in the string?? not sure.
-
-        return 0;
-    }
-
-    /**
-     * Alias of $this->countInstanceOf($substring)
-     *
-     * @param  string  $substring
-     * @return int
-     */
-    public function countSubstr(string $substring): int
-    {
-        return $this->countInstanceOf($substring);
-    }
-
-    /**
      * Returns the integer count of the number of instances
      * of the given substring. Case-sensitive.
      *
-     * @param  string  $substring
-     * @return int
+     * @param  string|array  $substring
+     * @return int|array
      */
-    public function countInstanceOf(string $substring): int
+    public function countInstancesOf(string|array $substring): int|array
     {
+        if (is_array($substring)) {
+            $frequency = [];
+            foreach ($substring as $sub) {
+                $frequency[$sub] = substr_count($this->string, $sub);
+            }
+            return $frequency;
+        }
         return substr_count($this->string, $substring);
     }
 
     /**
-     * Alias of $this->countInstanceOf($substring)
+     * Alias of $this->countInstancesOf($substring)
      *
-     * @param  string  $substring
-     * @return int
+     * @param  string|array  $substring
+     * @return int|array
      */
-    public function countCharacter(string $substring): int
+    public function countSubstr(string|array $substring): int|array
     {
-        return $this->countInstanceOf($substring);
+        return $this->countInstancesOf($substring);
     }
 
     /**
-     * @param  array<string>  $substrings
-     * @return int
+     * Alias of $this->countInstancesOf($substring)
+     *
+     * @param  string|array  $substring
+     * @return int|array
      */
-    public function countCharacters(array $substrings): int
+    public function substrCount(string|array $substring): int|array
     {
-        return $this->countInstancesOf($substrings);
+        return $this->countInstancesOf($substring);
     }
 
     /**
-     * returns the count of the instances of the given characters
-     * returns an array of key values where the key is the substring
-     * and the value is its count
+     * Alias of $this->countInstancesOf($substring)
      *
-     * @param  array<string>  $substrings
+     * @param  string|array  $substring
+     * @return int|array
+     */
+    public function substringsCount(string|array $substring): int|array
+    {
+        return $this->countInstancesOf($substring);
+    }
+
+    /**
+     * Alias of $this->countInstancesOf($substring)
+     *
+     * @param  string|array  $substring
+     * @return int|array
+     */
+    public function countSubstrings(string|array $substring): int|array
+    {
+        return $this->countInstancesOf($substring);
+    }
+
+    /**
+     * returns the exploded string as an array with
+     * the characters as keys and the count of each character
+     * as the value
+     *
      * @return array<string, int>
      */
-    public function countChars(array $substrings): array
+    public function characterFrequency(): array
     {
-        $substr = [];
-        for ($i = 0; $i < count($substrings); $i++) {
-            $substr[$substrings[$i]] = $this->countInstanceOf($substrings[$i]);
-        }
+        $chars = str_split($this->string);
+        $charFrequency = [];
 
-        return $substr;
+        foreach ($chars as $char) {
+            if (isset($charFrequency[$char])) {
+                $charFrequency[$char]++;
+            } else {
+                $charFrequency[$char] = 1;
+            }
+        }
+        return $charFrequency;
     }
 
     /**
-     * returns the count of the number of hexidecimal
-     * characters in a string. See https://en.wikipedia.org/wiki/Hexadecimal
-     * This function is not case sensitive.
+     * alias of $this->characterFrequency()
      *
-     * @return int
+     * @return array<string, int>
      */
-    public function countHex(): int
+    public function charFrequency(): array
     {
-        $count = preg_match_all('/[0-9A-Fa-f]/', $this->string);
+        return $this->characterFrequency();
+    }
 
-        return $count ?: 0;
+    /**
+     * alias of $this->characterFrequency()
+     *
+     * @return array<string, int>
+     */
+    public function charFreq(): array
+    {
+        return $this->characterFrequency();
     }
 
     /**
@@ -166,14 +156,54 @@ trait Counter
     }
 
     /**
+     * Alias of $this->countLC()
+     *
+     * @return int
+     */
+    public function countLower(): int
+    {
+        return $this->countLC();
+    }
+
+    /**
+     * returns the count of lines in a string
+     *
      * @return int
      */
     public function countLines(): int
     {
-        return 0;
+        //given a large body of text, count the
+        //number of lines in the text that are separated
+        //by a newline character, return character, break character
+        //or a combination of these characters
+
+        //example: 'abc123\n abc123' > countLines() = 1
+        return count(preg_split('/(\r\n|\n|\r)/', $this->string));
     }
 
     /**
+     * alias of $this->countLines()
+     *
+     * @return int
+     */
+    public function countNewlines(): int
+    {
+        return $this->countLines();
+    }
+
+    /**
+     * alias of $this->countLines()
+     *
+     * @return int
+     */
+    public function lineCount(): int
+    {
+        return $this->countLines();
+    }
+
+    /**
+     * Alias of $this->countLC()
+     *
      * @return int
      */
     public function countLowercase(): int
@@ -199,11 +229,12 @@ trait Counter
     }
 
     /**
+     * Alias of countLines, Assumes a new line indicates a new paragraph.
      * @return int
      */
     public function countParagraphs(): int
     {
-        return 0;
+        return $this->countLines();
     }
 
     /**
@@ -215,7 +246,11 @@ trait Counter
      */
     public function countSentences(): int
     {
-        return count(explode('.', $this->string));
+        $sentences = explode('.', $this->string);
+        //if any of them are empty, remove them
+        $sentences = array_filter($sentences, fn ($sentence) => !empty($sentence));
+        //return the count
+        return count($sentences);
     }
 
     /**
@@ -234,24 +269,6 @@ trait Counter
     }
 
     /**
-     * @param  string  $substring
-     * @return int
-     */
-    public function countSubstring(string $substring): int
-    {
-        return $this->countInstanceOf($substring);
-    }
-
-    /**
-     * @param  array<string>  $substrings
-     * @return int
-     */
-    public function countSubstrings(array $substrings): int
-    {
-        return $this->countInstancesOf($substrings);
-    }
-
-    /**
      * Returns a count of the number of
      * uppercase characters in the string
      *
@@ -265,9 +282,21 @@ trait Counter
     }
 
     /**
+     * alias of $this->countUC()
+     *
      * @return int
      */
     public function countUppercase(): int
+    {
+        return $this->countUC();
+    }
+
+    /**
+     * alias of $this->countUC()
+     *
+     * @return int
+     */
+    public function countUpper(): int
     {
         return $this->countUC();
     }

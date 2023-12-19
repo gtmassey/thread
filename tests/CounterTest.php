@@ -34,24 +34,100 @@ class CounterTest extends TestCase
         $this->assertEquals(0, $thread->countAlphaNumeric());
     }
 
-    public function testCountInstancesOf(): void
+    public function testCountSubstr(): void
     {
-        $thread = new Thread('abc123abc123abc123');
-        $this->assertEquals(3, $thread->countInstancesOf(['abc']));
-        $this->assertEquals(3, $thread->countAny(['abc']));
+        $thread = new Thread('abc123abc123');
+        $this->assertEquals(2, $thread->countInstancesOf('abc'));
+        $this->assertEquals(2, $thread->countSubstrings('abc'));
+        $this->assertEquals(2, $thread->countSubstr('abc'));
+        $this->assertEquals(2, $thread->substrCount('abc'));
+        $this->assertEquals(2, $thread->substringsCount('abc'));
 
-        $this->assertEquals(0, $thread->countInstancesOf(['xyz']));
-        $this->assertEquals(0, $thread->countAny(['xyz']));
-
-        $this->assertEquals(3, $thread->countInstancesOf(['abc', 'xyz']));
-        $this->assertEquals(3, $thread->countAny(['abc', 'xyz']));
-
-        $this->assertEquals(0, $thread->countInstancesOf([]));
+        //arrays
+        $thread = new Thread('abc123abc123');
+        $this->assertEquals([
+            'abc' => 2,
+            '123' => 2,
+        ], $thread->countInstancesOf(['abc', '123']));
     }
 
-    public function testCountBinary(): void
+    public function testCharacterFrequency(): void
     {
-        //TODO: implement test
-        $this->assertTrue(true);
+        $thread = new Thread('aa bb cc dd ee');
+        $this->assertEquals([
+            'a' => 2,
+            'b' => 2,
+            'c' => 2,
+            'd' => 2,
+            'e' => 2,
+            ' ' => 4,
+        ], $thread->characterFrequency());
+    }
+
+    public function testCountLowercase(): void
+    {
+        $thread = new Thread('abc123');
+        $this->assertEquals(3, $thread->countLowercase());
+        $this->assertEquals(3, $thread->countLC());
+        $this->assertEquals(3, $thread->countLower());
+
+        $thread = new Thread('abc123!');
+        $this->assertEquals(3, $thread->countLowercase());
+
+        $thread = new Thread('!@#$%^&*()');
+        $this->assertEquals(0, $thread->countLowercase());
+
+        $thread = new Thread('123');
+        $this->assertEquals(0, $thread->countLowercase());
+
+        $thread = new Thread('ABC123');
+        $this->assertEquals(0, $thread->countLowercase());
+    }
+
+    public function testCountLines(): void
+    {
+        $thread = new Thread("This is line 1.\nThis is line 2.\rThis is line 3.\r\nThis is line 4.");
+        $this->assertEquals(4, $thread->countLines());
+    }
+
+    public function testCountSentences(): void
+    {
+        $thread = new Thread('This is sentence 1. This is sentence 2. This is sentence 3.');
+        $this->assertEquals(3, $thread->countSentences());
+    }
+
+    public function testCountSpecial(): void
+    {
+        $thread = new Thread('abc123');
+        $this->assertEquals(0, $thread->countSpecial());
+
+        $thread = new Thread('abc123!');
+        $this->assertEquals(1, $thread->countSpecial());
+
+        $thread = new Thread('!@#$%^&*()');
+        $this->assertEquals(10, $thread->countSpecial());
+
+        $thread = new Thread('123');
+        $this->assertEquals(0, $thread->countSpecial());
+    }
+
+    public function testCountUppecase(): void
+    {
+        $thread = new Thread('abc123');
+        $this->assertEquals(0, $thread->countUppercase());
+        $this->assertEquals(0, $thread->countUC());
+        $this->assertEquals(0, $thread->countUpper());
+
+        $thread = new Thread('abc123!');
+        $this->assertEquals(0, $thread->countUppercase());
+
+        $thread = new Thread('!@#$%^&*()');
+        $this->assertEquals(0, $thread->countUppercase());
+
+        $thread = new Thread('123');
+        $this->assertEquals(0, $thread->countUppercase());
+
+        $thread = new Thread('ABC123');
+        $this->assertEquals(3, $thread->countUppercase());
     }
 }
