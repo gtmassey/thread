@@ -238,7 +238,8 @@ class CaserTest extends TestCase
         $this->assertEquals('hello world', $thread->ucNth(-1));
     }
 
-    public function testTest(): void {
+    public function testTest(): void
+    {
         //simple change to test github actions.
         $this->assertTrue(true);
     }
