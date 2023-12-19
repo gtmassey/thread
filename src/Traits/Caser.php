@@ -50,9 +50,8 @@ trait Caser
         //if n is out of bounds, do nothing, return string
         if ($n <= strlen($this->string) && $n >= 0) {
             $this->string = substr_replace($this->string, strtolower(substr($this->string, $n, 1)), $n, 1);
-        } else {
-            return $this;
         }
+        return $this;
     }
 
     /**
@@ -102,7 +101,6 @@ trait Caser
         //set string
         //TODO: write a setter function
         $this->string = $kebab;
-
         //return
         return $this;
     }

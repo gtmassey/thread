@@ -15,16 +15,30 @@ trait Analyzer
     }
 
     /**
-     * Returns the most frequent character of the string,
-     * excluding whitespace.
-     * If two or more characters have the same frequency,
-     * the first one encountered will be returned
+     * Returns an array containing the most frequent character
+     * and the number of times it occurs. If there is a tie
+     * for the most frequent character, the first character
+     * encountered with the highest frequency will be returned.
+     * e.g. 'a a b b c c' will return ['a' => 2]
      *
-     * @return string
+     * @return array
      */
-    public function mostFrequentCharacter(): string
+    public function mostFrequentCharacter(): array
     {
-        $string = preg_replace('/\s+/', '', $this->string);
+        //first, get the string
+        $string = $this->string;
+
+        //now check if the string only contains whitespace
+        $isWhitespace = (trim($string) === '');
+        if ($isWhitespace) {
+            return [];
+        }
+
+        //strip the whitespace
+        $string = preg_replace('/\s+/', '', $string);
+
+        //now, count the occurrence of each character
+        //and return the most frequent character
         $frequency = [];
         $strLength = strlen($string);
         for ($i = 0; $i < $strLength; $i++) {
@@ -35,10 +49,13 @@ trait Analyzer
             $frequency[$char]++;
         }
 
-        $maxCount = max($frequency);
+        //sort by most frequent
+        arsort($frequency);
 
-        return array_search($maxCount, $frequency);
-
+        //return the first element
+        $keys = array_keys($frequency);
+        $key = $keys[0];
+        return [$key => $frequency[$key]];
     }
 
     /**
@@ -51,7 +68,19 @@ trait Analyzer
      */
     public function mostFrequentCharacters(int $n = 3): array
     {
-        $string = preg_replace('/\s+/', '', $this->string);
+        //get the string
+        $string = $this->string;
+
+        //now check if the string only contains whitespace
+        $isWhitespace = (trim($string) === '');
+        if ($isWhitespace) {
+            return [];
+        }
+
+        //strip the string
+        $string = preg_replace('/\s+/', '', $string);
+
+        //now, count the occurrence of each character
         $frequency = [];
         $strLength = strlen($string);
         for ($i = 0; $i < $strLength; $i++) {
@@ -68,30 +97,42 @@ trait Analyzer
     }
 
     /**
-     * returns the most frequent word in a string,
-     * where a 'word' is considered a substring
-     * separated by a space character or other whitespace
-     * on both sides
+     * returns an array with the most frequent word
+     * as the key and the number of times it occurs
+     * as the value. A single element array
      *
-     * @return string
+     * If there is a tie for the most frequent word
+     * the first word encountered with the highest frequency
+     * will be returned. e.g. 'a a b b c c' will return ['a' => 2]
+     *
+     * @return array
      */
-    public function mostFrequentWord(): string
+    public function mostFrequentWord(): array
     {
-        //TODO: check to make sure this works for
-        //      situations where all words
-        //      appear equally frequently
-        $words = $this->splitOnWords();
-        $frequency = [];
-        foreach ($words as $word) {
-            if (! isset($frequency[$word])) {
-                $frequency[$word] = 0;
-            }
-            $frequency[$word]++;
+        //get the string
+        $string = $this->string;
+
+        //first, check if the string is empty
+        $length = $this->length();
+        if ($length === 0) {
+            return [];
         }
 
-        $maxCount = max($frequency);
+        //now check if the string only contains whitespace
+        $isWhitespace = (trim($string) === '');
+        if ($isWhitespace) {
+            return [];
+        }
 
-        return array_search($maxCount, $frequency);
+        //now, split the string on a single
+        //space character, and count the occurrence
+        //of each word, then return an array only containing
+        //the most frequent word
+        $words = $this->splitOnWords();
+        $frequency = array_count_values($words);
+        arsort($frequency);
+        return array_slice($frequency, 0, 1, true);
+
     }
 
     /**
@@ -106,21 +147,29 @@ trait Analyzer
      */
     public function mostFrequentWords(int $n = 3): array
     {
-        //TODO: check to make sure this works for
-        //      situations where all words
-        //      appear equally frequently
-        $words = $this->splitOnWords();
-        $frequency = [];
-        foreach ($words as $word) {
-            if (! isset($frequency[$word])) {
-                $frequency[$word] = 0;
-            }
-            $frequency[$word]++;
+        //get the string
+        $string = $this->string;
+
+        //first, check if the string is empty
+        $length = $this->length();
+        if ($length === 0) {
+            return [];
         }
 
-        arsort($frequency);
+        //now check if the string only contains whitespace
+        $isWhitespace = (trim($string) === '');
+        if ($isWhitespace) {
+            return [];
+        }
 
-        return array_slice($frequency, 0, $n);
+        //now, split the string on a single
+        //space character, and count the occurrence
+        //of each word, then return the top n words
+        //along with their count
+        $words = $this->splitOnWords();
+        $frequency = array_count_values($words);
+        arsort($frequency);
+        return array_slice($frequency, 0, $n, true);
     }
 
     /**
@@ -131,16 +180,25 @@ trait Analyzer
      */
     public function wordCount(): int
     {
-        //TODO: need to first check if the string
-        //      is only whitespace, because exploding
-        //      on whitespace only returns an array of empty
-        //      strings, which defeats the purpose
-        //
-        //TODO: then, need to check if the split
-        //      string array is empty, because if it is
-        //      then the word count is 0
-        return $this->length() === 0
-            ? 0
-            : count($this->splitOnWords());
+        //get the string
+        $string = $this->string;
+
+        //first, check if the string is empty
+        $length = $this->length();
+        if ($length === 0) {
+            return 0;
+        }
+
+        //now check if the string only contains whitespace
+        $isWhitespace = (trim($string) === '');
+        if ($isWhitespace) {
+            return 0;
+        }
+
+        //now, split the string on a single
+        //space character, and count the number
+        //of elements in the resulting array
+        $words = $this->splitOnWords();
+        return count($words);
     }
 }

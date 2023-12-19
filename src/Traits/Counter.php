@@ -71,14 +71,10 @@ trait Counter
      */
     public function countBinary(): int
     {
-        $count = 0;
-        foreach (str_split($this->string) as $char) {
-            if (ord($char) > 127) {
-                $count++;
-            }
-        }
+        //TODO: implement. Not sure if it should count the number of 1's and 0's
+        //      or the actual binary values found in the string?? not sure.
 
-        return $count;
+        return 0;
     }
 
     /**

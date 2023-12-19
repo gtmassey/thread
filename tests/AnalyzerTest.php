@@ -9,56 +9,106 @@ class AnalyzerTest extends TestCase
 {
     public function testLength(): void
     {
-        $twine = new Thread('One');
-        $this->assertEquals(3, $twine->length());
+        $thread = new Thread('a');
+        $this->assertEquals(1, $thread->length());
 
-        $twine = new Thread('Two');
-        $this->assertEquals(3, $twine->length());
+        $thread = new Thread('aa');
+        $this->assertEquals(2, $thread->length());
 
-        $twine = new Thread('Three');
-        $this->assertEquals(5, $twine->length());
+        $thread = new Thread('aaa');
+        $this->assertEquals(3, $thread->length());
+
+        $thread = new Thread('');
+        $this->assertEquals(0, $thread->length());
+
+        $thread = new Thread('    ');
+        $this->assertEquals(4, $thread->length());
     }
 
     public function testMostFrequentCharacter(): void
     {
-        $twine = new Thread('Hello, world!');
-        $this->assertEquals('l', $twine->mostFrequentCharacter());
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4], $thread->mostFrequentCharacter());
 
-        $twine = new Thread('Foo bar baz');
-        $this->assertEquals('o', $twine->mostFrequentCharacter());
+        $thread = new Thread('a a b b c c d d');
+        $this->assertEquals(['a' => 2], $thread->mostFrequentCharacter());
 
-        $twine = new Thread('Foo bar baz Foo bar baz');
-        $this->assertEquals('o', $twine->mostFrequentCharacter());
+        $thread = new Thread('');
+        $this->assertEquals([], $thread->mostFrequentCharacter());
+
+        $thread = new Thread('    ');
+        $this->assertEquals([], $thread->mostFrequentCharacter());
+
+        $thread = new Thread('a');
+        $this->assertEquals(['a' => 1], $thread->mostFrequentCharacter());
     }
 
     public function testMostFrequentCharacters(): void
     {
-        //TODO: check test validity
-        $twine = new Thread('one two three four');
-        $this->assertEquals(['o' => 3, 'e' => 3, 't' => 2], $twine->mostFrequentCharacters());
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4, 'b' => 3, 'c' => 2], $thread->mostFrequentCharacters());
+
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4, 'b' => 3, 'c' => 2, 'd' => 1], $thread->mostFrequentCharacters(4));
+
+        $thread = new Thread('');
+        $this->assertEquals([], $thread->mostFrequentCharacters());
     }
 
-    public function mostFrequentWord(): void
+    public function testMostFrequentWord(): void
     {
-        $twine = new Thread('one two three four one');
-        $this->assertEquals('one', $twine->mostFrequentWord());
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4], $thread->mostFrequentWord());
 
-        $twine = new Thread('one two three four one two');
-        $this->assertEquals('one', $twine->mostFrequentWord());
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4], $thread->mostFrequentWord());
 
-        $twine = new Thread('one two three four');
-        $this->assertEquals('', $twine->mostFrequentWord());
+        $thread = new Thread('');
+        $this->assertEquals([], $thread->mostFrequentWord());
+
+        $thread = new Thread('a');
+        $this->assertEquals(['a' => 1], $thread->mostFrequentWord());
+
+        $thread = new Thread('      ');
+        $this->assertEquals([], $thread->mostFrequentWord());
+
+        $thread = new Thread('a a a b b b c c c');
+        $this->assertEquals(['a' => 3], $thread->mostFrequentWord());
     }
 
-    public function mostFrequentWords(): void
+    public function testMostFrequentWords(): void
     {
-        //TODO: implement test
-        $this->assertTrue(true);
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4, 'b' => 3, 'c' => 2], $thread->mostFrequentWords());
+
+        $thread = new Thread('a a a a b b b c c d');
+        $this->assertEquals(['a' => 4, 'b' => 3, 'c' => 2, 'd' => 1], $thread->mostFrequentWords(4));
+
+        $thread = new Thread('');
+        $this->assertEquals([], $thread->mostFrequentWords());
+
+        $thread = new Thread('a');
+        $this->assertEquals(['a' => 1], $thread->mostFrequentWords());
+
+        $thread = new Thread('      ');
+        $this->assertEquals([], $thread->mostFrequentWords());
+
+        $thread = new Thread('a a a b b b c c c');
+        $this->assertEquals(['a' => 3, 'b' => 3, 'c' => 3], $thread->mostFrequentWords());
     }
 
     public function testWordCount(): void
     {
-        //TODO: implement test
-        $this->assertTrue(true);
+        $thread = new Thread('one two three four');
+        $this->assertEquals(4, $thread->wordCount());
+
+        $thread = new Thread('one');
+        $this->assertEquals(1, $thread->wordCount());
+
+        $thread = new Thread('');
+        $this->assertEquals(0, $thread->wordCount());
+
+        $thread = new Thread('    ');
+        $this->assertEquals(0, $thread->wordCount());
     }
 }
