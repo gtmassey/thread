@@ -229,6 +229,26 @@ trait Counter
     }
 
     /**
+     * Alias of $this->countNumeric()
+     *
+     * @return int
+     */
+    public function countNum(): int
+    {
+        return $this->countNumeric();
+    }
+
+    /**
+     * Alias of $this->countNumeric()
+     *
+     * @return int
+     */
+    public function countNumber(): int
+    {
+        return $this->countNumeric();
+    }
+
+    /**
      * Alias of countLines, Assumes a new line indicates a new paragraph.
      * @return int
      */
@@ -310,16 +330,20 @@ trait Counter
      */
     public function countWhitespace(): int
     {
+        //count all whitespaces, new lines, return characters, tabs, etc.
         $count = preg_match_all('/\s/', $this->string);
 
         return $count ?: 0;
     }
 
     /**
+     * Repeat of the analyzer's wordCount method
+     * alias of Analyzer::this->wordCount();
+     *
      * @return int
      */
     public function countWords(): int
     {
-        return 0;
+        return $this->wordCount();
     }
 }

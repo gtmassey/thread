@@ -183,26 +183,6 @@ trait Analyzer
      */
     public function wordCount(): int
     {
-        //get the string
-        $string = $this->string;
-
-        //first, check if the string is empty
-        $length = $this->length();
-        if ($length === 0) {
-            return 0;
-        }
-
-        //now check if the string only contains whitespace
-        $isWhitespace = (trim($string) === '');
-        if ($isWhitespace) {
-            return 0;
-        }
-
-        //now, split the string on a single
-        //space character, and count the number
-        //of elements in the resulting array
-        $words = $this->splitOnWords();
-
-        return count($words);
+        return str_word_count($this->string);
     }
 }
