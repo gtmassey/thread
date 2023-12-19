@@ -21,7 +21,7 @@ trait Analyzer
      * encountered with the highest frequency will be returned.
      * e.g. 'a a b b c c' will return ['a' => 2]
      *
-     * @return array
+     * @return array<string, int>
      */
     public function mostFrequentCharacter(): array
     {
@@ -106,7 +106,7 @@ trait Analyzer
      * the first word encountered with the highest frequency
      * will be returned. e.g. 'a a b b c c' will return ['a' => 2]
      *
-     * @return array
+     * @return array<string, int>
      */
     public function mostFrequentWord(): array
     {

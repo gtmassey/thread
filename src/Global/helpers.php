@@ -1,9 +1,9 @@
 <?php
 
-use Gtmassey\Twine\Thread;
+use Gtmassey\Thread\Thread;
 
 if (! function_exists('thread')) {
-    function thread($string): Thread
+    function thread(?string $string): Thread
     {
         return new Thread($string);
     }

@@ -189,7 +189,7 @@ class CounterTest extends TestCase
         $thread = new Thread("\r\n");
         $this->assertEquals(2, $thread->countWhitespace());
 
-        $thread = new Thread("");
+        $thread = new Thread('');
         $this->assertEquals(0, $thread->countWhitespace());
     }
 }

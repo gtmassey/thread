@@ -41,8 +41,8 @@ trait Counter
      * Returns the integer count of the number of instances
      * of the given substring. Case-sensitive.
      *
-     * @param  string|array  $substring
-     * @return int|array
+     * @param  string|string[]  $substring
+     * @return int|array<string, int>
      */
     public function countInstancesOf(string|array $substring): int|array
     {
@@ -61,8 +61,8 @@ trait Counter
     /**
      * Alias of $this->countInstancesOf($substring)
      *
-     * @param  string|array  $substring
-     * @return int|array
+     * @param  string|string[]  $substring
+     * @return int|array<string, int>
      */
     public function countSubstr(string|array $substring): int|array
     {
@@ -72,8 +72,8 @@ trait Counter
     /**
      * Alias of $this->countInstancesOf($substring)
      *
-     * @param  string|array  $substring
-     * @return int|array
+     * @param  string|string[]  $substring
+     * @return int|array<string, int>
      */
     public function substrCount(string|array $substring): int|array
     {
@@ -83,8 +83,8 @@ trait Counter
     /**
      * Alias of $this->countInstancesOf($substring)
      *
-     * @param  string|array  $substring
-     * @return int|array
+     * @param  string|string[]  $substring
+     * @return int|array<string, int>
      */
     public function substringsCount(string|array $substring): int|array
     {
@@ -94,8 +94,8 @@ trait Counter
     /**
      * Alias of $this->countInstancesOf($substring)
      *
-     * @param  string|array  $substring
-     * @return int|array
+     * @param  string|string[]  $substring
+     * @return int|array<string, int>
      */
     public function countSubstrings(string|array $substring): int|array
     {
@@ -181,7 +181,14 @@ trait Counter
         //or a combination of these characters
 
         //example: 'abc123\n abc123' > countLines() = 1
-        return count(preg_split('/(\r\n|\n|\r)/', $this->string));
+        //split the string
+        $str = preg_split('/(\r\n|\n|\r)/', $this->string);
+        //check if it is false
+        if ($str === false) {
+            return 0;
+        }
+        //return the count
+        return count($str);
     }
 
     /**
