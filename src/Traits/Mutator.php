@@ -35,6 +35,7 @@ trait Mutator
         $position = strpos($this->string, $delimiter);
         //split
         $this->string = substr($this->string, 0, $position);
+
         //return
         return $this;
     }
@@ -50,11 +51,11 @@ trait Mutator
     public function beforeLast(string $delimiter): Thread
     {
         //first check that the delimiter exists
-        if(str_contains($this->string, $delimiter)) {
+        if (str_contains($this->string, $delimiter)) {
             $this->string = substr($this->string, 0, strrpos($this->string, $delimiter));
         }
-        return $this;
 
+        return $this;
 
     }
 

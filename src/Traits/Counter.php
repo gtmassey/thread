@@ -187,6 +187,7 @@ trait Counter
         if ($str === false) {
             return 0;
         }
+
         //return the count
         return count($str);
     }
