@@ -16,7 +16,40 @@ trait Mutator
      */
     public function after(string $delimiter): Thread
     {
+        //if the delimiter is empty, return the current string
+        if (empty($delimiter)) {
+            return $this;
+        }
+
         $this->string = substr($this->string, strpos($this->string, $delimiter) + strlen($delimiter));
+
+        return $this;
+    }
+
+    /**
+     * Returns the substring after the last occurrence of a given
+     * delimiter. If the delimiter is empty, the current string returns
+     * if the delimiter does not exist in the string, the unchanged string returns
+     *
+     * @param  string  $delimiter
+     * @return Thread
+     */
+    public function afterLast(string $delimiter): Thread
+    {
+        //if the delimiter is empty, return the current string
+        if (empty($delimiter)) {
+            return $this;
+        }
+
+        //if the delimiter doesn't exist in the string
+        //return the current string
+        if (! str_contains($this->string, $delimiter)) {
+            return $this;
+        }
+
+        //finally, if the delimiter exists in the string
+        //return the substring after the last occurrence of the delimiter
+        $this->string = substr($this->string, strrpos($this->string, $delimiter) + strlen($delimiter));
 
         return $this;
     }
@@ -31,8 +64,14 @@ trait Mutator
      */
     public function before(string $delimiter): Thread
     {
+        //if the delimiter is empty, return the current string
+        if (empty($delimiter)) {
+            return $this;
+        }
+
         //get position of split
         $position = strpos($this->string, $delimiter);
+
         //split
         $this->string = substr($this->string, 0, $position);
 
@@ -71,6 +110,11 @@ trait Mutator
      */
     public function between(string $start, string $end): Thread
     {
+        //first, get the substring after the start substring:
+        $this->string = $this->after($start);
+        //then, get the substring before the end substring:
+        $this->string = $this->before($end);
+
         return $this;
     }
 
@@ -86,12 +130,21 @@ trait Mutator
      */
     public function betweenLast(string $start, string $end): Thread
     {
+        $this->string = $this->afterLast($start);
+        $this->string = $this->beforeLast($end);
+
         return $this;
     }
 
     /**
      * limit the string to a certain number of characters.
      * Accepts an optional ending character or substring
+     *
+     * Important note: the limiting assumes the start character
+     * is at index 0, so if you limit to 5 characters, the 5th
+     * character will be at index 4.
+     *
+     * Using a negative number will yield a limit from the end of the string
      *
      * example: 'Some long text' > limit(9) > 'Some long'
      * example: 'Some long text' > limit(9, '...') > 'Some long...'
@@ -102,6 +155,8 @@ trait Mutator
      */
     public function limit(int $limit, ?string $end = ''): Thread
     {
+        $this->string = substr($this->string, 0, $limit).$end;
+
         return $this;
     }
 
@@ -121,6 +176,22 @@ trait Mutator
      */
     public function mask(?int $start = 0, ?int $end = null, ?string $maskChar = '*'): Thread
     {
+        //if the mask char is null, set it to the * char
+        if (is_null($maskChar)) {
+            $maskChar = '*';
+        }
+
+        //if the end argument is null, then we mask the entire string
+        if (is_null($end)) {
+            $end = strlen($this->string) - 1;
+        }
+
+        //now, starting at the $start index, replace the characters
+        //with the mask character until we reach the $end index
+        for ($i = $start; $i <= $end; $i++) {
+            $this->string[$i] = $maskChar;
+        }
+
         return $this;
     }
 
@@ -136,6 +207,31 @@ trait Mutator
      */
     public function maskAfter(string $delimiter, ?string $maskChar = '*'): Thread
     {
+        //if the delimiter is empty, return the current string
+        if (empty($delimiter)) {
+            return $this;
+        }
+
+        //if the delimiter doesn't exist in the string
+        //return the current string
+        if (! str_contains($this->string, $delimiter)) {
+            return $this;
+        }
+
+        //get the position of the delimiter
+        $position = strpos($this->string, $delimiter);
+
+        //if the delimiter is at the end of the string, return the current string
+        if ($position === strlen($this->string) - 1) {
+            return $this;
+        }
+
+        //now, starting at the character after the delimiter
+        //replace the characters with the mask character
+        for ($i = $position + 1; $i < strlen($this->string); $i++) {
+            $this->string[$i] = $maskChar;
+        }
+
         return $this;
     }
 
@@ -151,6 +247,31 @@ trait Mutator
      */
     public function maskBefore(string $delimiter, ?string $maskChar = '*'): Thread
     {
+        //if the delimiter is empty, return the current string
+        if (empty($delimiter)) {
+            return $this;
+        }
+
+        //if the delimiter doesn't exist in the string
+        //return the current string
+        if (! str_contains($this->string, $delimiter)) {
+            return $this;
+        }
+
+        //get the position of the delimiter
+        $position = strpos($this->string, $delimiter);
+
+        //if the delimiter is at the beginning of the string, return the current string
+        if ($position === 0) {
+            return $this;
+        }
+
+        //now, starting at the character after the delimiter
+        //replace the characters with the mask character
+        for ($i = 0; $i < $position; $i++) {
+            $this->string[$i] = $maskChar;
+        }
+
         return $this;
     }
 
@@ -165,9 +286,15 @@ trait Mutator
      * @param  string|null  $separator
      * @return Thread
      */
-    public function repeat(int $n, ?string $separator = ''): Thread
+    public function repeat(?int $n = 1, ?string $separator = null): Thread
     {
         $this->string = str_repeat($this->string.$separator, $n);
+
+        //if the separator is not null, remove the extra separator from
+        //the end of the string
+        if (! is_null($separator)) {
+            $this->string = substr($this->string, 0, strlen($this->string) - strlen($separator));
+        }
 
         return $this;
     }
@@ -214,6 +341,7 @@ trait Mutator
      */
     public function swap(array $swaps): Thread
     {
+        //TODO: implement method
         return $this;
     }
 
@@ -232,6 +360,7 @@ trait Mutator
      */
     public function toE161(?string $delimiter = '|'): Thread
     {
+        //TODO: test method
         $this->toLowerCase();
         $arr = str_split($this->string);
         foreach ($arr as $key => $char) {
@@ -258,6 +387,7 @@ trait Mutator
      */
     public function toSlug(string $separator): Thread
     {
+        //TODO: implement method
         return $this;
     }
 }
