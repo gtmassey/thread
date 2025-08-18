@@ -24,9 +24,9 @@ Thread is a framework-agnostic, static-method focused wrapper class for easily m
 
 ## Why Thread?
 
-Originally, I wanted to call this package "Thread", but while working on an alpha version, I stumbled across the [PHLAK/Thread](https://github.com/PHLAK/Thread) package, which accomplishes the exact same thing I was trying to do, and does it well. 
+Originally, I wanted to call this package "Twine", but while working on an alpha version, I stumbled across the [PHLAK/twine](https://github.com/PHLAK/twine) package, which accomplishes the exact same thing I was trying to do, and does it well. 
 
-So, instead of a play on words from my farming origins (Thread being a synonym for string, and a tool we used for everything on the farm), I decided to go with a play on words from my mother's hobby of sewing and quilting. So, "string" from computer science, meet "thread" from fiber arts. 
+So, instead of a play on words from my farming origins (Twine being a synonym for string, and a tool we used for everything on the farm), I decided to go with a play on words from my mother's hobby of sewing and quilting. So, "string" from computer science, meet "thread" from fiber arts. 
 
 Not to be confused with "thread" as in the singular process that runs on a CPU... that's a different thing entirely.
 
